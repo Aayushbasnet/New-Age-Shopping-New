@@ -1,0 +1,117 @@
+{% load static %}
+
+<!--top navbar-->
+<nav class="nav first_navbar border-bottom border-red pl-5">
+    <div class="first_navbar_left_contents">
+        <a href="{% url 'about_us' %}">About Us </a>
+        <a href="{% url 'contact_us' %}">Contact Us </a>
+        <a href="www.facebook.com"> <i class="fab fa-facebook-f"></i></a>
+        <a href="www.instagram.com"> <i class="fab fa-instagram"></i></a>
+        <a href="www.twitter.com"><i class="fab fa-twitter"></i></a></a>
+    </div>
+    <div class="first_navbar_right_contents">
+        <a href="#"> Sell on New Age Shopping</a>
+        <a href="#"> Help Center</a>
+        <a href="#"> Track my order</a>
+    </div>
+</nav>
+
+<!--Middle navbar-->
+<nav class="nav middle_navbar border-bottom border-red">
+    <div class="brand_logo">
+        <a class="navbar-brand" href="{% url 'home_page' %}">New Age Shopping</a>
+    </div>
+
+    <!--Main Searchbar-->
+    <form action="/shop_now/search/" method = "GET" class="d-inline">
+        <div class="nav_searchbar">
+            
+                <input type="search" name= "search_key" placeholder="What are you looking for? ..."> <button type="submit" class="searchbar_search_button"><i
+                        class="fas fa-search"></i></button>
+        </div>
+    </form>
+
+    <!--User Account-->
+    <div class="my_account">
+        <div class="dropdown">
+            <button class="my_account_button" type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" id="user_account_out user_account_in">
+                <div class="contentout">
+                    <i class="user_account_icon"></i>
+                    <span> Namaste, Sign in</span>
+                    <div>
+                        <h6>My Account</h6>
+                    </div>
+                </div>
+            </button>
+            <!--If User is logged in-->
+            <div class="dropdown-menu  user_account_out_dropdown_list" aria-labelledby="user_account_out">
+                <a class="dropdown-item" href="{% url 'account:login_page' %}">Sign in</a>
+                <span>New Customer?</span>
+                <a class="dropdown-item" href="{% url 'account:signup_page' %}">Sign up</a>
+            </div>
+
+            <!--If user is not logged in-->
+            {% comment %} <div class="dropdown-menu  user_account__in_dropdown_list" aria-labelledby="user_account_in">
+                <a class="dropdown-item" href="#">My Account</a>
+                <a class="dropdown-item" href="#">My Order</a>
+                <a class="dropdown-item" href="#">Wishlist</a>
+                <button class="dropdown-item" href="#">Log out</button>
+            </div> {% endcomment %}
+        </div>
+    </div>
+
+    <!--User Add to cart details-->
+    <div class="my_cart">
+        <div class="dropdown">
+            <a href="{% url 'cart_page' %}" class="add_to_cart" type="button" id="user_mycart">
+                <i class="fas fa-shopping-cart"></i> <span> My cart </span>
+        </div>
+        </a>
+    </div>
+
+</nav>
+
+<!--third_navbar  navbar-->
+<nav class="nav third_navbar">
+    <div class="category_section">
+        <div class="dropdown">
+            <button class="category_navbar_button" type="button" id="category_list" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Categories <i class="fas fa-angle-down ml-2"></i>
+            </button>
+            <!--level 1 -->
+            <div class="dropdown-menu category_dropdown_level1" aria-labelledby="category_list">
+                {% for level1 in level1_objects%}
+                <div class="dropright">
+                    <a href="" class="dropdown-item " data-toggle="dropright" aria-haspopup="true"
+                        aria-expanded="false" id="category_level1">{{level1.category_level1}} <i
+                            class="fas fa-angle-right" style="position: absolute; right: 5px;"></i></a>
+                    <!--Level 2-->
+                    <div class="dropdown-menu category_dropdown_level2" aria-labelledby="category_level1">
+                        {% for level2 in level1.level2_item %}
+                        <div class="dropright">
+                            <a class="dropdown-item" href="{% url 'shop_now' level2 %}" id="category_level2">{{level2.category_level2}} <i
+                                    class="fas fa-angle-right" style="position: absolute; right: 5px;"></i></a>
+                            <!--Brand name-->
+                            <div class="dropdown-menu category_dropdown_brand" aria-labelledby="category_level1">
+                                {% for level3 in level2.level3_item %}
+                                <a class="dropdown-item" href="{% url 'shop_now' level3 %}">{{level3.brand_name}}</a>
+                                {% endfor %}   
+                            </div>
+                            <!--end of brand name-->
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!--end of level 2-->
+                </div>
+                {% endfor %}
+            </div>
+            <!--End of level 1-->
+        </div>
+    </div>
+
+    <div class="text_movement_section">
+        <span>Thank you for visiting us</span> 
+    </div>
+</nav>

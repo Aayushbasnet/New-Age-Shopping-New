@@ -1,0 +1,315 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<!--details section-->
+<div class="container-fluid border border-dark mt-5 bg-white" id="detail_container">
+    <div class="row mt-2">
+        <div class="col-xs-6 m-2 mt-2 text-center" id="main_product_section">
+            <img class=" bg-light shadow" id="main_display_image" src=" {{singleProduct.product_image_src.url}}">
+            <div id="other_alternative_image" class="m-5">
+                <img class="bg-light shadow" id="alternative_image1" src="{% static 'images/products/image2.png' %}">
+                <img class="bg-light shadow" id="alternative_image2" src="{% static 'images/products/image3.jpeg' %}">
+                <img class="bg-light shadow" id="alternative_image3" src="{% static 'images/products/image1.jpg' %}">
+                <img class="bg-light shadow" id="alternative_image4" src="{% static 'images/products/mobile.jpg' %}">
+            </div>
+        </div>
+        <div class="col-md-6 mt-2" id="main_product_content_section">
+            <!--product name-->
+            <h5 class="fs-4">{{singleProduct.product_name}}</h5>
+
+            <div class="availability">
+                {% if singleProduct.product_availability %}
+                    In stock
+                {% else %}
+                    Out of stock
+                {% endif %}   
+            </div>
+
+            <!--categorylevel2-->
+            <p class="mb-2 text-muted text-uppercase small">{{singleProduct.product_category.category_name_level2}} || Brand: <strong> {{singleProduct.product_category.brand_name}}</strong></p>
+
+            <!--product ratings-->
+            <div id="detail_product_average_rating" class="mb-2">
+                <i class="fas fa-star fa-xs"></i>
+                <i class="fas fa-star fa-xs"></i>
+                <i class="fas fa-star fa-xs"></i>
+                <i class="fas fa-star-half-alt fa-xs"></i>
+                <i class="far fa-star fa-xs"></i>
+            </div>
+
+            <!--product price-->
+            <div>
+                {% if singleProduct.product_discount.product_discount_active%}
+                    <p>
+                        <del class="price_before_discount"> <span style="font-size: 12px;"> Rs.{{singleProduct.product_price}}</span></del>
+                        <span style="padding: 2px 8px; font-size: 12px; color:#ffffff;  background: #f57224; width: 100px;">
+                            {{singleProduct.product_discount.product_discount_percentage}}% off
+                        </span>
+                    </p>
+                        <div>
+                            <span class="price_after_discount" style="font-size: 18px;"> <span style="font-size: 12px;">Rs.</span> {{singleProduct.discount_calculator}}</span>
+                        </div>
+                {% else %}
+                    <p><span class="price_after_discount ml-1 "><span style="font-size: 12px;">Rs.</span> {{singleProduct.product_price}}
+                    </span></p>
+                {% endif %}
+            </div>
+
+            <!--product details-->
+            <p class="pt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
+                error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
+                officia quis dolore quos sapiente tempore alias.</p>
+            <div class="table-responsive">
+                <table class="table table-sm table-borderless mb-0">
+                    <tbody>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Model</strong></th>
+                            <td>One Piece 5407X</td>
+                        </tr>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Color</strong></th>
+                            <td>Pink</td>
+                        </tr>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Delivery</strong></th>
+                            <td>Nepal,Kathmandu</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr style="heigth: 5px;">
+            <div class="mt-1 mb-4">
+                <p><span style="font-family: Trebuchet MS; font-weight: 300px; font-size: 15px; font-style: italic;">Select
+                        Size:</span></p>
+                <div class="form-check form-check-inline pl-0">
+                    <input type="radio" class="form-check-input" id="small" name="materialExampleRadios" checked>
+                    <label class="form-check-label small text-uppercase card-link-secondary" for="small">Small</label>
+                </div>
+                <div class="form-check form-check-inline pl-0">
+                    <input type="radio" class="form-check-input" id="medium" name="materialExampleRadios">
+                    <label class="form-check-label small text-uppercase card-link-secondary" for="medium">Medium</label>
+                </div>
+                <div class="form-check form-check-inline pl-0">
+                    <input type="radio" class="form-check-input" id="large" name="materialExampleRadios">
+                    <label class="form-check-label small text-uppercase card-link-secondary" for="large">Large</label>
+                </div>
+            </div>
+            
+            <!--Quantity-->
+            <div class="def-number-input number-input safari_only mt-2 mb-0">
+                <p><span
+                        style="font-family: Trebuchet MS; font-weight: 300px; font-size: 15px; font-style: italic;">Quantity:</span>
+                </p>
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus bg-white"
+                    style="border:none; outline:none; width:20px;"><i class="fas fa-minus fa-xs"></i></button>
+                <input class="quantity fw-normal" min="0" name="quantity" value="1" type="number" style="width: 60px; text-align:center;">
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus bg-white"
+                    style="border:none; outline:none; width:20px;"><i class="fas fa-plus fa-xs"></i></button>
+            </div>
+
+
+            <div class="mt-4" class="product_buttom_addToCart_buyNow">
+                <a class="alert alert-primary buy_now_button" href="{% url 'checkout' %}" style="text-decoration: none;">Buy Now</a>
+                <form action="/cart/" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <input hidden type="number" name="detail_item_id" value="{{singleProduct.id}}" id="detail_item_id">
+                    <button class="alert alert-secondary add_to_cart_button" type="submit" style="text-decoration: none;"><i
+                        class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Rating and review section-->
+<div class="comment_section">
+    <!--title-->
+    <div class="title_section mt-2 pl-3 mb-0">
+        <h6>Rating and Review <i class="fas fa-info-circle ml-2 info_icon"></i> <span
+                class="rating_and_review_tooltips">Reviews are public and include your account info.</span></h6>
+    </div>
+
+    <div class="row w-100 m-0 pl-2">
+        <!--comment section-->
+        <div class="col-md-6 p-1 border-right">
+            <!--User commenting box-->
+            <div class="row w-100 mt-4 p-2">
+                <!--user image column-->
+                <div class="col-md-1 p-0">
+                    <!--user profile picture-->
+                    <div class="user_profile_image">
+                        <img src="{% static 'images/team_member/aayush.jpg' %}" alt="user image">
+                    </div>
+                </div>
+
+                <!--user comment input column-->
+                <div class="col-md-11 p-0 pr-1">
+                    <!--textarea to enter comment-->
+                    <div class="user_comment_area">
+                        <textarea placeholder="Add your review..." onfocusout="comment_button_default_background(this)"
+                            onfocusin="comment_button_blue_background(this);"
+                            onkeypress="auto_grow_user_comment_area(this);" onkeyup="auto_grow_user_comment_area(this);"
+                            id="user_comment"></textarea>
+
+                        <!--cancel and comment button -->
+                        <div class="comment_button_section">
+                            <button id="cancel_button"> Cancel</button>
+                            <input type="submit" value="comment" id="comment_button">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--List of comments-->
+            <div class="row w-100 mt-5 m-0">
+                <!--First comment-->
+                <!--displaying user profile picture, name, ratings, rating date and-->
+                <div class="row w-100 mt-1 m-0 pr-2">
+                    <div class="col-md-12 m-1 mb-0 p-0">
+                        <!--user profile picture-->
+                        <div class="user_profile_image_after_comment"><i class="far fa-user"></i>
+                            {% comment %} <img src="{% static '' %}" alt="user image"> {% endcomment %}
+                        </div>
+
+                        <!--user name after  commenting-->
+                        <div class="user_name_after_comment">
+                            Aayush Basnet
+                        </div>
+
+                        <!--Three vertical drop-->
+                        <div class="three_vertical_drop" onclick="three_vertical_dot_comment_menu(this)">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+
+                        <!--report comment or edit comment-->
+                        <div class="edit_or_report_comment">
+                            <ul>
+                                <li> <input type="submit" value="Edit" id="edit_my_comment"></li>
+                                <li> <input type="submit" value="Delete" id="delete_Comment"></li>
+                                <li> <input type="submit" value="Report" id="report_comment"></li>
+                            </ul>
+                        </div>
+
+                        <!--displaying user rating and rated date-->
+                        <div class="user_rating_display">
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <div class="user_rated_date_display">
+                                <p>{date}</p>
+                            </div>
+                        </div>
+
+                        <!--displaying user comments-->
+                        <div class="user_comments">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
+                                error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam.
+                                Distinctio, officia quis dolore quos sapiente tempore alias.</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <hr style="width: 80%; margin: auto;">
+
+                <!--Second comment-->
+                <!--displaying user profile picture, name, ratings, rating date and-->
+                <div class="row w-100 mt-1 m-0 pr-2">
+                    <div class="col-md-12 m-1 mb-0 p-0">
+                        <!--user profile picture-->
+                        <div class="user_profile_image_after_comment"><i class="far fa-user"></i>
+                            {% comment %} <img src="{% static '' %}" alt="user image"> {% endcomment %}
+                        </div>
+
+                        <!--user name after  commenting-->
+                        <div class="user_name_after_comment">
+                            Aayush Basnet
+                        </div>
+
+                        <!--Three vertical drop-->
+                        <div class="three_vertical_drop" onclick="three_vertical_dot_comment_menu(this)">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+
+                        <!--report comment or edit comment-->
+                        <div class="edit_or_report_comment">
+                            <ul>
+                                <li> <input type="submit" value="Edit" id="edit_my_comment"></li>
+                                <li> <input type="submit" value="Delete" id="delete_Comment"></li>
+                                <li> <input type="submit" value="Report" id="report_comment"></li>
+                            </ul>
+                        </div>
+
+                        <!--displaying user rating and rated date-->
+                        <div class="user_rating_display">
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <div class="user_rated_date_display">
+                                <p>{date}</p>
+                            </div>
+                        </div>
+
+                        <!--displaying user comments-->
+                        <div class="user_comments">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
+                                error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam.
+                                Distinctio, officia quis dolore quos sapiente tempore alias.</p>
+                        </div>
+                    </div>
+                </div>
+                <hr style="width: 80%; margin: auto;">
+            </div>
+        </div>
+
+        <!--Average rating and user rating section-->
+        <div class="col-md-6 p-1">
+            <div class="row w-100 m-0 p-0">
+                <!--Average ratings by user-->
+                <div class="col-md-3 p-0" id="average_user_rating">
+                    <div class="average_user_rating_value_icon_number">
+                        <!--Integer value of average user rating-->
+                        <div class="average_user_rating_value">
+                            <p id="average_user_rating_value" class=" m-0 p-3 pb-0">5.0</p>
+                        </div>
+
+                        <!--Star icon of average user rating-->
+                        <div class="average_user_rating_icon">
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                        </div>
+                        <!--Total number of user who gave rating-->
+                        <div class="total_number_of_user_who_gave_rating">
+                            <p>56,565</p>
+                        </div>
+                    </div>
+                </div>
+                <!--bar chart of average customer review-->
+                <div class="col-md-9 p-4">
+                    <div class="user_rating_chart">
+                        <canvas id="average_user_rating_chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <hr style="width: 80%; margin: auto;">
+        </div>
+    </div>
+</div>      
+    <!--recommendation section-->
+    <div id="you_may_like" class="d-block mt-5">
+        <h3 class="text-center"> People who viewed this item also viewed </h3>
+        <hr style="heigth: 5px">
+        {% include 'main_app/product_card.html' %}
+    </div>
+    {% endblock content %}

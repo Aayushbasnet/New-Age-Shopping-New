@@ -1,0 +1,337 @@
+#detail_container {
+    width: 100%;
+    height: 800px;
+}
+
+#main_product_section {
+    width: 40%;
+    height: 750px;
+}
+
+#main_product_section img {
+    width: 80%;
+    height: 60%;
+}
+
+#main_product_content_section {
+    width: 57%;
+    height: 450px;
+    padding: 1;
+}
+
+#other_alternative_image {
+    display: flex;
+    justify-content: space-around;
+}
+
+#other_alternative_image img {
+    width: 90px;
+    height: 100px;
+    cursor: pointer;
+}
+
+#other_alternative_image img:hover{
+    transform: scale(1.05);
+    transition: all 0.4s ease-in;
+}
+
+#detail_product_average_rating .fas {
+    color: #faca51;
+}
+
+#detail_product_average_rating .far {
+    color: #faca51;
+}
+
+.table-responsive {
+    font-family: Trebuchet MS;
+}
+
+.buy_now_button,
+.add_to_cart_button {
+    color: black;
+    text-decoration: none;
+}
+
+.buy_now_button:hover,
+.add_to_cart_button:hover {
+    color: black;
+    box-shadow: 1px 1px grey;
+    transition: 0.8s ease;
+}
+
+.comment_section {
+    width: 100%;
+    height: auto;
+}
+
+.title_section>h6 {
+    font-size: 16px;
+    font-weight: 545;
+    cursor: context-menu;
+}
+
+.info_icon {
+    position: relative;
+}
+
+.rating_and_review_tooltips {
+    visibility: hidden;
+    position: absolute;
+    width: 350px;
+    color: whitesmoke;
+    background-color: rgb(41, 40, 40);
+    font-size: 15px;
+    border-radius: 4px;
+    text-align: center;
+    padding: 2px 0;
+    z-index: 1;
+    margin-left: 6px;
+    transition: 0.2s ease-in-out;
+}
+
+.info_icon:hover+.rating_and_review_tooltips {
+    visibility: visible;
+
+}
+
+.rating_and_review_tooltips::after {
+    content: " ";
+    position: absolute;
+    border-color: transparent rgb(41, 40, 40) transparent transparent;
+    border-style: solid;
+    border-width: 5px;
+    right: 100%;
+    top: 30%;
+}
+
+.user_profile_image {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+}
+
+.user_profile_image>img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.user_comment_area {
+    display: block;
+}
+
+.user_comment_area>textarea {
+    width: 100%;
+    height: 30px;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #aaa;
+}
+
+.user_comment_area .comment_button_section {
+    float: right;
+    display: none;
+}
+
+.user_comment_area .comment_button_section>input[type="submit"],
+.user_comment_area .comment_button_section>button {
+    border: none;
+    background-color: transparent;
+    border-radius: 2px;
+    outline: none;
+    padding: 10px 15px;
+    color: #aaaaaa;
+    text-transform: uppercase;
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.user_comment_area .comment_button_section>input[type="submit"] {
+    background-color: #606060;
+    color: #030303;
+}
+
+.user_comment_area>textarea:focus {
+    transition: all 0.3s;
+}
+
+.user_profile_image_after_comment {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 0.2px solid #aaa;
+    text-align: center;
+    margin-right: 3px;
+}
+
+.user_profile_image_after_comment>img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    margin: 0;
+    padding: 0;
+}
+
+.user_name_after_comment {
+    display: inline-block;
+    text-align: center;
+    font-size: 12px;
+    color: black;
+    font-weight: 550;
+}
+
+.three_vertical_drop {
+    float: right;
+    padding: 1px 2px 0 2px;
+    position: relative;
+}
+
+.three_vertical_drop .dot {
+    margin: 1px;
+    height: 6px;
+    width: 6px;
+    background-color: black;
+    border-radius: 50%;
+}
+
+.three_vertical_drop:hover {
+    cursor: pointer;
+}
+
+.three_vertical_drop_menu_list {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+
+}
+
+.three_vertical_drop_menu_list .delete_comment,
+.three_vertical_drop_menu_list .edit_comment {
+    padding: 5px;
+    flex: 50%;
+}
+
+.edit_or_report_comment {
+    position: absolute;
+    display: none;
+    opacity: 1;
+    width: fit-content;
+    height: auto;
+    text-align: center;
+    z-index: 1;
+    padding: 0 0;
+    right: 19.5px;
+    top: -10px;
+    background-color: black;
+    color: aliceblue;
+}
+
+.edit_or_report_comment::after {
+    content: "";
+    color: black;
+    position: absolute;
+    border: 5px;
+    border-style: solid;
+    left: 100%;
+    border-color: transparent transparent transparent black;
+    top: 15%;
+    border-style: solid;
+}
+
+.edit_or_report_comment>ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.edit_or_report_comment>ul>li {
+    margin: 0;
+    padding: 5px;
+    margin-bottom: 2px;
+    border-bottom: 0.3px;
+    background-image: linear-gradient(to left, transparent, transparent 50%, #aaa 50%, #aaa);
+    background-position: 100% 0;
+    background-size: 200% 100%;
+    transition: all 0.25s ease-in;
+}
+
+.edit_or_report_comment>ul>li:last-child {
+    margin-bottom: 0;
+}
+
+.edit_or_report_comment>ul>li>input {
+    width: 100%;
+    padding: 2px 8px;
+    color: white;
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
+
+.edit_or_report_comment>ul>li:hover {
+    background-position: 0 0;
+    color: #aaa;
+}
+
+.user_rating_display {
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+}
+
+.user_rating_display .user_rated_date_display {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.user_comments>p {
+    font-family: 'Roboto', Tahoma, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.average_user_rating_value_icon_number {
+    width: 100%;
+    margin: 10px 0 0 0;
+    padding: 0;
+    text-align: center;
+}
+
+.average_user_rating_value_icon_number .average_user_rating_value> p{
+    font-size: 70px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+.average_user_rating_value_icon_number  .total_number_of_user_who_gave_rating>p{
+    font-size: 15px;
+}
+
+.user_rating_chart{
+    background-color: transparent;
+}
+
+.availability{
+    position: absolute;
+    background-color: #f57224;
+    width: 120px;
+    height: 35px;
+    text-align: center;
+    padding-top: 5px;
+    right: 0;
+    top: 0;
+    color: #ffffff;
+    border: none;
+    font-size: 16px;
+    border-radius: 2px;
+
+}

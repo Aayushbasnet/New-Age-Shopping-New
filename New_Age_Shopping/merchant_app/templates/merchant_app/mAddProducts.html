@@ -1,0 +1,15 @@
+
+{% load crispy_forms_filters %}
+<form action="" method = "POST" enctype= "multipart/form-data">
+    {% csrf_token %}
+    {{add_product|crispy}}
+    {{lvl_2_pc|crispy}}
+    {{product_category|crispy}}
+    {{product_discount|crispy}}
+    {{product_inventory|crispy}}
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-danger" ml-2>Cancel</button>
+
+
+</form>

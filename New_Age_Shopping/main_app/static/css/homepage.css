@@ -1,0 +1,14 @@
+.productSlider{
+    position: relative;
+}
+
+.productSlider .prev_arrow{
+    position: absolute;
+    font-size: 30px;
+    top: 50%;
+    border-radius: 50%;
+    /* text-align: left; */
+    display: inline-block;
+    z-index: 1;
+    		
+}

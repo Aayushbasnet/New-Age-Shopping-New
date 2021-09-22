@@ -1,0 +1,60 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="meet_our_team text-center mt-5" style="margin-bottom: 10%;">
+        <h3 class="text-uppercase mt-3"> meet our team</h3>
+        <hr style="width:60%; margin: auto; height:2px;"> 
+        <p class="mt-3">We are all very different. We were born in different cities, at different times, we love different music, food, movies. But we have something that unites us all. It is our company. We are its heart. We are not just a team, we are a family.</p>
+        <div class="contact_us text-uppercase">
+            <a href="{% url 'contact_us' %}" class="btn" style="border-color: black; border-width: 2px; width: 150px; height: 45px;">
+                contact us
+            </a>
+        </div>
+    </div>
+
+
+  <!-- team members -->
+    <div id="team_member_info" class="carousel slide mt-5 " data-ride="carousel" style="height: 500px; background: rgba(50,115,220,0.1)">
+        <div class="carousel-inner" data-interval="30000">
+        <!--first member-->
+            <div class="carousel-item active mt-1" style="">
+                <div class="container mt-4 text-center">
+                    <div class="team_member_image">
+                        <img class="shadow d-block" src="{% static 'images/team_member/aayush.jpg' %}">
+                    </div>
+                    <div class="team_member_saying mt-4">
+                        <p>Good afternoon. I am very pleased with the quality of the work of your employee representing your wonderful company.</p>
+                    </div>
+                    <div class="team_member_name_role">
+                        <p class="mt-3"><span style="font-size: 20px; padding-bottom: 10px;"><strong>Aayush Basnet</strong></span> <br><span style="font-size: 15px;">DESIGNER</span></p>
+                    </div>
+                </div>  
+            </div>
+
+            <!--second member-->
+            <div class="carousel-item  m-1" style="">
+                <div class="container mt-4 text-center">
+                    <div class="team_member_image">
+                        <img class="shadow d-block" src="{% static 'images/team_member/jiwan.jpg' %}">
+                    </div>
+                    <div class="team_member_saying mt-3 ">
+                        <p>All issues are resolved promptly. In communication, the employees are pleasant, helpful. Always offer new ideas, new ways to develop, improve our project.</p>
+                    </div>
+                    <div class="team_member_name_role">
+                        <p class="mt-3"><span style="font-size: 20px; padding-bottom: 10px;"><strong>Jiwan Gharti</strong></span><br><span style="font-size: 15px;">DEVELOPER</span></p>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <a href="#team_member_info" class="carousel-control-prev" role ="button" data-slide="prev" style="width:30px; height:50px; left:50px; margin:auto; ">
+            <span class="sr-only">Previous</span>
+            <span class="fas fa-chevron-circle-left" style="color:black;" arial-hidden="true"></span>
+        </a>
+        <a href="#team_member_info" class="carousel-control-next" role ="button" data-slide="next" style="width:30px; height:50px; right:50px; margin:auto;">
+            <span class="sr-only">Previous</span>
+            <span class="fas fa-chevron-circle-right" style="color:black;" arial-hidden="true"></span>
+        </a>
+    </div>
+{% endblock content %}

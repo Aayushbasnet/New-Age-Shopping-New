@@ -1,0 +1,129 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Offline bootstrap-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-4.3.1-dist/css/bootstrap.min.css' %} ">
+    <script type="text/javascript" src="{% static 'css/bootstrap-4.3.1-dist/js/bootstrap.js' %}"></script>
+
+    {% comment %} bootstrap css {% endcomment %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    {% comment %} jquery css {% endcomment %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+        integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+        integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    {% comment %} Google fonts {% endcomment %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Yatra One|Dosis|Source Code Pro|Zen Dots|Roboto|Montserrat">
+
+    {% comment %} local css {% endcomment %}
+    <link rel="stylesheet" href=" {% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/product_card.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/footer.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/detail.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/cart.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/about_us.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/shop_now.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/checkout.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/base.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/featured_slider.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/homepage.css' %}">
+
+    {% comment %} account app {% endcomment %}
+    <link rel="stylesheet" href=" {% static 'css/login.css' %}">
+
+    {% comment %} script of chart.js {% endcomment %}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.0/chart.js"
+        integrity="sha512-jRQOiy89ZX0kVR/VpJd8PP4hPofcuYlfPU9MhPzHFIB19QAzCO7myRcO0Dgycu4iANZdnmXZ5sa/dL60y7BZgw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <title>{% block title %}{% endblock  %}</title>
+</head>
+
+<body>
+    {% block navbar %}
+        {% include 'main_app/navbar.html' %}
+    {% endblock navbar %}
+
+    {% block slider %}
+    {% endblock slider %}
+
+    {% block content %}
+    {% endblock content %}
+
+    {% block footer %}
+        {% include 'main_app/footer.html' %}
+    {% endblock footer %}
+
+    {% comment %} bootstrap javascript {% endcomment %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+
+    {% comment %} jquery library {% endcomment %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+        integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    {% comment %} font awesome {% endcomment %}
+    <script src="https://kit.fontawesome.com/a6cdb94b02.js" crossorigin="anonymous"></script>
+
+    {% comment %} local javascript {% endcomment %}
+    <script src="{% static 'javascript/detail.js' %}" crossorigin="anonymous"></script>
+    <script src="{% static 'javascript/navbar.js' %}" crossorigin="anonymous"></script>
+    <script src="{% static 'javascript/homepage.js' %}" crossorigin="anonymous"></script>
+    <script src="{% static 'javascript/cart.js' %}" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        var user='{{request.user}}'
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+    </script>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

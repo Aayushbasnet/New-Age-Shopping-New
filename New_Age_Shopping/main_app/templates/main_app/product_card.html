@@ -1,0 +1,49 @@
+{% load static %}
+
+    <!--First Silde-->
+      <div class="container-fluid pl-5 pr-5 overflow-hidden">
+        <div class="row prdouctSlider">
+          {% for data in first_slide_homepage_product_data %}
+          <div class="product_card ">
+            {% if data.product_discount.product_discount_active %}
+            <p>{{data.product_discount.product_discount_percentage}}% off</p>
+            {% endif %}
+            <button name="add_to_my_wishlist"><i class="far fa-heart"></i></button>
+            <div class="product_image">
+              <a href="{% url 'detail_page' data.pk %}"><img src={{data.product_image_src.url}} alt="{{data.pk}}"></a>
+            </div>
+            <div class="product_bottom">
+              <a href="{% url 'detail_page' data.pk %}">
+                <p> {{data.product_name}}</p>
+              </a>
+              {% comment %} <p></p> {% endcomment %}
+              <div class="product_bottom_star">
+                <i class="fas fa-star fa-xs"></i>
+                <i class="fas fa-star fa-xs"></i>
+                <i class="fas fa-star fa-xs"></i>
+                <i class="fas fa-star-half-alt fa-xs" style="color: #faca51" ;></i>
+                <i class="far fa-star fa-empty-star fa-xs" style="color: #faca51" ;></i>
+              </div>
+              <div class="product_bottom_buttons">
+                {% if data.product_discount.product_discount_active%}
+                <p><del class="price_before_discount"> Rs.{{data.product_price}}</del><span
+                    class="price_after_discount ml-1"> <span style="font-size: 9px;">Rs.</span> {{data.discount_calculator}}
+                  </span></p>
+                {% else %}
+                <p><span class="price_after_discount ml-1"><span style="font-size: 9px;">Rs.</span> {{data.product_price}}
+                  </span></p>
+                {% endif %}
+                <form action="/cart/" method="post" class="d-inline">
+                  {% csrf_token %}
+                  <input hidden type="number" name="detail_item_id" value="{{data.id}}" id="detail_item_id">
+                  <button name="add_to_cart"><i class="fas fa-cart-plus mr-2"></i>Add to cart</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% comment %} </div> {% endcomment %}
+        {% endfor %}
+      </div>
+
+
+</div>

@@ -1,0 +1,24 @@
+.container{
+    width: 100%;
+    height: auto;
+}
+#cart_row{
+    height: auto;
+}
+.item_image_in_cart{
+    width: 200px;
+    height: 200px;
+
+}
+.item_image_in_cart img{
+    width: 100%;
+    height: 100%;
+}
+#item_in_cart_section{
+    border-radius: 5px;
+}
+.fa-heart:hover, .fa-trash-alt:hover{
+    transition: 0.4s ease;
+    color: red;
+}
+

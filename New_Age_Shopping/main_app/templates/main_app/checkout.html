@@ -1,0 +1,145 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row w-100 pt-2" style="padding:80px;">
+    <div class="col-md-8" style="border-right: 1px solid #aaa;">
+        {% if messages %}
+        <div class="messages mt-3 col-12 text-center">
+            <ul>
+                {% for message in messages %}
+                    <li {% if message.tags %} class=" alert-{{ message.tags }}"{% endif %}>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        <h3 class="m-2 mb-4">Billing Details</h3>
+        <form action="/checkout/" method = "POST">
+        {% csrf_token %}
+            <div class="row w-100 pl-3">
+            <!--First Name-->
+                <div class="col-md-6 form_group_section ">
+                    {% comment %} <input type="text" class="form_control_section" id="input_firstname" placeholder="First Name">
+                     {% endcomment %}
+                     {{forms.first_name}}
+                    <label for="input_firstname" class="form_label_section">First Name</label>
+                </div>
+
+            <!--Last Name-->
+                <div class="col-md-6 form_group_section">
+                    {% comment %} <input type="text" class="form_control_section" id="input_lastname" placeholder="Last Name"> {% endcomment %}
+                     {{forms.last_name}}
+
+                    <label for="input_lastname" class="form_label_section">Last Name</label>
+                </div>
+            </div>
+            <!--Phone Number-->
+            <div class="col-md-12 form_group_section">
+                {% comment %} <input type="number" class="form_control_section" id="input_phonename" placeholder="Phone Number"> {% endcomment %}
+                {{forms.phone_number}}
+                <label for="input_phonename" class="form_label_section">Phone Number</label>
+            </div>
+
+            <!--Email Id-->
+            <div class="col-md-12 form_group_section">
+                {% comment %} <input type="email" class="form_control_section" id="input_email" placeholder="someone@email.com"> {% endcomment %}
+                {{forms.email}}
+                <label for="input_email" class="form_label_section">Email (optional)</label>
+            </div>
+
+            <!--Regions Name-->
+                <div class="col-md-12 form_group_section">
+                    <select class="form_control_section" value="Regions" id="regions">
+                        <option value="select_your_region" disabled>Please choose your Region</option>
+                        <option value="bagmati">Bagmati</option>
+                        <option value="koshi">Koshi</option>
+                        <option value="janakpur">Janakpur</option>
+                    </select> 
+
+                    <label for="input_phonename" class="form_label_section">Region</label>
+                </div>
+
+            <!--District Name-->
+                <div class="col-md-12 form_group_section">
+                    {% comment %} <select class="form_control_section" value="Regions" id="regions">
+                        <option value="select_your_region" disabled selected>Please choose your district</option>
+                        <option value="kathmandu">Kathmandu</option>
+                        <option value="sunsari">Sunsari</option>
+                        <option value="janakpur">Janakpur</option>
+                    </select> {% endcomment %}
+                    {{forms.shipping_district}}
+                    <label for="input_phonename" class="form_label_section">District</label>
+                </div>
+
+            <!--Area Name-->
+                {% comment %} <div class="col-md-12 form_group_section">
+                    <select class="form_control_section" value="Regions" id="regions">
+                        <option value="select_your_region" disabled selected>Please choose your Area</option>
+                        <option value="new_baneswor">New Baneswor</option>
+                        <option value="dharan">Dharan</option>
+                        <option value="janakpur">Janakpur</option>
+                    </select>
+                    <label for="input_phonename" class="form_label_section">District</label>
+                </div> {% endcomment %}
+            
+            <!--Address-->
+                <div class="col-md-12 form_group_section">
+                    {% comment %} <input type="text" class="form_control_section" id="input_address" placeholder="Address"> {% endcomment %}
+                    {{forms.shipping_address}}
+                    <label for="input_address" class="form_label_section">Address</label>
+                    <label for="input_address" class="address_example"><i class="far fa-question-circle mr-3 mb-3 mt-1" style="color: black;"></i>For example: Area, House number, Street number...</label>
+                </div>
+                
+            <!--Additiona Information-->
+                <div class="col-md-12 form_group_section mt-1">
+                    {% comment %} <textarea class="form_control_section" id="Postcode/ZIP" placeholder="Additional Information"></textarea> {% endcomment %}
+                    {{forms.shipping_zip}}
+                    <label for="input_additional_info" class="form_label_section    ">Postcode/ZIP</label>
+                </div>
+
+            <!--Saved address-->  
+            <div class="custom-control custom-checkbox">
+                  {% comment %} <input type="checkbox" class="custom-control-input" name="same_billing_address" id="same_billing_address"> {% endcomment %}
+                  <label for="select_payment" class=" pb-0 mb-0">Payment options:</label>
+                  {{forms.payment_option}}
+                  
+            </div>
+            <a href="{% url 'checkout' %}"><button type="submit" class="btn btn-primary btn-block">Make
+                        Purchase</button></a>
+        </form>
+    </div>
+
+    <!--Checkout-->
+    <div class="col-md-4 p-5 pt-0">
+        <h2 class="mt-3"> Total Amount</h2>
+        <div class="mb-3">
+            <div class="pt-4">
+                <h5 class="mb-3">The total amount of</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                        Temporary amount
+                        <span>$25.98</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">Shipping
+                        <span>Gratis</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                        <div>
+                            <strong>The total amount of</strong>
+                            <strong>
+                                <p class="mb-0">(including VAT)</p>
+                            </strong>
+                        </div>
+                        <span><strong>$53.98</strong></span>
+                    </li>
+                </ul>
+                <a href="{% url 'checkout' %}"><button type="button" class="btn btn-primary btn-block">Make
+                        Purchase</button></a>
+            </div>
+        </div>
+    </div>
+    <!--end of checkout-->
+</div>
+{% endblock content %}

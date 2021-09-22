@@ -1,0 +1,70 @@
+.meet_our_team{
+    width: 800px;
+    height: auto;
+    margin: auto;
+}
+
+.meet_our_team h3{
+    font-size: 35px;
+    font-family: Zen Dots;
+}
+
+
+.meet_our_team p{
+    font-size: 20px;
+    font-family: Dosis;
+}
+
+.contact_us a{
+    text-decoration: none;
+    color: black;
+    padding-top: .7em;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: Source Code Pro;
+}
+
+.contact_us a:hover{
+    background-color: black;
+    color: white;
+    transition: 0.5s ease;
+}
+
+.team_member_image{
+    width: 250px;
+    height: 250px;
+    margin: auto;
+    
+}
+.team_member_image img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.team_member_saying{
+    margin: auto;
+    width: 80%;
+}
+.team_member_name_role{
+    margin: auto;
+    width: 40%;
+}
+
+.diamond_shape{
+    height: 40px;
+    width: 40px;
+    transform: rotate(45deg);
+    text-align: center;
+    margin: auto;
+}
+.hover .fa-phone:hover, .fa-map-marker-alt:hover{
+    color:red;
+    transition: .5s ease;
+}
+.form_heading{
+    background-color: rgba(50,115,220,0.1);
+    width:100%;
+    height: 150px;
+    text-align: center;
+}
+

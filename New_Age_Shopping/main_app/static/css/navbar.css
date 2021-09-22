@@ -1,0 +1,368 @@
+.first_navbar{
+    margin-bottom: 12px;
+    display: block;
+    /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
+}
+
+.first_navbar .first_navbar_left_contents{
+    display: inline-block;
+    margin-left: 8%;
+}
+
+
+.first_navbar .first_navbar_left_contents > a, .first_navbar .first_navbar_right_contents > a {
+    text-decoration: none;
+    color: black;
+    font-size: 11px;
+    margin: 1px 6px 1px 4px;
+    padding-right: 6px;
+}
+
+.first_navbar .first_navbar_left_contents > a:nth-child(1), .first_navbar .first_navbar_left_contents > a:nth-child(2),.first_navbar .first_navbar_right_contents > a:nth-child(1), .first_navbar .first_navbar_right_contents > a:nth-child(2){
+    border-right: 1px solid #aaa;
+
+}
+
+.first_navbar .first_navbar_left_contents > a .fa-facebook-f {
+    font-size: 12px;
+    color: #385898;
+}
+
+.first_navbar .first_navbar_left_contents > a .fa-instagram {
+    font-size: 13px;
+    background: -webkit-linear-gradient(-90deg, #8a3ab9, #e95950, #bc2a8d, #fccc63, #fbad50, #cd486b, #4c68d7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+}
+
+.first_navbar .first_navbar_left_contents > a .fa-twitter{
+    font-size: 12px;
+    color: #4dabf7;
+}
+
+.first_navbar .first_navbar_left_contents > a .fa-facebook-f:hover, .first_navbar .first_navbar_left_contents > a .fa-instagram:hover, .first_navbar .first_navbar_left_contents > a .fa-twitter:hover{
+    transform: scale(1.1);
+}
+
+.first_navbar .first_navbar_right_contents{
+    display: inline-block;
+    margin-left: 40%;
+    text-transform: uppercase;
+}
+
+.middle_navbar{
+    display: block;
+    padding: 5px 5px 8px;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+}
+
+.middle_navbar .brand_logo {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.middle_navbar .brand_logo > a{
+    text-decoration: none;
+    color: black;
+    margin-left: 15%;
+    padding: 5px;
+}
+
+.middle_navbar .nav_searchbar{
+    display: inline-block;
+    position: relative;
+    left: 5%;
+    padding: 3px;
+    
+}
+
+.middle_navbar .nav_searchbar > input{
+    border: 1px solid #aaa;
+    width: 600px;
+    height: 38px;
+    border-radius: 1px;
+    outline: none;
+    padding: 8px;
+}
+
+.middle_navbar .nav_searchbar > button{
+    text-align: center;
+    position: absolute;
+    outline: none;
+    border: 1px solid #aaa;
+    border-left: none;
+    height: 38px;
+    width: 40px;
+    border-radius: 0 10px 10px 0;
+}
+
+.middle_navbar .nav_searchbar > button i{
+    color: #00060a;
+    font-size: 16px;
+}
+
+.middle_navbar .nav_searchbar .searchbar_search_button:hover i{
+    transform: scale(1.1);
+}
+
+.middle_navbar .my_account{
+    display: inline-block;
+    position: absolute;
+    margin-left: 200px;
+}
+
+.middle_navbar .my_account .dropdown > button{
+    background-color: transparent;
+    overflow: hidden;
+    text-overflow: clip;
+    border: none;
+    outline: none;
+    width: 115px;
+    height: fit-content;
+    border-right: 1px solid #aaa;
+    margin-top: 4px;
+    padding: 0 6px 0 2px;
+}
+
+.middle_navbar .my_account .dropdown .contentout .user_account_icon::before{
+    font-family: FontAwesome;
+    content: '\f007';
+    position: absolute;
+    font-size: 22px;
+    left: -23px;
+    bottom: 10px;
+    font-style: normal;
+}
+
+/* .my_account .dropdown .contentout i:hover{
+    transform: scale(1.4);
+    transition: all o.6s ease-in-out;
+    animation-name: myaccount_icon;
+    animation-duration: 4s;
+} */
+
+/* @keyframes myaccount_icon {
+    0%   {transform: scale(0.8);}
+    25%  {transform: scale(1.3);}
+    50%  {transform: scale(1.4);}
+    100% {transform: scale(1.6);}
+} */
+
+.middle_navbar .my_account .dropdown .contentout > span{
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    font-size: 10px;
+    color: #929292;
+    font-weight: 400;
+    float: left;
+    height: 18px;
+    text-transform: capitalize;
+}
+
+.middle_navbar .my_account .dropdown .contentout div > h6{
+    font-size: 13px;
+    font-weight: 600;
+    float: left;
+    margin-top: 2px;
+
+}
+
+.middle_navbar .my_account .dropdown .contentout div > h6::after{
+    font-family: FontAwesome;
+    content: '\f107';
+    color: rgb(94, 94, 94);
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.user_account_out_dropdown_list{
+    z-index: 100;
+    background-color: #ffffff;
+    width: 170px;
+    position: absolute;
+    padding: 10px 15px;
+    margin: -2px 0 0 -60px;
+    text-align: center;
+    font-size: 13px;
+    border-radius: 0;
+    text-transform: capitalize;
+}
+
+.user_account_out_dropdown_list > a:nth-child(1){
+    background-color: #613f99;
+    color: #ffffff;
+    margin-bottom: 10px; 
+}
+
+.user_account_out_dropdown_list > span{
+    font-size: 11px;
+    margin-bottom: 1px;
+}
+
+.user_account_out_dropdown_list > a:nth-child(3){
+    background-color: #3da89f;
+    color: #ffffff;
+}
+
+.middle_navbar .my_cart{
+    display: inline-block;
+    position: absolute;
+    height: 35px;
+    padding: 5px;
+    margin-top: 8px;
+    right: 110px;
+    text-transform: capitalize;
+}
+
+.middle_navbar .my_cart .dropdown > a{
+    text-decoration: none;
+    color: #00060a;
+    display: inline-block;
+}
+
+.middle_navbar .my_cart .dropdown > a > i{
+    font-size: 22px;
+}
+
+.middle_navbar .my_cart .dropdown > a >  span{
+    font-weight: 600;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.middle_navbar .my_cart .dropdown > a > i::after{
+    content: '1';
+    overflow: visible;
+    font-size: 0.8rem;
+    font-weight: ;
+    background: linear-gradient(#ff1a10, #ff0000, #e60000);
+    text-align: center;
+    padding-top: 5px;
+    width: 1.3rem;
+    height: 1.3rem;
+    position: absolute;
+    top: -50%;
+    left: 20px;
+    border-radius: 50%;
+    color: white;
+    /* transform: scale(0.8); */
+    transition: all o.6s ease-in-out;
+    z-index: 10;
+    animation: mycart_notification_without_hover 1s ease-out infinite alternate;
+}
+
+@keyframes mycart_notification_without_hover{
+    0%   {transform: scale(0.5);}
+    50%  {transform: scale(0.9);}
+    100% {transform: scale(1.0);}
+}
+
+.middle_navbar .my_cart .dropdown > a > i:hover::after{
+    /* transform: scale(1.3); */
+    transition: all o.6s ease-in-out;
+    animation-name: mycart_notification;
+    animation-duration: 4s;
+    /* animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1); */
+}
+
+@keyframes mycart_notification {
+    0%   {transform: scale(1.0);}
+    25%  {transform: scale(1.3);}
+    50%  {transform: scale(1.4);}
+    100% {transform: scale(1.6);}
+  }
+
+.third_navbar{
+    display: block;
+    padding: 5px 5px 5px 5px;
+    margin: 2px 0;
+    font-family: Roberto;
+    font-size: 18px;
+    font-weight: 600;
+    position: relative;
+}
+
+.third_navbar .category_section{
+    display: inline-block;
+    margin-left: 3%;
+    padding: 4px;
+    /* border: 1px solid red; */
+}
+
+.third_navbar .category_section .dropdown {
+    display: block;
+    text-align: center;
+}
+
+.third_navbar .category_section .dropdown > button{
+    /* position: absolute; */
+    border: 1px solid #aaa;
+    letter-spacing: 1px;
+    background-color: #ffffff;
+    padding: 4px 10px;
+    outline: none;
+    border-radius: 0;
+    z-index: 100;
+}
+
+.category_dropdown_level1{
+    border-radius: 0;
+    position: absolute;
+    top: 10px;
+    text-align: left;
+    background-color: #ffffff;
+    width: fit-content;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+
+.category_dropdown_level2{
+    position: absolute;
+    background-color: #ffffff;
+    border-radius: 0;
+    display: none;
+    top: -10px;
+    left: 100%;
+    width: fit-content;
+    height: cal(10vh-10px);
+    
+}
+
+.category_dropdown_brand{
+    border-radius: 0;
+    position: absolute;
+    top: -100px;
+}
+
+.category_dropdown_level1 .dropright:hover .category_dropdown_level2{
+    display: block;
+}
+
+ .category_dropdown_level2 .dropright:hover .category_dropdown_brand{
+    display: block;
+}
+
+.text_movement_section{
+    display: inline-block;
+    margin-left: 4%;
+    width: 80%;
+    text-align: center;
+    padding: 4px;
+    border: 1px solid red;
+}
+
+.text_movement_section::after{
+    content: '';
+    border-top: 25px solid transparent;
+    border-bottom: 22px solid transparent;
+    border-left: 25px solid red;
+    position: absolute;
+    right: 10px;
+    top: 4px;
+}
