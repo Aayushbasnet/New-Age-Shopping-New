@@ -3,7 +3,8 @@ import os
 from uuid import uuid4
 from random import randint
 from django.db.models.aggregates import Count
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from account.models import User
 from django.template.defaultfilters import slugify
 
 
@@ -19,7 +20,7 @@ class Level1ProductCategory(ProductBaseClass):
     category_level1 =   models.CharField(max_length=150, unique=True, help_text='Level1 category like electronics, health and beauty, sports and entertainment')
 
     def __str__(self):
-        return self.category_level1
+        return str(self.category_level1)
 
     def save(self, *args, **kwargs):
         self.category_name_level1 = self.category_level1.upper()
@@ -45,7 +46,7 @@ class Level2ProductCategory(ProductBaseClass):
         super().save(*args, **kwargs)
     
     def __str__(self):
-        return self.category_level2
+        return str(self.category_level2)
 
     def save(self, *args, **kwargs):
         self.category_name_level2 = self.category_level2.upper()
@@ -71,7 +72,7 @@ class ProductCategory(ProductBaseClass):
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.brand_name
+        return str(self.brand_name)
 
     class Meta:
         verbose_name            =   'Product Category'
@@ -104,7 +105,7 @@ class ProductDiscount(ProductBaseClass):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.product_discount_name  
+        return str(self.product_discount_name)  
 
 
 class FeaturedSliderProduct(ProductBaseClass):
@@ -154,13 +155,13 @@ class Product(ProductBaseClass):
 
         #return the whole path and file
         return os.path.join(upload_to, filename)
-
+    user                    =   models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     product_name                =   models.CharField(max_length=500)
     product_description         =   models.CharField(max_length=1000)
     product_price               =   models.DecimalField(max_digits=20, decimal_places=2)
     product_availability        =   models.BooleanField(default=True)
-    product_discount            =   models.ForeignKey(ProductDiscount, on_delete=models.CASCADE, blank=True, null=True)
-    product_quantity            =   models.ForeignKey(ProductInventory, on_delete= models.CASCADE)
+    product_discount            =   models.ForeignKey(ProductDiscount, on_delete=models.CASCADE, blank=True, null=True, related_query_name='discount')
+    product_quantity            =   models.ForeignKey(ProductInventory, on_delete= models.CASCADE, related_query_name= 'quantity')
     product_image_src           =   models.ImageField("Product Image", upload_to= image_rename)
     product_category            =   models.ForeignKey(ProductCategory, on_delete= models.CASCADE)
     
@@ -172,7 +173,7 @@ class Product(ProductBaseClass):
         self.slug = slugify(self.product_name)
         super().save(*args, **kwargs)
     def __str__(self):
-        return self.product_name
+        return str(self.product_name)
 
     # to calculate product discount
     @property
@@ -218,7 +219,7 @@ class OrderItem(models.Model):
 
     
     def __str__(self):
-        return self.product.product_name
+        return str(self.product.product_name)
 
 
 class ShippingAddress(models.Model):
@@ -235,7 +236,7 @@ class ShippingAddress(models.Model):
     checkout_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.shipping_address
+        return str(self.shipping_address)
 
     class Meta:
         verbose_name_plural = 'Shipping Addresses'

@@ -1,4 +1,5 @@
-{% extends 'merchant_app/m-base.html' %}
+{% extends './m-base.html' %}
+{% load crispy_forms_filters %}
 {% load static %}
 
 {% block title %}
@@ -119,43 +120,35 @@ Merchant Product
 
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-3 mb-3 border pt-3" style="height: 400px;">
-            <div class="product_image mb-3">
-                <img class=" shadow" id="myImg1" src=" {% static 'images/products/image1.jpg' %} " alt="product image">
-            </div>
-            <div class="product_name mb-3 ">
-                <p style="font-size: 16px; font-weight: 500;"> Product 1</p>
-            </div>
-            <div class="two_buttons d-flex justify-content-between">
-                <button type="button" onclick=delete_popup() class="delete_button">Delete</button>
-                <button type="button" onclick=edit_popup() class="edit_button">Edit</button>
-            </div>
-        </div>
+    <div class="row ">
+        {% for product in merchants_product %}
+            <div class="col-xl-3 col-md-3 col-sm-12 mb-md-4 mb-sm-5  shadow pt-3" style="height:400px;">
+                <div class="product_image mb-3">
+                    <img class=" shadow" id="myImg1"  src=" {{product.product_image_src.url}} " alt="{{product.product_name}}">
+                </div>
+                <div class="product_name mb-3 ">
+                    <p style="font-size: 16px; font-weight: 500;"> {{product.product_name}}</p>
+                </div>
+                <div class="two_buttons mb-2 d-flex justify-content-between">
 
+                    {% comment %} <form action="/delete_product/{{product.pk}}" method="POST"> {% endcomment %}
+                        <a href = "{% url 'merchant_app:delete_product' product.pk %}"><button type="submit" id= "merchant_product_delete" class="delete_button mb-2 delete-btn">Delete</button></a>
+                    {% comment %} </form> {% endcomment %}
+                    <a href = "{% url 'merchant_app:update_product' product.pk %}"><button type="button" id = "update-button merchant_product_delete" class="mb-2  edit_button update-button">Edit</button></a>
+                </div>
+            </div>
+        {% endfor %}
 
         <div id="myModal1" class="modal1">
             <span class="close1">&times;</span>
             <img id="modal1-img" class="modal1-content" src="">
             <div id="caption1"></div>
         </div>
-
-        <div class="col-3 mb-3 border pt-3" style="height: 400px;">
-            <div class="product_image mb-3">
-                <img class=" shadow" id= "myImg1"src=" {% static 'images/products/image1.jpg' %} " alt="product image">
-            </div>
-            <div class="product_name mb-3 ">
-                <p style="font-size: 16px; font-weight: 500;"> Product 1</p>
-            </div>
-            <div class="two_buttons d-flex justify-content-between">
-                <button type="button" onclick=delete_popup() class="delete_button">Delete</button>
-                <button type="button" onclick=edit_popup() class="edit_button">Edit</button>
-            </div>
             
-        </div>
 
     </div>
 </div>
+
 
 
 <script type="text/javascript">
@@ -190,5 +183,6 @@ Merchant Product
         modal1.style.display = "none";
     }
 </script>
+
 
 {% endblock content %}

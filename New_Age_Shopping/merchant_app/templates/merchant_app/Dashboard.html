@@ -24,7 +24,13 @@
         <div class="card" style="">
             <div class="card-body">
                 <h3 class="card-title text-muted border-bottom mb-4">Number of Products</h3>
-                <h4 class="card-text">112</h4>
+                
+                {% if merchants_product.count == 0 %}
+                    <h4 class="card-text">0</h4>
+                {% else %}
+                    <h4 class="card-text">{{merchants_product.count}}</h4>
+                {% endif %}
+                
             </div>
         </div>
     </div>
@@ -33,8 +39,28 @@
         <div class="card" style="">
             <div class="card-body">
                 <h3 class="card-title text-muted border-bottom mb-4">Low Stocks Products!</h3>
-                <h4 class="card-text">112</h4>
+                
+                {% if low_stock <= 0  %}
+                    <h4 class="card-text">0</h4>
+                {% else %}
+                    <h4 class="card-text">{{low_stock}}</h4>
+                {% endif %}
+                    
+                
             </div>
         </div>
     </div>
 </div>
+
+ <div class="container mt-3">
+    {% comment %} <div class="chart-canvas" style='width:500px; height:600px;'> {% endcomment %}
+    <div class="row">
+      <div class="col-xl6 col-md-6 col-sm-12">
+          <canvas id="merchant_dashboard_chart" width='100%' height="100%"></canvas>
+      </div>
+      <div class="col-xl6 col-md-6 col-sm-12">
+          <canvas id="merchant_bar_plot" width='100%' height="100%"></canvas>
+      </div>
+    </div>
+    {% comment %} </div> {% endcomment %}
+  </div>

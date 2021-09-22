@@ -28,6 +28,8 @@
     {% comment %} local css {% endcomment %}
     <link rel="stylesheet" href=" {% static 'main_app/css/base.css' %}">
     <link rel="stylesheet" href=" {% static 'css/mProduct.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/mupdate.css' %}">
+
 
     
 
@@ -63,7 +65,11 @@
     <script src="https://kit.fontawesome.com/a6cdb94b02.js" crossorigin="anonymous"></script>
 
     {% comment %} local js {% endcomment %}
+    <script src = "{% static 'js/dashboard_chart.js'%}" crossorigin="anonymous"> </script>
     <script src = "{% static 'js/mProduct.js'%}" crossorigin="anonymous"> </script>
+
+    <!--Chart.js JS CDN--> 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.0/dist/chart.min.js"></script> 
 
     <script>
         var static_url = "{% get_static_prefix %}";

@@ -10,7 +10,7 @@
         <a href="www.twitter.com"><i class="fab fa-twitter"></i></a></a>
     </div>
     <div class="first_navbar_right_contents">
-        <a href="#"> Sell on New Age Shopping</a>
+        <a href="/account/merchant_signup/"> Sell on New Age Shopping</a>
         <a href="#"> Help Center</a>
         <a href="#"> Track my order</a>
     </div>
@@ -23,11 +23,11 @@
     </div>
 
     <!--Main Searchbar-->
-    <form action="/shop_now/search/" method = "GET" class="d-inline">
+    <form action="/shop_now/search/" method="GET" class="d-inline">
         <div class="nav_searchbar">
-            
-                <input type="search" name= "search_key" placeholder="What are you looking for? ..."> <button type="submit" class="searchbar_search_button"><i
-                        class="fas fa-search"></i></button>
+
+            <input type="search" name="search_key" placeholder="What are you looking for? ..."> <button type="submit"
+                class="searchbar_search_button"><i class="fas fa-search"></i></button>
         </div>
     </form>
 
@@ -38,26 +38,36 @@
                 aria-expanded="false" id="user_account_out user_account_in">
                 <div class="contentout">
                     <i class="user_account_icon"></i>
-                    <span> Namaste, Sign in</span>
+                    
+                    {% if request.user %}
+                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; "> Namaste, {{request.user}}</span>
+                    
+                    {% else %}
+                        <span> Namaste, Sign in </span>
+                    {% endif %}
                     <div>
                         <h6>My Account</h6>
                     </div>
                 </div>
             </button>
-            <!--If User is logged in-->
-            <div class="dropdown-menu  user_account_out_dropdown_list" aria-labelledby="user_account_out">
-                <a class="dropdown-item" href="{% url 'account:login_page' %}">Sign in</a>
-                <span>New Customer?</span>
-                <a class="dropdown-item" href="{% url 'account:signup_page' %}">Sign up</a>
-            </div>
-
-            <!--If user is not logged in-->
-            {% comment %} <div class="dropdown-menu  user_account__in_dropdown_list" aria-labelledby="user_account_in">
+            <!--For Customer is logged in-->
+            {% if request.user.is_customer%}
+            <div class="dropdown-menu  user_account__in_dropdown_list" aria-labelledby="user_account_in">
                 <a class="dropdown-item" href="#">My Account</a>
-                <a class="dropdown-item" href="#">My Order</a>
-                <a class="dropdown-item" href="#">Wishlist</a>
-                <button class="dropdown-item" href="#">Log out</button>
-            </div> {% endcomment %}
+                <!-- <a class="dropdown-item" href="#">My Order</a>
+                <a class="dropdown-item" href="#">Wishlist</a> -->
+                <a class="dropdown-item" href="{% url 'account:logout_page' %} ">Log out</a>
+            </div>
+            <!--If user is logged in-->
+            {% else %}
+                <div class="dropdown-menu  user_account_out_dropdown_list" aria-labelledby="user_account_out">
+                    <a class="dropdown-item" href="{% url 'account:login_page' %}">Sign in</a>
+                    <span>New Customer?</span>
+                    <a class="dropdown-item" href="{% url 'account:signup_page' %}">Sign up</a>
+                </div>
+            {% endif %}
+
+
         </div>
     </div>
 
@@ -84,20 +94,21 @@
             <div class="dropdown-menu category_dropdown_level1" aria-labelledby="category_list">
                 {% for level1 in level1_objects%}
                 <div class="dropright">
-                    <a href="" class="dropdown-item " data-toggle="dropright" aria-haspopup="true"
-                        aria-expanded="false" id="category_level1">{{level1.category_level1}} <i
-                            class="fas fa-angle-right" style="position: absolute; right: 5px;"></i></a>
+                    <a href="" class="dropdown-item " data-toggle="dropright" aria-haspopup="true" aria-expanded="false"
+                        id="category_level1">{{level1.category_level1}} <i class="fas fa-angle-right"
+                            style="position: absolute; right: 5px;"></i></a>
                     <!--Level 2-->
                     <div class="dropdown-menu category_dropdown_level2" aria-labelledby="category_level1">
                         {% for level2 in level1.level2_item %}
                         <div class="dropright">
-                            <a class="dropdown-item" href="{% url 'shop_now' level2 %}" id="category_level2">{{level2.category_level2}} <i
-                                    class="fas fa-angle-right" style="position: absolute; right: 5px;"></i></a>
+                            <a class="dropdown-item" href="{% url 'shop_now' level2 %}"
+                                id="category_level2">{{level2.category_level2}} <i class="fas fa-angle-right"
+                                    style="position: absolute; right: 5px;"></i></a>
                             <!--Brand name-->
                             <div class="dropdown-menu category_dropdown_brand" aria-labelledby="category_level1">
                                 {% for level3 in level2.level3_item %}
                                 <a class="dropdown-item" href="{% url 'shop_now' level3 %}">{{level3.brand_name}}</a>
-                                {% endfor %}   
+                                {% endfor %}
                             </div>
                             <!--end of brand name-->
                         </div>
@@ -112,6 +123,6 @@
     </div>
 
     <div class="text_movement_section">
-        <span>Thank you for visiting us</span> 
+        <span>Thank you for visiting us</span>
     </div>
 </nav>

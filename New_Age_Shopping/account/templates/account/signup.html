@@ -1,73 +1,95 @@
 {% extends 'main_app/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
 {% block content %}
 <div class="container mt-2 p-3">
     <div class="row shadow" style="width: 550px; height: auto; margin: auto; padding: 5px; border: 1px solid #aaa;">
-        <div class="col-md-12 col-sm-12 p-3 border">
-            sigup using
-            <br>
-            logo1 logo2
-            <br>
-            Or signin using
+        <div class="col-md-12 col-sm-12 p-3 border-bottom">
+            <h4>Customer Signup</h4>
         </div>
         <div class="col-md-12 col-sm-12 p-3">
-            <form method = 'POST' action="">
+            <form method='POST' action="">
                 {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="firstname" class=" added-style">User name</label>
+                    {% render_field forms.username  class+="form-control added-style" placeholder=forms.username.label %}
+                    <span class="errors">{{forms.username.errors|striptags}}</span>
+                </div>
                 <div class="form-row">
                     <div class="col-md-6 col-6">
                         <div class="form-group">
-                            <label for="firstname">First Name</label>
-                            <input type="text" class="form-control" id="firstname" placeholder="Enter first name">
+                            <label for="firstname"
+                                class=" added-style">First Name</label>
+                            {% render_field forms.first_name  class+="form-control added-style" placeholder=forms.first_name.label %}
+                            <span class="errors">{{forms.first_name.errors|striptags}}</span>
                         </div>
                     </div>
+
                     <div class="col-md-6 col-6">
                         <div class="form-group">
                             <label for="lastname">Last Name</label>
-                            <input type="text" class="form-control" id="secondname" placeholder="Enter second name">
+                            <!-- <input type="text" class="form-control" id="secondname" placeholder="Enter second name"> -->
+                            {% render_field forms.last_name class+="form-control" placeholder=forms.last_name.label %}
+                            <span class="errors">{{forms.last_name.errors|striptags}}</span>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    {{form.email}}
-                </div>
-                <div class="form-group">
-                    <label for="phonenumber">Phone number</label>
-                    <input type="text" class="form-control" id="phonenumber" placeholder="Enter phone number">
-                </div>
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" class="form-control" id="Address" placeholder="Enter address">
                 </div>
 
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">Gender</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option value="select_gender" disabled selected>Select your gender</option>
-                        <option value="female">Female</option>
-                        <option value="male">Male</option>
-                        <option vlaue="other">Other</option>
-                    </select>
+                    <label for="exampleInputEmail1">Email address</label>
+                    {% render_field forms.email class+="form-control added-style" placeholder=forms.email.label%}
+                    <span class="errors">{{forms.email.errors|striptags}}</span>
                 </div>
+
+                <div class="form-group">
+                    <label for="phonenumber">Phone number</label>
+                    <!-- <input type="text" class="form-control" id="phonenumber" placeholder="Enter phone number"> -->
+                    {% render_field forms.phone_number class+="form-control added-style" placeholder=forms.phone_number.label%}
+                    <span class="errors">{{forms.phone_number.errors|striptags}}</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <!-- <input type="text" class="form-control" id="Address" placeholder="Enter address"> -->
+                    {% render_field forms.address class+="form-control added-style" placeholder=forms.address.label %}
+                    <span class="errors">{{forms.address.errors|striptags}}</span>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Gender</label>
+                    {% render_field forms.gender class+="form-control added-style" %}</option>
+                            <span class="errors">{{forms.gender.errors|striptags}}</span>
+                </div>
+
+
                 <div class="form-group password_show_hide">
                     <div class="password_eye">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Password">
+                        <!-- <input type="password" class="form-control" id="password" placeholder="Password"> -->
+                        {% render_field forms.password1 class+="form-control added-style" placeholder=forms.password1.label %}
                         <i class="far fa-eye-slash"></i>
                         <i class="far fa-eye"></i>
                     </div>
+                    <span class="errors">{{forms.password1.errors|striptags}}</span>
+
                     <div class="form-group password_show_hide mt-3">
                         <div class="password_eye">
                             <label for="confirmpassword">Confirm Password</label>
-                            <input type="password" class="form-control" id="confirmpassword" placeholder="Password">
+                            <!-- <input type="password" class="form-control" id="confirmpassword" placeholder="Password"> -->
+                            {% render_field forms.password2 class+="form-control added-style" placeholder=forms.password2.label %}
                             <i class="far fa-eye-slash"></i>
                             <i class="far fa-eye"></i>
                         </div>
+                        <span class="errors">{{forms.password2.errors|striptags}}</span>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 105px; border-radius: 2px;">Sign up</button>
                 <div class="mt-3">
                     <span>Already Member?</span>
-                    <a href="{% url 'account:login_page' %}">Login</a>
+                    <a href="{% url 'account:login_page' %}" style="cursor:pointer;">Login</a>
                 </div>
             </form>
         </div>

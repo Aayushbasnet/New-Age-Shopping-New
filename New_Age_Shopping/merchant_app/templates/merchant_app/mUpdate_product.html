@@ -1,0 +1,52 @@
+{% extends 'merchant_app/m-base.html' %}
+
+{% load crispy_forms_filters %}
+{% block content %}
+<p> I am edit </p>
+<div class="container">
+    <div class="update-section">
+        <div class="inner-section">
+                <form action="" method="post" enctype="multipart/form-data" class="border-0">
+                    {% csrf_token %}
+                    <div class="border p-2">
+                        <div class="text-center bg-info">
+                            <label class="text-capitalize font-weight-bold p-2" for="">Product Information
+                                Section</label>
+                        </div>
+                        {{add_product |crispy}}
+                    </div>
+
+                    <div class="border border-dark p-2">
+                        <div class="text-center bg-info">
+                            <label for="" class="text-capitalize font-weight-bold p-2">Product Discount Section</label>
+                        </div>
+                        {{product_discount | crispy}}
+                    </div>
+
+                    <div class="border border-dark p-2">
+                        <div class="text-center bg-info">
+                            <label for="" class="text-capitalize font-weight-bold p-2">Product Inventory Section</label>
+                        </div>
+                        {{product_inventory | crispy}}
+                    </div>
+
+                    <div class=" mt-sm-2 mb-5 d-flex justify-content-between">
+                        <div class=" mb-5">
+                            <!--update product-->
+                            <input style="width: 160px; " class="bg-primary border-0 p-2 text-white" type="submit"
+                                value="Update Product" name="" id="" />
+                            <!--reset text-->
+                            <input style="width: 100px; " class="bg-danger border-0 p-2 ml-3 text-white" type="reset"
+                                value="Reset" name="" id="" />
+                        </div>
+                        <!--Goto dashboard button-->
+                        <a class="float-right" href="{% url 'merchant_app:merchantDashboard' %}"> <input style=" " class="bg-success border-0 p-2 ml-3  text-white"
+                                type="Button" value="Goto dashboard" name="" id="" /></a>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock content %}

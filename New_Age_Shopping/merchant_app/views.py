@@ -1,25 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import *
-from main_app.models import Product, ProductDiscount, ProductInventory, ProductCategory, Level2ProductCategory, Level1ProductCategory
+from main_app.models import Product, ProductDiscount, ProductInventory, Level1ProductCategory
 # from django.forms.models import inlineformset_factory
 from django.http import HttpResponseRedirect
+from account.models import User
+from django.contrib.auth import logout
+
 
 def merchantDashboard(request):
     add_product = AddProduct()
-    product_category_form = ProductCategoryForm()
-    lvl_2_pc = Lvl2Category()
     product_discount = ProductDiscountForm()
     product_inventory = ProductInventoryForm()
 
     if request.method == "POST":
         add_product = AddProduct(request.POST or None, request.FILES)
-        product_category_form = ProductCategoryForm(request.POST or None)
-        lvl_2_pc = Lvl2Category(request.POST or None)
         product_discount = ProductDiscountForm(request.POST or None)
         product_inventory = ProductInventoryForm(request.POST or None)
-        # print("I am inside post")
+        print("I am inside post")
 
-        if add_product.is_valid() and product_category_form.is_valid() and lvl_2_pc.is_valid() and product_discount.is_valid() and product_inventory.is_valid():
+        if add_product.is_valid() and product_discount.is_valid() and product_inventory.is_valid():
             print("valid")
             add_product.save(commit = False)
         #     print("I am saved")
@@ -35,17 +34,7 @@ def merchantDashboard(request):
             # print(product_availability)
             product_image = add_product.cleaned_data.get('product_image_src')
             # print(product_image)
-            brand_name = add_product.cleaned_data.get('product_category')
-            # print(brand_name)
-            
-
-            #lvl_2_pc
-            lvl_1_pc = lvl_2_pc.cleaned_data.get('category_name_level1')
-            # print(lvl_1_pc)
-
-            #product_category
-            level_2_pc = product_category_form.cleaned_data.get('category_name_level2')
-            # print(level_2_pc)
+            product_category = add_product.cleaned_data.get('product_category')
 
             # product_discount
             product_discount_active = product_discount.cleaned_data.get('product_discount_active')
@@ -55,15 +44,10 @@ def merchantDashboard(request):
             product_discount_desc = product_discount.cleaned_data.get('product_discount_description')
             # print(product_discount_desc)
             product_discount_percentage = product_discount.cleaned_data.get('product_discount_percentage')
-            # print(product_discount_percentage)
            
            # product_inventory
             product_inventory_quantity = product_inventory.cleaned_data.get('product_inventory_quantity')
-            # print(product_inventory_quantity)
 
-            product_category_obj = ProductCategory.objects.get(
-                brand_name = brand_name
-            )
 
             product_discount_obj = ProductDiscount.objects.create(
                 product_discount_active = product_discount_active,
@@ -73,7 +57,7 @@ def merchantDashboard(request):
             )
 
             product_inventory_obj = ProductInventory.objects.create(
-                product_inventory_name = str(product_name) + "--" + str(brand_name) + "--" + str(level_2_pc) + "--" + str(lvl_1_pc), 
+                product_inventory_name = str(product_name) , 
                 product_inventory_quantity = product_inventory_quantity
             )
 
@@ -81,6 +65,7 @@ def merchantDashboard(request):
 
 
             product_obj = Product.objects.create(
+                user = request.user,
                 product_name = product_name,
                 product_description = product_desc,
                 product_price = product_price,
@@ -88,7 +73,7 @@ def merchantDashboard(request):
                 product_discount = product_discount_obj,
                 product_quantity = product_inventory_obj,
                 product_image_src = product_image,
-                product_category = product_category_obj,
+                product_category = product_category,
             )
             product_obj.save()
             return HttpResponseRedirect('./')
@@ -97,19 +82,106 @@ def merchantDashboard(request):
             print("Invalid form")
             # pass
 
+
+
+    merchants_product = Product.objects.filter(user = request.user)
+
+    #show profile
+    merchant_user = User.objects.get(id = request.user.pk)
+    print(merchant_user)
+
+    #for low stock
+    low_stock = merchants_product.filter(product_quantity__product_inventory_quantity__lte = 5).count() 
+    print(low_stock)
+
     context = {
         'add_product' : add_product,
-        'product_category' : product_category_form,
-        'lvl_2_pc' : lvl_2_pc,
         'product_discount' : product_discount,
         'product_inventory' : product_inventory,
+        'merchants_product' : merchants_product,
+        'merchant_user' : merchant_user,
+        'low_stock' : low_stock,
     }
 
     return render(request, 'merchant_app/mHomepage.html', context)
 
+    
 
-def delete_product(request):
-    return render(request, 'merchant_app/delete_product.html')
+def delete_product(request, id):
+    delete_merchant_product = Product.objects.get(pk = id)
+    delete_merchant_product.delete()
+    return redirect('/merchant/#v-pills-profile/')
 
-def edit_product(request):
-    return render(request, 'merchant_app/edit_product.html')
+def update_product(request, id):
+    update_merchant_product = Product.objects.get(id = id)
+
+    product_inventory_getter = ProductInventory.objects.all()
+    print(product_inventory_getter)
+    update_mechant_product_inventory = product_inventory_getter.get(quantity__id = id)
+    print(update_mechant_product_inventory)
+
+    product_discount_getter = ProductDiscount.objects.all()
+    # if update_merchant_product.product_discount and update_merchant_product.product_discount.product_discount_active:
+    #     update_merchant_product_discount = product_discount_getter.get(discount__id = id)
+    #     product_discount = ProductDiscountForm(instance=update_merchant_product_discount)
+    #     print(update_mechant_product_inventory)
+    # else:
+    update_merchant_product_discount = product_discount_getter.get(discount__id = id)
+    product_discount = ProductDiscountForm()
+    print(update_mechant_product_inventory)
+    
+
+    add_product = AddProduct(instance= update_merchant_product)
+    product_inventory = ProductInventoryForm(instance= update_mechant_product_inventory)
+
+    if request.method == "POST":
+        add_product = AddProduct(request.POST, request.FILES, instance= update_merchant_product)
+        product_inventory = ProductInventoryForm(request.POST, instance= update_mechant_product_inventory)
+        # if update_merchant_product.product_discount and update_merchant_product.product_discount.product_discount_active:
+        #     update_merchant_product_discount = product_discount_getter.get(discount__id = id)
+        #     product_discount = ProductDiscountForm(request.POST, instance=update_merchant_product_discount)
+        #     print(update_mechant_product_inventory)
+        # else:
+        update_merchant_product_discount = product_discount_getter.get(discount__id = id)
+        product_discount = ProductDiscountForm(request.POST, instance=update_merchant_product_discount)
+        print(update_mechant_product_inventory)
+
+        if add_product.is_valid() and product_inventory.is_valid() and product_discount.is_valid():
+            add_product.save()
+            product_inventory.save()
+            product_discount.save() 
+            return redirect('/merchant/')
+        else:
+            print("Not valid")           
+
+
+
+    context = {
+        'add_product' : add_product,
+        'product_discount' : product_discount,
+        'product_inventory' : product_inventory,
+    }
+
+    return render(request, 'merchant_app/mUpdate_product.html', context)
+
+
+def mProfileUpdate(request):
+    update_profile = MerchantProfileForm(instance = request.user)
+    if request.method == "POST":
+        update_profile = MerchantProfileForm(request.POST,request.FILES, instance = request.user)
+        if update_profile.is_valid():
+            update_profile.save()
+            return redirect('/merchant/')
+        else:
+            print(update_profile)
+            print("Form invalid")
+    else:
+        print("POST Invalid")        
+    context ={
+        'update_profile' : update_profile,
+    }
+    return render(request, 'merchant_app/mUpdateProfile.html', context)
+
+def mlogout(request):
+    logout(request)
+    return redirect('/account/login/')
