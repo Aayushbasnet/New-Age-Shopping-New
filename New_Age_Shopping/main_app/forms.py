@@ -1,4 +1,5 @@
 from django import forms
+from .models import Comment
 
 PAYMENT_CHOICES = (
     ('S', 'Stripe'),
@@ -35,3 +36,11 @@ class CheckoutForm(forms.Form):
 
     payment_option = forms.ChoiceField(
         widget=forms.RadioSelect, choices=PAYMENT_CHOICES)
+
+
+
+# Comment forms
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['subject', 'comment', 'rate']

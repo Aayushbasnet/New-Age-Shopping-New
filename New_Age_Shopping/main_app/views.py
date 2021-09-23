@@ -4,11 +4,12 @@ from django.template import loader
 from django.contrib import messages
 from django.http.response import JsonResponse
 import json
-from .forms import CheckoutForm
+from .forms import CheckoutForm, CommentForm
 from django.core.exceptions import ObjectDoesNotExist
 from .utils import for_items_total
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 def homepage(request):
@@ -220,3 +221,30 @@ def payment_view(request):
     }
     print(ordered_items)
     return render(request, 'main_app/payment_view.html', context)
+
+
+def addComment(request, pk):
+    url = request.META.get('HTTP_REFERER') # get last url
+    print("I am inside")
+    # return HttpResponse(url)
+    if request.method == "POST":
+        print("post")
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            print("form valid")
+            data = Comment()    # create relation with model
+            data.subject = form.cleaned_data['subject']
+            data.comment = form.cleaned_data['comment']
+            data.rate = form.cleaned_data['rate']
+            data.ip = request.META.get('REMOTE_ADDR')
+            data.product = Product.objects.get(pk=pk)
+            data.user = request.user
+            data.save()
+            messages.success(request, "Thank you for your review")
+            return HttpResponseRedirect(url)
+        else:
+            print("not valid")
+    else:
+        print("POST not valid")
+
+    return HttpResponseRedirect(url)
