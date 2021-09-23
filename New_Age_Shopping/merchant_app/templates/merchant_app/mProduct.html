@@ -130,10 +130,7 @@ Merchant Product
                     <p style="font-size: 16px; font-weight: 500;"> {{product.product_name}}</p>
                 </div>
                 <div class="two_buttons mb-2 d-flex justify-content-between">
-
-                    {% comment %} <form action="/delete_product/{{product.pk}}" method="POST"> {% endcomment %}
-                        <a href = "{% url 'merchant_app:delete_product' product.pk %}"><button type="submit" id= "merchant_product_delete" class="delete_button mb-2 delete-btn">Delete</button></a>
-                    {% comment %} </form> {% endcomment %}
+                    <a href = "{% url 'merchant_app:delete_product' product.pk %}"><button type="submit" id= "merchant_product_delete" class="delete_button mb-2 delete-btn">Delete</button></a>
                     <a href = "{% url 'merchant_app:update_product' product.pk %}"><button type="button" id = "update-button merchant_product_delete" class="mb-2  edit_button update-button">Edit</button></a>
                 </div>
             </div>
@@ -155,15 +152,9 @@ Merchant Product
     //Get the id model    
     var modal1 = document.getElementById("myModal1");
 
-    // Get the image and insert it inside the modal - use its "alt" text as a caption
-    // var img = document.getElementById("myImg");  
+    // Get the image and insert it inside the modal - use its "alt" text as a caption  
     var modalImg1 = document.getElementById("modal1-img");
     var captionText1 = document.getElementById("caption1");
-    // img.onclick = function(){
-    //   modal.style.display = "block";
-    //   modalImg.src = this.src;
-    //   captionText.innerHTML = this.alt;
-    // }
 
 
     document.addEventListener("click", (e) => {

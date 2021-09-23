@@ -66,15 +66,15 @@
 
     {% comment %} local js {% endcomment %}
     <script src = "{% static 'js/dashboard_chart.js'%}" crossorigin="anonymous"> </script>
-    <script src = "{% static 'js/mProduct.js'%}" crossorigin="anonymous"> </script>
+    {% comment %} <script src = "{% static 'js/mProduct.js'%}" crossorigin="anonymous"> </script> {% endcomment %}
 
     <!--Chart.js JS CDN--> 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.0/dist/chart.min.js"></script> 
 
-    <script>
+    {% comment %} <script>
         var static_url = "{% get_static_prefix %}";
         var media_url = "{% get_media_prefix %}";
-    </script>   
+    </script>    {% endcomment %}
 
 
 </body>

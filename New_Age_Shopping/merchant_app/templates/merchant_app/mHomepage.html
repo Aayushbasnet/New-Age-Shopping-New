@@ -10,19 +10,21 @@ Merchant Dashboard
 <h2>Vendor dashboard</h2>
 <div class="container-fluid p-4">
     <div class="row">
-    <!--Left side nav tab-->
+        <!--Left side nav tab-->
         <div class="col- col-sm-2 col-md-2 col-lg-2 col-xl-2 p-2">
-            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <p style="font-size: 22px; font-weight: 450;"> Welcome,  <span class="text-muted" style="font-size: 16px;"> {{request.user.first_name|title}} {{request.user.last_name|title}}</span> </p>
-                <a class="nav-link " id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
-                    aria-controls="v-pills-home" aria-selected="true">Dashboard</a>
+            <div class="nav flex-column nav-pills" id="pills-tab" role="tablist" aria-orientation="vertical">
+                <p style="font-size: 22px; font-weight: 450;"> Welcome, <span class="text-muted"
+                        style="font-size: 16px;"> {{request.user.first_name|title}}
+                        {{request.user.last_name|title}}</span> </p>
+                <a class="nav-link active" id="pills-dashboard-tab" data-toggle="pill" href="#v-pills-dashboard"
+                    role="tab" aria-controls="v-pills-dashboard" aria-selected="true">Dashboard</a>
+                <a class="nav-link" id="v-pills-product-tab" data-toggle="pill" href="#v-pills-product" role="tab"
+                    aria-controls="v-pills-product" aria-selected="false">Products</a>
+                <a class="nav-link" id="v-pills-add-product-tab" data-toggle="pill" href="#v-pills-add-product"
+                    role="tab" aria-controls="v-pills-add-product" aria-selected="false">Add Products</a>
                 <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
-                    aria-controls="v-pills-profile" aria-selected="false">Products</a>
-                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
-                    aria-controls="v-pills-messages" aria-selected="false">Add Products</a>
-                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
-                    aria-controls="v-pills-settings" aria-selected="false">Profile</a>
-            
+                    aria-controls="v-pills-profile" aria-selected="false">Profile</a>
+
                 <a class="nav-link" href="{% url 'merchant_app:mlogout' %}">Logout</a>
             </div>
         </div>
@@ -33,16 +35,31 @@ Merchant Dashboard
                 <!--Merchant Dashboard-->
                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                     aria-labelledby="v-pills-home-tab">{% include './Dashboard.html' %}</div>
-                <!--Add Product-->    
-                <div class="tab-pane fade show" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                <!--Add Product-->
+                <div class="tab-pane fade" id="v-pills-product" role="tabpanel" aria-labelledby="v-pills-product-tab">
                     {% include './mProduct.html' %}</div>
-                <div class="tab-pane fade show" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                <div class="tab-pane fade" id="v-pills-add-product" role="tabpanel"
+                    aria-labelledby="v-pills-add-product-tab">
                     {% include './mAddProducts.html' %}</div>
-                <div class="tab-pane fade show" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                     {% include './merchant_profile.html' %}</div>
             </div>
         </div>
     </div>
-
 </div>
+
+<script>
+    $(function () {
+        var hash = window.location.hash;
+        hash && $('div.nav a[href="' + hash + '"]').tab('show');
+        console.log(hash)
+
+        $('.nav-pills a').click(function (e) {
+            $(this).tab('show');
+            //   var scrollmem = $('body').scrollTop();
+            window.location.hash = this.hash;
+            //   $('html,body').scrollTop(scrollmem);
+        });
+    });
+</script>
 {% endblock content %}

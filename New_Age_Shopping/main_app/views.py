@@ -232,7 +232,8 @@ def payment_view(request):
 
 
 def addComment(request, pk):
-    url = request.META.get('HTTP_REFERER') # get last url
+    url = request.META.get('HTTP_REFERER')+"#pills-review" # get last url
+    print(url)
     print("I am inside")
     # return HttpResponse(url)
     if request.method == "POST":

@@ -1,6 +1,8 @@
 {% extends 'main_app/base.html' %}
 {% load static %}
 
+
+
 {% block content %}
 <!--details section-->
 <div class="container-fluid mt-5 bg-white" id="detail_container">
@@ -136,22 +138,23 @@
             <div class="product-tab mb-5 border-bottom border-primary">
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#details" role="tab"
-                            aria-controls="home" aria-selected="true">Details</a>
+                        <a class="nav-link active" id="pills-detail-tab" data-toggle="tab" href="#pills-details" role="tab"
+                            aria-controls="pills-details" aria-selected="true">Details</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#review" role="tab"
-                            aria-controls="profile" aria-selected="false">Review ({{comments.count}})</a>
+                        <a class="nav-link" id="pills-review-tab" data-toggle="tab" href="#pills-review" role="tab"
+                            aria-controls="pills-review" aria-selected="false">Review ({{comments.count}})</a>
                     </li>
                 </ul>
             </div>
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="home-tab">
+                <div class="tab-pane fade show active" id="pills-details" role="tabpanel" aria-labelledby="pills-detail-tab">
                     <p>
                         something here
                     </p>
                 </div>
-                <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="profile-tab">
+                <!--Review tab-->
+                <div class="tab-pane fade" id="pills-review" role="tabpanel" aria-labelledby="pills-review-tab">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="product-reviews">
@@ -178,9 +181,6 @@
                                     </div>
                                 </div>
                                 {% endfor %}
-
-
-
                                 <ul class="reviews-pages">
                                     <li class="active">1</li>
                                     <li><a href="#">2</a></li>
@@ -250,29 +250,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!--recommendation section-->
 <div id="you_may_like" class="d-block mt-5">
     <h3 class="text-center"> People who viewed this item also viewed </h3>
@@ -280,6 +257,18 @@
     {% include 'main_app/product_card.html' %}
 </div>
 
+
+<!-- <script>
+$(document).ready(function(){
+	$('a[data-toggle="pill"]').on('show.bs.tab', function(e) {
+		localStorage.setItem('activeTab', $(e.target).attr('href'));
+	});
+	var activeTab = localStorage.getItem('activeTab');
+	if(activeTab){
+		$('#pills-tab a[href="' + activeTab + '"]').tab('show');
+	}
+});
+</script> -->
 
 
 <!-- <script>

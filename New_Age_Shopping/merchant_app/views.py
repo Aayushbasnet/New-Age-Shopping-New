@@ -121,14 +121,14 @@ def update_product(request, id):
     print(update_mechant_product_inventory)
 
     product_discount_getter = ProductDiscount.objects.all()
-    # if update_merchant_product.product_discount and update_merchant_product.product_discount.product_discount_active:
-    #     update_merchant_product_discount = product_discount_getter.get(discount__id = id)
-    #     product_discount = ProductDiscountForm(instance=update_merchant_product_discount)
-    #     print(update_mechant_product_inventory)
-    # else:
-    update_merchant_product_discount = product_discount_getter.get(discount__id = id)
-    product_discount = ProductDiscountForm()
-    print(update_mechant_product_inventory)
+    if update_merchant_product.product_discount and update_merchant_product.product_discount.product_discount_active:
+        update_merchant_product_discount = product_discount_getter.get(discount__id = id)
+        product_discount = ProductDiscountForm(instance=update_merchant_product_discount)
+        print(update_mechant_product_inventory)
+    else:
+        update_merchant_product_discount = product_discount_getter.get(discount__id = id)
+        product_discount = ProductDiscountForm()
+        print(update_mechant_product_inventory)
     
 
     add_product = AddProduct(instance= update_merchant_product)
@@ -137,20 +137,20 @@ def update_product(request, id):
     if request.method == "POST":
         add_product = AddProduct(request.POST, request.FILES, instance= update_merchant_product)
         product_inventory = ProductInventoryForm(request.POST, instance= update_mechant_product_inventory)
-        # if update_merchant_product.product_discount and update_merchant_product.product_discount.product_discount_active:
-        #     update_merchant_product_discount = product_discount_getter.get(discount__id = id)
-        #     product_discount = ProductDiscountForm(request.POST, instance=update_merchant_product_discount)
-        #     print(update_mechant_product_inventory)
-        # else:
-        update_merchant_product_discount = product_discount_getter.get(discount__id = id)
-        product_discount = ProductDiscountForm(request.POST, instance=update_merchant_product_discount)
-        print(update_mechant_product_inventory)
+        if update_merchant_product.product_discount and update_merchant_product.product_discount.product_discount_active:
+            update_merchant_product_discount = product_discount_getter.get(discount__id = id)
+            product_discount = ProductDiscountForm(request.POST, instance=update_merchant_product_discount)
+            print(update_mechant_product_inventory)
+        else:
+            update_merchant_product_discount = product_discount_getter.get(discount__id = id)
+            product_discount = ProductDiscountForm(request.POST, instance=update_merchant_product_discount)
+            print(update_mechant_product_inventory)
 
         if add_product.is_valid() and product_inventory.is_valid() and product_discount.is_valid():
             add_product.save()
             product_inventory.save()
             product_discount.save() 
-            return redirect('/merchant/')
+            return redirect('/merchant/#v-pills-product')
         else:
             print("Not valid")           
 
