@@ -31,7 +31,7 @@ def shop_now(request):
     }
     return render(request, 'main_app/shop_now.html', context)
 
-def category_shopping(request, slug):
+def category_shopping(request, slug, pk=1):
     print("inside category shopping")
     query_exists = True if len(request.GET) > 0 else False
     print(request.get_full_path())
@@ -50,6 +50,12 @@ def category_shopping(request, slug):
                                           Q(product_category__brand_name__icontains = search_key) |
                                           Q(product_category__category_name_level2__category_level2__icontains = search_key) |
                                           Q(product_category__category_name_level2__category_name_level1__category_level1__icontains = search_key))
+    
+    if slug == "merchant":
+        print("I am here")
+        products = Product.objects.filter(user_id = pk)
+       
+    
     if sort_key is not None:
         if sort_key=='price_asc':
             products = products.order_by('product_price')
@@ -73,9 +79,11 @@ def category_shopping(request, slug):
 
 def detail(request, pk):
     singleProduct   =   Product.objects.get(id = pk)
+    comments        =   Comment.objects.filter(product__id = pk, status=True)
     # print(id)
     context =   {
         "singleProduct"   :   singleProduct,
+        "comments"        :   comments,
     }
     return render(request, 'main_app/detail.html', context)
 
@@ -248,3 +256,17 @@ def addComment(request, pk):
         print("POST not valid")
 
     return HttpResponseRedirect(url)
+
+def totalMerchant(request):
+    merchant = User.objects.filter(is_merchant = True)
+    product_list = []
+    for mer in merchant:
+        merchant_total_product = Product.objects.filter(user = mer, user__is_merchant = True).count()
+        product_list.append(merchant_total_product)
+    print(product_list)
+    
+    context={
+        'merchant_list' : merchant,
+        'product_list' : product_list,
+    }
+    return render(request, 'main_app/merchant_list.html', context)

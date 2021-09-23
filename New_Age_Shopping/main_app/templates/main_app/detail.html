@@ -130,110 +130,121 @@
 
 
 <!--More details and rating/comment sections-->
-<div class="container mt-sm-5 mb-sm-5 border p-4" style="height: 500px;">
+<div class="container mt-sm-5 mb-sm-5 border p-4" style="overflow:hidden;">
     <div class="row">
         <div class="col-md-12">
-            <div class="product-tab">
+            <div class="product-tab mb-5 border-bottom border-primary">
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#details" role="tab" aria-controls="home" aria-selected="true">Home</a>
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#details" role="tab"
+                            aria-controls="home" aria-selected="true">Details</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#review" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#review" role="tab"
+                            aria-controls="profile" aria-selected="false">Review ({{comments.count}})</a>
                     </li>
                 </ul>
             </div>
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="home-tab">
-                        <p>
-                            something here
-                        </p>
-                    </div>
-                    <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="product-reviews">
-                                    {% comment %} {% for rs in comments %} {% endcomment %}
-                                        <div class="single-review">
-                                            <div class="review-heading">
-                                                <div><a href="#"><i class="fa fa-user-o"></i> jiwan</a> </div>
-                                                <div><b>Subject</b> </div>
-                                                <div><a href="#"><i class="fa fa-clock-o"></i> 2021/02/1</a></div>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="home-tab">
+                    <p>
+                        something here
+                    </p>
+                </div>
+                <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="product-reviews">
+                                {% for rs in comments %}
+                                <div class="single-review border-bottom">
+                                    <div class="review-heading  d-flex justify-content-between">
+                                        <div class="profile_name"><a href="#"><i class="fa fa-user-o"></i>
+                                                {{rs.user.first_name}}</a> </div>
+                                        <div class="text-muted" style="font-size:14px; color: #aaa">
+                                            <b>{{rs.subject}}</b> </div>
+                                        <div class="text-muted" style="font-size:14px;"><i class="fa fa-clock-o"></i>
+                                            {{rs.create_at}}</div>
 
-                                                <div class="review-rating pull-right">
-                                                    <i class="fa fa-star{% if rs.rate < 1 %}-o empty{% endif %}"></i>
-                                                    <i class="fa fa-star{% if rs.rate < 2 %}-o empty{% endif %}"></i>
-                                                    <i class="fa fa-star{% if rs.rate < 3 %}-o empty{% endif %}"></i>
-                                                    <i class="fa fa-star{% if rs.rate < 4 %}-o empty{% endif %}"></i>
-                                                    <i class="fa fa-star{% if rs.rate < 5 %}-o empty{% endif %}"></i>
-
-                                                </div>
-
-                                            </div>
-                                            <div class="review-body">
-                                                <p>Ratingsd rateng</p>
-                                            </div>
+                                        <div class="review-rating pull-right" style="font-size: 12px;">
+                                            <i class="fa fa-star{% if rs.rate < 1 %}-o empty{% endif %}"></i>
+                                            <i class="fa fa-star{% if rs.rate < 2 %}-o empty{% endif %}"></i>
+                                            <i class="fa fa-star{% if rs.rate < 3 %}-o empty{% endif %}"></i>
+                                            <i class="fa fa-star{% if rs.rate < 4 %}-o empty{% endif %}"></i>
+                                            <i class="fa fa-star{% if rs.rate < 5 %}-o empty{% endif %}"></i>
                                         </div>
-                                    {% comment %} {% endfor %} {% endcomment %}
-
-
-
-                                    {% comment %} <ul class="reviews-pages">
-                                        <li class="active">1</li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-                                    </ul> {% endcomment %}
+                                    </div>
+                                    <div class="review-body pl-3">
+                                        <p>{{rs.comment}}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <!--Comment and review-->
-                            <div class="col-md-6">
-                                <h4 class="text-uppercase">Write Your Review</h4>
+                                {% endfor %}
 
-                                {% if messages %}
-                                    {% for message in messages %}
-                                        <div class="alert alert-{{message.tags}}" role="alert">
-                                            {{ message }}
+
+
+                                <ul class="reviews-pages">
+                                    <li class="active">1</li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--Comment and review-->
+                        <div class="col-md-6">
+                            <h4 class="text-uppercase">Write Your Review</h4>
+
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-{{message.tags}}" role="alert">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+
+                            <form class="review-form" action=" {% url 'add_comment' singleProduct.pk %} " method="POST">
+                                {% csrf_token %}
+                                <div class="form_group_section">
+                                    <input type="text" class="form_control_section" id="input_subject"
+                                        placeholder="subject" name="subject">
+                                    <!-- {{forms.email}} -->
+                                    <label for="input_subject" class="form_label_section">Subject</label>
+                                </div>
+
+                                <div class="form-group mt-2 ">
+                                    <textarea name="comment" class="input form-control"
+                                        placeholder="Your review"></textarea>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <div class="input-rating">
+                                        <strong class="text-uppercase">Your Rating: </strong>
+                                        <div class="stars">
+                                            <input type="radio" id="star5" name="rate" value="5" /><label
+                                                for="star5"></label>
+                                            <input type="radio" id="star4" name="rate" value="4" /><label
+                                                for="star4"></label>
+                                            <input type="radio" id="star3" name="rate" value="3" /><label
+                                                for="star3"></label>
+                                            <input type="radio" id="star2" name="rate" value="2" /><label
+                                                for="star2"></label>
+                                            <input type="radio" id="star1" name="rate" value="1" /><label
+                                                for="star1"></label>
                                         </div>
-                                    {% endfor %}
+                                    </div>
+                                </div>
+                                {% if user.id is not None %}
+                                <button class="btn mt-1" type="submit"
+                                    style=" border-radius: 0; background-color: #f57224; color:white;">Submit</button>
+                                {% else %}
+                                You must be logged in to post a review
                                 {% endif %}
+                            </form>
 
-                                <form class="review-form" action=" {% url 'add_comment' singleProduct.pk %} " method="POST">
-                                    {% csrf_token %}
-                                    <div class="form_group_section">
-                                        <input type="text" class="form_control_section" id="input_subject" placeholder="subject" name="subject">
-                                        <!-- {{forms.email}} -->
-                                        <label for="input_subject" class="form_label_section">Subject</label>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <textarea name="comment" class="input form-control" placeholder="Your review"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="input-rating">
-                                            <strong class="text-uppercase">Your Rating: </strong>
-                                            <div class="stars">
-                                                <input type="radio" id="star5" name="rate" value="5" /><label for="star5"></label>
-                                                <input type="radio" id="star4" name="rate" value="4" /><label for="star4"></label>
-                                                <input type="radio" id="star3" name="rate" value="3" /><label for="star3"></label>
-                                                <input type="radio" id="star2" name="rate" value="2" /><label for="star2"></label>
-                                                <input type="radio" id="star1" name="rate" value="1" /><label for="star1"></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% if user.id is not None %}
-                                        <button class="btn" type= "submit" style=" border-radius: 0; background-color: #f57224; color:white;">Submit</button>
-                                    {% else %}
-                                        You must be logged in to post a review
-                                    {% endif %}
-                                </form>
-
-                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
             <!-- </div> -->
-        </div>        
+        </div>
     </div>
 </div>
 
@@ -268,4 +279,26 @@
     <hr style="heigth: 5px">
     {% include 'main_app/product_card.html' %}
 </div>
+
+
+
+<!-- <script>
+    //When the page loads, get the current # value and mark the li as "active" if the href attribute matches.
+    $(document).ready(function () {
+        var v = "#" + window.location.hash.substr(1);
+        $("#pills-tab li").each(function () {
+            var href = $(this).children().first().attr("href");
+            if (href == v) $(this).addClass("active");
+            else $(this).removeClass("active");
+        });
+    });
+
+    //Whenever we click on a li, remove all "active" classes and finally add "active" to the one we clicked.
+    $("#oills-tab li").on("click", function () {
+        $("#pills-tab li").each(function () {
+            $(this).removeClass("active");
+        });
+        $(this).addClass("active");
+    });
+</script> -->
 {% endblock content %}

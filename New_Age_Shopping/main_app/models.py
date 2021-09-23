@@ -155,7 +155,7 @@ class Product(ProductBaseClass):
 
         #return the whole path and file
         return os.path.join(upload_to, filename)
-    user                    =   models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    user                        =   models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     product_name                =   models.CharField(max_length=500)
     product_description         =   models.CharField(max_length=1000)
     product_price               =   models.DecimalField(max_digits=20, decimal_places=2)
@@ -184,6 +184,7 @@ class Product(ProductBaseClass):
 
     # class Meta:
     #     constraints = [models.CheckConstraint(check=models.Q(product_price__gte=18), name="price_constraints")] 
+
 
 
 class Order(models.Model):
@@ -249,7 +250,7 @@ class Comment(models.Model):
     )
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    subject = models.CharField(max_length=250, blank=True)
+    subject = models.CharField(max_length=25, blank=True)
     comment = models.CharField(max_length=250, blank=True)
     rate = models.IntegerField(default=1)
     ip = models.CharField(max_length=20, blank=True)
