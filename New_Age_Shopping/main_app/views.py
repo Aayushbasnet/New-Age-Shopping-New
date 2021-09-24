@@ -51,6 +51,9 @@ def category_shopping(request, slug, pk=1):
                                           Q(product_category__category_name_level2__category_level2__icontains = search_key) |
                                           Q(product_category__category_name_level2__category_name_level1__category_level1__icontains = search_key))
     
+    if slug == "all":
+        products = Product.objects.all()
+
     if slug == "merchant":
         print("I am here")
         products = Product.objects.filter(user_id = pk)
@@ -262,10 +265,11 @@ def totalMerchant(request):
     merchant = User.objects.filter(is_merchant = True)
     product_list = []
     for mer in merchant:
-        merchant_total_product = Product.objects.filter(user = mer, user__is_merchant = True).count()
-        product_list.append(merchant_total_product)
+        merchant_product = Product.objects.filter(user = mer, user__is_merchant = True)
+        merchant_product_category = merchant_product.values_list('product_category__brand_name')
+        product_list.append(merchant_product_category[0][0])
     print(product_list)
-    
+
     context={
         'merchant_list' : merchant,
         'product_list' : product_list,

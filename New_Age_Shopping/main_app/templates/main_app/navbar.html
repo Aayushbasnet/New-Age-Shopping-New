@@ -11,7 +11,7 @@
     </div>
     <div class="first_navbar_right_contents">
         <a href="/account/merchant_signup/"> Sell on New Age Shopping</a>
-        <a href="#"> Help Center</a>
+        <a href="{% url 'merchant_list' %}"> Our Sellers</a>
         <a href="#"> Track my order</a>
     </div>
 </nav>
@@ -75,9 +75,9 @@
     <div class="my_cart">
         <div class="dropdown">
             <a href="{% url 'cart_page' %}" class="add_to_cart" type="button" id="user_mycart">
-                <i class="fas fa-shopping-cart"></i> <span> My cart </span>
+                <i class="fas fa-shopping-cart"  count={{add_to_cart_bubbles}}></i> <span> My cart </span>
+            </a>
         </div>
-        </a>
     </div>
 
 </nav>

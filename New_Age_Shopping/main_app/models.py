@@ -6,6 +6,7 @@ from django.db.models.aggregates import Count
 # from django.contrib.auth.models import User
 from account.models import User
 from django.template.defaultfilters import slugify
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class ProductBaseClass(models.Model):
@@ -229,7 +230,7 @@ class ShippingAddress(models.Model):
     first_name = models.CharField(max_length= 20, blank=True, null=True)
     last_name = models.CharField(max_length= 20, blank=True, null=True)
     email = models.EmailField()
-    phone_number = models.BigIntegerField( blank=True, null=True)
+    phone_number = PhoneNumberField(blank=True, null=True, region='NP')
     shipping_district = models.CharField(max_length=200, blank=True, null=True)
     shipping_address = models.CharField(max_length=200, blank=True, null=True)
     shipping_zip = models.CharField(max_length=200, blank=True, null=True)
@@ -260,3 +261,27 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.subject
+
+class ProductAlternativeImages(models.Model):
+    # to change name of product image
+    def image_rename(self, filename):
+        upload_to              =   "Alternative_images/" +self.product.product_name
+        # file_extension       =   filename.split(".")[-1]
+        product_name           =   self.product.product_name
+        png_file_extension     =   "png"
+
+        #get filename
+        if product_name:
+            print(self.id)
+            filename    =   '{}{}.{}'.format(product_name, str(uuid4().hex), png_file_extension)
+        else:
+            filename    =   '{}.{}'.format(uuid4().hex, png_file_extension)
+
+        #return the whole path and file
+        return os.path.join(upload_to, filename)
+
+    alternative_images = models.ImageField("Product Image", upload_to= image_rename)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.product.product_name)+ " alternative-images"

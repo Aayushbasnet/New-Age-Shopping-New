@@ -240,7 +240,7 @@
 }
 
 .middle_navbar .my_cart .dropdown > a > i::after{
-    content: '1';
+    content: attr(count);
     overflow: visible;
     font-size: 0.8rem;
     font-weight: ;

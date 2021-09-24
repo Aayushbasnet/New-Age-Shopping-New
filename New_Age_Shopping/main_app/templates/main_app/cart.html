@@ -5,15 +5,15 @@
 <div class="container mt-5 bg-white">
 
 	{% if messages %}
-		<div class="messages mt-3 col-12 text-center">
-			<ul>
-				{% for message in messages %}
-					<li {% if message.tags %} class=" alert-{{ message.tags }}"{% endif %}>
-						{{ message }}
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
+	<div class="messages mt-3 col-12 text-center">
+		<ul>
+			{% for message in messages %}
+			<li {% if message.tags %} class=" alert-{{ message.tags }}" {% endif %}>
+				{{ message }}
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
 	{% endif %}
 
 	<div class="row mt-0  mt-1" id="cart_row">
@@ -23,79 +23,86 @@
 
 				<!--first product-->
 				{% for cart_item in cart_items %}
-					<div class="row mb-4 mt-4 ">
-						<div class="col-md-6 col-lg-3 col-xl-4 ">
-							<div class="item_image_in_cart text-center shadow m-2 mb-3 mt-0">
-								<img src= "{{cart_item.product.product_image_src.url}}">
-							</div>
+				<div class="row mb-4 mt-4 ">
+					<div class="col-md-6 col-lg-3 col-xl-4 ">
+						<div class="item_image_in_cart text-center shadow m-2 mb-3 mt-0">
+							<img src="{{cart_item.product.product_image_src.url}}">
 						</div>
-						<div class="d-flex justify-content-between" style="width: auto;">
-							<div>
-								<h5>{{cart_item.product.product_name}}</h5>
-								<p class="mb-2 text-muted text-uppercase small">Color: blue</p>
-								<p class="mb-2 text-muted text-uppercase small">Size: M</p>
-								<p class="mb-4 text-muted small"> <span class=" text-uppercase text-muted small ">PRICE : </span> 
-									{% if cart_item.product.product_discount.product_discount_active%}
-										<del class="price_before_discount"> <span style="font-size: 12px;"> Rs.{{cart_item.product.product_price}}</span></del>
-										<span class="price_after_discount" style="font-size: 18px;">| <span style="font-size: 12px;">Rs.</span> {{cart_item.product.discount_calculator}}</span>
-												
-									{% else %}
-										<span class="price_after_discount ml-1 "><span style="font-size: 12px;">Rs.</span>{{cart_item.product.product_price}}
-										</span>
-									{% endif %}
-								</p>
-								<form action="/remove_cart/" class="d-inline" method="post">
+					</div>
+					<div class="d-flex justify-content-between" style="width: auto;">
+						<div>
+							<h5>{{cart_item.product.product_name}}</h5>
+							<p class="mb-2 text-muted text-uppercase small">Color: blue</p>
+							<p class="mb-2 text-muted text-uppercase small">Size: M</p>
+							<p class="mb-4 text-muted small"> <span class=" text-uppercase text-muted small ">PRICE :
+								</span>
+								{% if cart_item.product.product_discount.product_discount_active%}
+								<del class="price_before_discount"> <span style="font-size: 12px;">
+										Rs.{{cart_item.product.product_price}}</span></del>
+								<span class="price_after_discount" style="font-size: 18px;">| <span
+										style="font-size: 12px;">Rs.</span>
+									{{cart_item.product.discount_calculator}}</span>
+
+								{% else %}
+								<span class="price_after_discount ml-1 "><span
+										style="font-size: 12px;">Rs.</span>{{cart_item.product.product_price}}
+								</span>
+								{% endif %}
+							</p>
+							<form action="/remove_cart/" class="d-inline" method="post">
 								{% csrf_token %}
-									<input hidden type="number" name="remove_cart_id" value= "{{cart_item.id}}" id="remove_cart_id">
-										<button type="submit" class="card-links-secondary small text-uppercase mr-4 p-0 d-inline text-danger"
-											style="text-decoration: none; color: grey; background-color: white; outline:none;  border: none;"><i class="fas fa-trash-alt mr-2"></i> Remove
-											item </button>
-								</form>
-								<a href="{% url 'whishlist' %}" type="button" class="card-link-secondary small text-uppercase d-inline text-dark"
-									style="text-decoration: none; color: grey;"><i class="fas fa-heart mr-2"></i> Move to
-									wish list </a>
-
-							</div>
-							<!--Product increase and decrease, product update-->
-							<div class="" style="width: 240px; position: absolute; right: 20px; height: 150px;">
-								<div class="def-number-input number-input mt-4">
-									<button data-product="{{cart_item.product.id}}"
-										
-										class="minus update-cart bg-white"
-										data-action="remove"
-										style="border:none; outline:none; width:2rem; text-align: center;"> <i
-											class="fas fa-minus fa-xs"></i></button>
-									<input class="quantity fw-normal" min="0" name="quantity" value="{{cart_item.quantity}}" type="number"
-										style="width: 60px;">
-									<button data-product="{{cart_item.product.id}}" 
-										
-										class="plus update-cart bg-white"
-										data-action="add"
-										style="border:none; outline:none; width:2rem; text-align: center;"><i
-											class="fas fa-plus fa-xs"></i>
-									</button>
-								</div>
-
-								<small id="itemNoHelpBlock" class="form-text text-muted ml-4"> (Note, 1
-									piece)</small>
-								<div class="mt-2 ml-2">
-									<span style="font-size:12px; margin-left: 4px;">TOTAL : Rs.</span><span style="text-decoration-style: solid; font-size: 14px">
-										{{cart_item.get_total}}
-									</span>
-
-								</div>
-							</div>
+								<input hidden type="number" name="remove_cart_id" value="{{cart_item.id}}"
+									id="remove_cart_id">
+								<button type="submit"
+									class="card-links-secondary small text-uppercase mr-4 p-0 d-inline text-danger"
+									style="text-decoration: none; color: grey; background-color: white; outline:none;  border: none;"><i
+										class="fas fa-trash-alt mr-2"></i> Remove
+									item </button>
+							</form>
+							<a href="{% url 'whishlist' %}" type="button"
+								class="card-link-secondary small text-uppercase d-inline text-dark"
+								style="text-decoration: none; color: grey;"><i class="fas fa-heart mr-2"></i> Move to
+								wish list </a>
 
 						</div>
-						<p class="text-primary mb-0"><i class="fas fa-info-circle mr-1"></i> Do not delay the purchase,
-							adding items to your cart does not mean booking them.</p>
+						<!--Product increase and decrease, product update-->
+						<div class="" style="width: 240px; position: absolute; right: 20px; height: 150px;">
+							<div class="def-number-input number-input mt-4">
+								<button data-product="{{cart_item.product.id}}" class="minus update-cart bg-white"
+									data-action="remove"
+									style="border:none; outline:none; width:2rem; text-align: center;"> <i
+										class="fas fa-minus fa-xs"></i></button>
+								<input class="quantity fw-normal" min="0" name="quantity" value="{{cart_item.quantity}}"
+									type="number" style="width: 60px;">
+								<button data-product="{{cart_item.product.id}}" class="plus update-cart bg-white"
+									data-action="add"
+									style="border:none; outline:none; width:2rem; text-align: center;"><i
+										class="fas fa-plus fa-xs"></i>
+								</button>
+							</div>
+
+							<small id="itemNoHelpBlock" class="form-text text-muted ml-4"> (Note, 1
+								piece)</small>
+							<div class="mt-2 ml-2">
+								<span style="font-size:12px; margin-left: 4px;">TOTAL : Rs.</span><span
+									style="text-decoration-style: solid; font-size: 14px">
+									{{cart_item.get_total}}
+								</span>
+
+							</div>
+						</div>
 
 					</div>
-					<hr style="width: 80%; margin: auto;">
+					<p class="text-primary mb-0"><i class="fas fa-info-circle mr-1"></i> Do not delay the purchase,
+						adding items to your cart does not mean booking them.</p>
+
+				</div>
+				<hr style="width: 80%; margin: auto;">
 				{% endfor %}
 				<!--End of first product-->
 			</div>
 		</div>
+
 		<!--Checkout-->
 		<div class="col-sm-3 mt-2 " id="item_in_cart_section" style="">
 			<h2 class="text-center">Your Total</h2>
@@ -126,7 +133,7 @@
 						<button type="button" class="btn btn-primary btn-block">Goto Checkout</button>
 					</a>
 					<div class="mt-3">
-						<a href="{% url 'checkout' %}">
+						<a href="{% url 'shop_now' 'all' %}">
 							<button type="button" class="btn btn-primary btn-block">Continue shopping</button>
 						</a>
 					</div>
@@ -134,6 +141,7 @@
 			</div>
 		</div>
 		<!--end of checkout-->
+
 	</div>
 </div>
 
@@ -143,7 +151,7 @@
 		<div class="mb-3 ml-3">
 			<div class="pt-4">
 				<h5 class="mb-4">Expected shipping delivery</h5>
-				<p class="mb-0"> Thu., 12.03. - Mon., 16.03.</p>
+				 <span class="text-muted" id="expected_date"></span>
 			</div>
 		</div>
 	</div>
@@ -174,5 +182,16 @@
 </div>
 <!-- end of payment method -->
 
+
+<script>
+	console.log("here")
+
+	window.addEventListener('load', (event) => {
+		var date = new Date();
+		date.setDate(date.getDate() + 7);
+		expected_date.textContent = date
+		console.log(date);
+	});
+</script>
 
 {% endblock content %}

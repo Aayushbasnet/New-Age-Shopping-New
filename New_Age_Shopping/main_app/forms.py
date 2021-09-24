@@ -1,5 +1,6 @@
 from django import forms
 from .models import Comment
+from phonenumber_field.formfields import PhoneNumberField
 
 PAYMENT_CHOICES = (
     ('S', 'Stripe'),
@@ -17,7 +18,7 @@ class CheckoutForm(forms.Form):
         {'class':'form_control_section',  'id':'input_firstname', 'placeholder':'First Name'}))
     last_name = forms.CharField(max_length= 20, required= False,widget=forms.TextInput(attrs=
         {'class':'form_control_section',  'id':'input_lastname', 'placeholder':'Last Name'}))
-    phone_number = forms.CharField(required=False, widget=forms.TextInput(attrs=
+    phone_number = PhoneNumberField(help_text = "Required: +977-",required=False, widget=forms.TextInput(attrs=
         { 'type': 'number', 'class':'form_control_section',  'id':'input_phonename', 'placeholder':'Phone Number'}))
     email = forms.EmailField(required=False, widget=forms.TextInput(attrs=
         {'class':'form_control_section',  'id':'input_email', 'placeholder':'someone@email.com'}))
