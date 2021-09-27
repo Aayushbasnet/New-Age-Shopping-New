@@ -19,7 +19,7 @@ for (var i =0; i<updateBtns.length; i++)
         {
             updateUserOrder(productId, action)
         }
-    })
+    }) 
 
 }
 
@@ -53,3 +53,4 @@ function updateUserOrder(productId, action)
         console.log('Data:',data)
     })
 }
+

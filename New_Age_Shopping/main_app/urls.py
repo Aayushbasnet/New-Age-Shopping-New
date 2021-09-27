@@ -11,11 +11,16 @@ urlpatterns = [
     path('shop_now/<str:slug>/', views.category_shopping, name="shop_now"),
     path('merchant_shop_now/<str:slug>/<int:pk>/', views.category_shopping, name="merchant_shop_now"),
     path('checkout/', views.checkout, name="checkout"),
-    path('whishlist/', views.whishlist, name="whishlist"),
+    path('wishlist/<int:pk>/', views.wishlist, name="wishlist"),
+    path('wishlist/', views.nav_wishlist, name="nav_wishlist"),
     path('remove_cart/', views.remove_cart, name="remove_cart"),
     path('update_item/', views.update_item, name="update_item"),
     path('payment_view/', views.payment_view, name="payment_view"),
     path('add_comment/<int:pk>/', views.addComment, name="add_comment"),
     path('merchant_list/', views.totalMerchant, name="merchant_list"),
+    path("post_payment/", views.postPayment, name="post_payment"),
+    path("remove_wishlist/<int:pk>/", views.remove_wishlist, name="remove_wishlist"),
+    # path("wishlist_to_cart")
     # path('merchant_shopping_page/<int:pk>', views.merchantShopPage, name="merchant_shopping_page")
 ]
+

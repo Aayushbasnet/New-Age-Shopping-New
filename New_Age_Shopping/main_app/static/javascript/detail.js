@@ -37,3 +37,20 @@ subImage.forEach((item, index) => {
   //   mainImage.src = biggerImage
   // }
 });
+
+//comment display
+
+const seeMoreBtn = document.querySelector('.see_more_btn');
+const hide_comment = document.querySelector('.hide_comment');
+
+seeMoreBtn.addEventListener('click', (e)=>{
+    if(seeMoreBtn.innerText ==="See more >>"){
+      seeMoreBtn.innerText ='See less <<';
+      hide_comment.style.height = 'fit-content';
+    }
+    else{
+      hide_comment.style.height = '350px';
+      seeMoreBtn.innerText ='See more >>';
+    }
+    console.log("clicked")
+})

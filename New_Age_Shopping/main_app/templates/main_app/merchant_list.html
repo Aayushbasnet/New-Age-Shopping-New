@@ -24,7 +24,7 @@
       <div class="row  m-2">
           <div class="col-md-12">
           
-          {% for merchant_list in merchant_list %}
+          
               <table class="table table-hover">
                 <thead>
                   <tr>
@@ -36,6 +36,7 @@
                   </tr>
                 </thead>
                 <tbody>
+                {% for merchant_list in merchant_list %}
                   <tr>
                     <th scope="row">{{forloop.counter}}</th>
                     <td>Mark</td>
@@ -43,9 +44,10 @@
                     <td>{{product_list}}</td>
                     <td><a href="/merchant_shop_now/merchant/{{merchant_list.pk}}/">Shop here</a></td>
                   </tr>
+                  {% endfor %}
                 </tbody>
               </table>
-            {% endfor %}
+            
           </div>
       </div>
     </div>

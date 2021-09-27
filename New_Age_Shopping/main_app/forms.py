@@ -19,7 +19,7 @@ class CheckoutForm(forms.Form):
     last_name = forms.CharField(max_length= 20, required= False,widget=forms.TextInput(attrs=
         {'class':'form_control_section',  'id':'input_lastname', 'placeholder':'Last Name'}))
     phone_number = PhoneNumberField(help_text = "Required: +977-",required=False, widget=forms.TextInput(attrs=
-        { 'type': 'number', 'class':'form_control_section',  'id':'input_phonename', 'placeholder':'Phone Number'}))
+        { 'type': 'number', 'class':'form_control_section','value': '+977-',  'id':'input_phonename', 'placeholder':'Phone Number'}))
     email = forms.EmailField(required=False, widget=forms.TextInput(attrs=
         {'class':'form_control_section',  'id':'input_email', 'placeholder':'someone@email.com'}))
     # shipping_country = CountryField(blank_label='(select country)').formfield(

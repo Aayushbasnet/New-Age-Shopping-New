@@ -18,11 +18,26 @@
               </a>
               {% comment %} <p></p> {% endcomment %}
               <div class="product_bottom_star">
-                <i class="fas fa-star fa-xs"></i>
-                <i class="fas fa-star fa-xs"></i>
-                <i class="fas fa-star fa-xs"></i>
-                <i class="fas fa-star-half-alt fa-xs" style="color: #faca51" ;></i>
-                <i class="far fa-star fa-empty-star fa-xs" style="color: #faca51" ;></i>
+              
+                {% if data.average_product_rating.rating_avg %}
+                  <div class="review-rating pull-right" style="font-size: 12px;">
+                      <i style=" color:#FFB656;" class="fa fa-star{% if data.average_product_rating.rating_avg < 1 %}-o empty{% endif %}"></i>
+                      <i style=" color:#FFB656;" class="fa fa-star{% if data.average_product_rating.rating_avg < 2 %}-o empty{% endif %}"></i>
+                      <i style=" color:#FFB656;" class="fa fa-star{% if data.average_product_rating.rating_avg < 3 %}-o empty{% endif %}"></i>
+                      <i style=" color:#FFB656;" class="fa fa-star{% if data.average_product_rating.rating_avg < 4 %}-o empty{% endif %}"></i>
+                      <i style=" color:#FFB656;" class="fa fa-star{% if data.average_product_rating.rating_avg < 5 %}-o empty{% endif %}"></i>
+                      ({{data.average_product_rating.rating_avg|floatformat:1}})
+                  </div>
+                
+                {% else %}
+                  
+                  <i class="far fa-star fa-empty-star fa-xs" style="color: #faca51"></i>
+                  <i class="far fa-star fa-empty-star fa-xs" style="color: #faca51"></i>
+                  <i class="far fa-star fa-empty-star fa-xs" style="color: #faca51"></i>
+                  <i class="far fa-star fa-empty-star fa-xs" style="color: #faca51" ></i>
+                  <i class="far fa-star fa-empty-star fa-xs" style="color: #faca51" ></i>
+
+                {% endif %}
               </div>
               <div class="product_bottom_buttons">
                 {% if data.product_discount.product_discount_active%}
@@ -33,11 +48,22 @@
                 <p><span class="price_after_discount ml-1"><span style="font-size: 9px;">Rs.</span> {{data.product_price}}
                   </span></p>
                 {% endif %}
-                <form action="/cart/" method="post" class="d-inline">
+                
+                {% if request.user.is_authenticated %}
+                  <form action="/cart/" method="post" class="d-inline">
                   {% csrf_token %}
-                  <input hidden type="number" name="detail_item_id" value="{{data.id}}" id="detail_item_id">
-                  <button name="add_to_cart"><i class="fas fa-cart-plus mr-2"></i>Add to cart</button>
-                </form>
+                    <input hidden type="number" name="detail_item_id" value="{{data.id}}" id="detail_item_id">
+                    <button name="add_to_cart"><i class="fas fa-cart-plus mr-2"></i>Add to cart</button>
+                  </form>
+                {% else %}
+                  <form action="/wishlist/{{data.pk}}/ " method="post" class="d-inline">
+                  {% csrf_token %}
+                    <input hidden type="number" name="detail_item_id" value="{{data.id}}" id="detail_item_id">
+                    <button name="add_to_cart"><i class="fas fa-cart-plus mr-2"></i>Add to wishlist</button>
+                  </form>
+                {% endif %}
+                  
+                
               </div>
             </div>
           </div>

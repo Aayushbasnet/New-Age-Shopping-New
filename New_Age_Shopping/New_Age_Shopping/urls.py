@@ -7,6 +7,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main_app.urls')),
     path('account/', include('account.urls'), name = 'account'),
+    path('account/', include('django.contrib.auth.urls')),
+    path('myprofile/', include('myprofile.urls', namespace="myprofile")),
     path('merchant/', include('merchant_app.urls', namespace = 'merchant_app')),
 
 

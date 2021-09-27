@@ -11,10 +11,10 @@
                 {% csrf_token %}
                 {{form | crispy}}
                 <button type="submit" class="btn btn-primary" style="width: 105px; border-radius: 2px;">Log in</button>
-                <a href="#" style="float: right; margin-top: 8px;">Forgot Your Password?</a>
+                <a href="{% url 'account:password_reset' %}" style="float: right; margin-top: 8px;">Forgot Your Password?</a>
                 <div class="mt-3">
                     <span>New Customer?</span>
-                    <a href="{% url 'account:signup_page' %}">Signup</a>
+                    <a href="{% url 'account:signup_page' %}">Signup</a>                
                 </div>
             </form>
         </div>

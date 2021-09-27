@@ -8,6 +8,8 @@ from django.contrib.auth import login, logout
 from .models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
+from django.urls.base import reverse_lazy
+from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetView, PasswordResetDoneView,PasswordResetCompleteView
 
 
 # from django.contrib.auth.views import LoginView,PasswordResetConfirmView, PasswordResetView, PasswordResetDoneView,PasswordResetCompleteView
@@ -155,3 +157,19 @@ def merchantSignupPage(request):
 def logoutpage(request):
     logout(request)
     return redirect('/account/login/')
+
+
+class PasswordResetView(PasswordResetView):
+    template_name = 'account/password_reset_form.html'
+    email_template_name = 'account/password_reset_email.html'
+    # success_url = reverse_lazy('password_reset_done')
+
+class PasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'account/password_reset_done.html'
+
+class PasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'account/password_reset_confirm.html'
+    success_url = reverse_lazy('password_reset_complete')
+
+class PasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'account/password_reset_complete.html'

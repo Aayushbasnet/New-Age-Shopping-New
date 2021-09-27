@@ -7,6 +7,8 @@ from django.db.models.aggregates import Count
 from account.models import User
 from django.template.defaultfilters import slugify
 from phonenumber_field.modelfields import PhoneNumberField
+from django.db.models import Avg
+
 
 
 class ProductBaseClass(models.Model):
@@ -183,6 +185,13 @@ class Product(ProductBaseClass):
         price_after_discount = float(self.product_price-(pk_object.product_discount.product_discount_percentage*1/100*self.product_price))
         return '%.2f'%price_after_discount
 
+    @property
+    def average_product_rating(self):
+        reviews = Comment.objects.filter(product = self).aggregate(rating_avg =Avg("rate"))
+        print(reviews)
+        return reviews
+        
+
     # class Meta:
     #     constraints = [models.CheckConstraint(check=models.Q(product_price__gte=18), name="price_constraints")] 
 
@@ -205,7 +214,11 @@ class OrderItem(models.Model):
     added_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     complete    =   models.BooleanField(default=False)
-
+    shipping_address = models.ForeignKey('ShippingAddress', on_delete=models.SET_NULL, blank=True, null=True)
+    payment = models.ForeignKey('Payment', on_delete=models.SET_NULL, blank=True, null=True)
+    being_delivered = models.BooleanField(default=False)
+    received = models.BooleanField(default=False)
+    
     class Meta:
         ordering = ["-added_date"]
     @property
@@ -237,11 +250,13 @@ class ShippingAddress(models.Model):
     payment_option = models.CharField(max_length=200, blank=True, null=True)
     checkout_date = models.DateTimeField(auto_now_add=True)
 
+
     def __str__(self):
         return str(self.shipping_address)
 
     class Meta:
         verbose_name_plural = 'Shipping Addresses'
+        ordering = ("-shipping_address",)
 
 class Comment(models.Model):
     STATUS = (
@@ -249,7 +264,7 @@ class Comment(models.Model):
         ('True', 'True'),
         ('False', 'False'),
     )
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_query_name='product_comment')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.CharField(max_length=25, blank=True)
     comment = models.CharField(max_length=250, blank=True)
@@ -261,6 +276,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.subject
+
+ 
 
 class ProductAlternativeImages(models.Model):
     # to change name of product image
@@ -285,3 +302,12 @@ class ProductAlternativeImages(models.Model):
 
     def __str__(self):
         return str(self.product.product_name)+ " alternative-images"
+
+class Payment(models.Model):
+    stripe_charge_id = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    amount = models.FloatField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username

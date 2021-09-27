@@ -1,0 +1,86 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 bg-white">
+
+	{% if messages %}
+		<div class="messages mt-3 col-12 text-center">
+			<ul>
+				{% for message in messages %}
+					<li {% if message.tags %} class=" alert-{{ message.tags }}"{% endif %}>
+						{{ message }}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+
+	<div class="row mt-0  mt-1" id="cart_row">
+		<div class="col-12 border mt-2" id="item_in_cart_section">
+			<div style="">
+				<h5 class="mt-2 mb-4">Cart (<span>{{products.count}}</span> items)</h5>
+
+				<!--first product-->
+				{% if products.count > 0 %}
+					{% for cart_item in products %}
+						<div class="row mb-4 mt-4 ">
+							<div class="col-md-6 col-lg-3 col-xl-4 ">
+								<div class="item_image_in_cart text-center shadow m-2 mb-3 mt-0">
+									<img src= "{{cart_item.product_image_src.url}}">
+								</div>
+							</div>
+							<div class="d-flex justify-content-between" style="width: auto;">
+								<div>
+									<h5>{{cart_item.product_name}}</h5>
+									<p class="mb-2 text-muted text-uppercase small"></p>
+									<p class="mb-2 text-muted text-uppercase small"></p>
+									<p class=" mt-4 mb-4 text-muted small"> <span class=" text-uppercase text-muted  ">PRICE : </span> 
+										{% if cart_item.product_discount.product_discount_active%}
+											<del class="price_before_discount"> <span style="font-size: 12px;"> Rs.{{cart_item.product_price}}</span></del>
+											<span class="price_after_discount" style="font-size: 18px;">| <span style="font-size: 12px;">Rs.</span> {{cart_item.discount_calculator}}</span>
+													
+										{% else %}
+											<span class="price_after_discount ml-1 " style="font-size: 16px;"><span style="font-size: 12px;">Rs. </span>{{cart_item.product_price}}
+											</span>
+										{% endif %}
+									</p>
+									<div class="mt-5"> 
+
+										<a href="{% url 'main_app:remove_wishlist' cart_item.pk %}"><button type="submit" class="card-links-secondary small text-uppercase mr-4 p-0 d-inline text-danger"
+											style="text-decoration: none; color: grey; background-color: white; outline:none;  border: none;"><i class="fas fa-trash-alt mr-2"></i> Remove
+											item </button></a>
+
+										<a href="{% url 'main_app:wishlist_to_cart' %}" type="button" class="card-link-secondary small text-uppercase d-inline text-dark"
+											style="text-decoration: none; color: grey;"><i class="fas fa-shopping-cart mr-2"></i> Move to
+											cart </a>
+									</div>
+								</div>
+
+
+							</div>
+							<p class="text-primary mb-0"><i class="fas fa-info-circle mr-1"></i> Ready to add?</p>
+
+						</div>
+						<hr style="width: 80%; margin: auto;">
+					{% endfor %}
+				{% else %}
+				<div class="container">    
+					<div class="cart-empty text-center">
+						<div class="text-center ">There are no items in here </div>
+							<a href="{% url 'shop_now' 'all'  %}"><button type="button" class="text-center mt-5 mb-5 p-2 border border-info text-info">CONTINUE SHOPPING</button></a>
+						</div>
+					</div>
+            	</div>
+				{% endif %}
+				<!--End of first product-->
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+{% endblock content %}

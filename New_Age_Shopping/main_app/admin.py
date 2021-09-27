@@ -32,5 +32,7 @@ admin.site.register(OrderItem)
 admin.site.register(ShippingAddress)
 admin.site.register(Comment)
 admin.site.register(ProductAlternativeImages)
+admin.site.register(Payment)
+
 
 

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'account.apps.AccountConfig',
+    'myprofile.apps.MyprofileConfig',
     # 'accounts.apps.AccountsConfig',
     'merchant_app.apps.MerchantAppConfig',
     'django_countries',
@@ -151,3 +152,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_REDIRECT_URL = '/'
 # LOGOUT_REDIRECT_URL = 'account:login_page'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

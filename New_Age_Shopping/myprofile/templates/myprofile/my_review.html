@@ -1,0 +1,79 @@
+{% extends '../main_app/base.html' %}
+
+{% block title %}My Profile{% endblock title %}
+
+{% block content %}
+<div class="text-center">
+    <h4 class="mt-2 "> Manage My Account </h4>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3 col-sm-12 border shadow pt-2 p-2 mt-2 mr-2 bg-white" style="height: 270px;">
+            <!-- {% include "myprofile/sidebar.html" %} -->
+            <p>Hello, User</p>
+            <ul>
+                <li> <a href="{% url 'myprofile:myprofile' %}">
+                        <h5 class="text-muted"> My Profile </h5>
+                    </a></li>
+            </ul>
+            <ul>
+                <li> <a href="{% url 'myprofile:shippingaddress' %}">
+                        <h5 class="text-muted"> Shipping Address </h5>
+                    </a></li>
+            </ul>
+            <ul>
+                <li><a href="{% url 'myprofile:my_order' %}" >
+                        <h5 class="text-muted">My Order </h5>
+                    </a>
+                </li>
+            </ul>
+            <ul>
+                <li><a href="{% url 'myprofile:my_review' %}" style="text-decoration:none; color: black;">
+                        <h5 style=" padding: 2px;">My Review </h5>
+                    </a></li>
+            </ul>
+            <ul>
+                <li><a href="">
+                        <h5 class="text-muted">Top Item Gains</h5>
+                    </a></li>
+            </ul>
+        </div>
+        <div class="col-md-8 col-12 bg-white p-4 m-2 ml-3 mb-5 border shadow">
+            <table class="table border">
+                <p style="font-size: 18px; color: gray; "> You reviewed on following products</p>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Reviewed on</th>
+                        <th scope="col">Your product</th>
+                        <th scope="col">Your Ratings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for comment in my_comment %}
+                    <tr style="font-size: 14px;">
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td><a style="color: black; font-size: 16px;" href="{% url 'detail_page' comment.product.id%}">{{comment.product.product_name}}</a></td>
+                        <td>{{comment.create_at}}</td>
+                        <td><a href="{% url 'detail_page' comment.product.id%}"><img src="{{comment.product.product_image_src.url}}" alt="{{comment.product.product_name}}" style="width: 100px; height:100px;">,</a></td>
+                        <td>
+                            <div class="review-rating pull-right" style="font-size: 12px;">
+                                <i style=" color:#FFB656;" class="fa fa-star{% if comment.rate < 1 %}-o empty{% endif %}"></i>
+                                <i style=" color:#FFB656;" class="fa fa-star{% if comment.rate < 2 %}-o empty{% endif %}"></i>
+                                <i style=" color:#FFB656;" class="fa fa-star{% if comment.rate < 3 %}-o empty{% endif %}"></i>
+                                <i style=" color:#FFB656;" class="fa fa-star{% if comment.rate < 4 %}-o empty{% endif %}"></i>
+                                <i style=" color:#FFB656;" class="fa fa-star{% if comment.rate < 5 %}-o empty{% endif %}"></i>
+                                ({{comment.rate}})
+                            </div>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

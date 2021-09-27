@@ -7,7 +7,7 @@
             Period Offer
             <a href="#shop_now_container" class="text-decoration-none font-weight-normal text-danger">Shop Now</a></p>
     </div>
-    
+
     <!--Featured images-->
     <div class="container-fluid" style="">
         {% include 'main_app/featured_slider.html' %}
@@ -18,66 +18,65 @@
 
 {% block content %}
 <div id="shop_now_container"></div>
-<div class="container" style="margin-top: 6%;">
-    <h3 class="text-center mt-4 pt-4" style="font-family: Roberto;"> <i class="fas fa-shopping-bag mr-3"
-            style="color: #212529;"></i> Shop Now </h3>
-    <hr style="heigth: 5px">
-</div>
-<div id="shop-now">
-    {% include 'main_app/product_card.html' %}
-</div>
-<div class="container" style="margin-top:6%; margin-bottom: 5%;">
-    <h3 class="text-center" style="font-family: Roberto;"><i class="fa fa-line-chart mr-3" style="color: #212529"></i>
-        Trending Now </h3>
-    <hr style="heigth: 5px">
-</div>
+    <div class="container" style="margin-top: 6%;">
+        <h3 class="text-center mt-4 pt-4" style="font-family: Roberto;"> <i class="fas fa-shopping-bag mr-3"
+                style="color: #212529;"></i> Shop Now </h3>
+        <hr style="heigth: 5px">
+    </div>
+    <div id="shop-now">
+        {% include 'main_app/product_card.html' %}
+    </div>
+    <div class="container" style="margin-top:6%; margin-bottom: 5%;">
+        <h3 class="text-center" style="font-family: Roberto;"><i class="fa fa-line-chart mr-3" style="color: #212529"></i>
+            Trending Now </h3>
+        <hr style="heigth: 5px">
+    </div>
 
 {% comment %} Trending Now {% endcomment %}
-<div id="Trending Now">
-    <!--First Silde-->
-    <div class="container-fluid pl-5 pr-5 overflow-hidden">
-        <div class="row prdouctSlider">
-            {% for data in first_slide_homepage_product_data %}
-            <div class="product_card">
-                {% if data.product_discount.product_discount_active %}
-                <p>{{data.product_discount.product_discount_percentage}}% off</p>
-                {% endif %}
-                <button name="add_to_my_wishlist"><i class="far fa-heart"></i></button>
-                <div class="product_image">
-                    <a href="#"><img src={{data.product_image_src.url}} alt="image 1"></a>
-                </div>
-                <div class="product_bottom">
-                    <a href="#">
-                        <p> {{data.product_name}}</p>
-                    </a>
-                    {% comment %} <p></p> {% endcomment %}
-                    <div class="product_bottom_star">
-                        <i class="fas fa-star fa-xs"></i>
-                        <i class="fas fa-star fa-xs"></i>
-                        <i class="fas fa-star fa-xs"></i>
-                        <i class="fas fa-star-half-alt fa-xs" style="color: #faca51" ;></i>
-                        <i class="far fa-star fa-empty-star fa-xs" style="color: #faca51" ;></i>
+    <div id="Trending Now">
+        <!--First Silde-->
+        <div class="container-fluid pl-5 pr-5 overflow-hidden">
+            <div class="row prdouctSlider">
+                {% for data in first_slide_homepage_product_data %}
+                <div class="product_card">
+                    {% if data.product_discount.product_discount_active %}
+                    <p>{{data.product_discount.product_discount_percentage}}% off</p>
+                    {% endif %}
+                    <button name="add_to_my_wishlist"><i class="far fa-heart"></i></button>
+                    <div class="product_image">
+                        <a href="#"><img src={{data.product_image_src.url}} alt="image 1"></a>
                     </div>
-                    <div class="product_bottom_buttons">
-                        {% if data.product_discount.product_discount_active%}
-                        <p><del class="price_before_discount"> Rs.{{data.product_price}}</del><span
-                                class="price_after_discount ml-1"> <span style="font-size: 9px;">Rs.</span>
-                                {{data.discount_calculator}}
-                            </span></p>
-                        {% else %}
-                        <p><span class="price_after_discount ml-1"><span style="font-size: 9px;">Rs.</span>
-                                {{data.product_price}}
-                            </span></p>
-                        {% endif %}
-                        <button name="add_to_cart"><i class="fas fa-cart-plus mr-2"></i>Add to cart</button>
+                    <div class="product_bottom">
+                        <a href="#">
+                            <p> {{data.product_name}}</p>
+                        </a>
+                        {% comment %} <p></p> {% endcomment %}
+                        <div class="product_bottom_star">
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star fa-xs"></i>
+                            <i class="fas fa-star-half-alt fa-xs" style="color: #faca51" ;></i>
+                            <i class="far fa-star fa-empty-star fa-xs" style="color: #faca51" ;></i>
+                        </div>
+                        <div class="product_bottom_buttons">
+                            {% if data.product_discount.product_discount_active%}
+                            <p><del class="price_before_discount"> Rs.{{data.product_price}}</del><span
+                                    class="price_after_discount ml-1"> <span style="font-size: 9px;">Rs.</span>
+                                    {{data.discount_calculator}}
+                                </span></p>
+                            {% else %}
+                            <p><span class="price_after_discount ml-1"><span style="font-size: 9px;">Rs.</span>
+                                    {{data.product_price}}
+                                </span></p>
+                            {% endif %}
+                            <button name="add_to_cart"><i class="fas fa-cart-plus mr-2"></i>Add to cart</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {% comment %} </div> {% endcomment %}
-        {% endfor %}
+                {% comment %} </div> {% endcomment %}
+            {% endfor %}
+        </div>
     </div>
-</div>
-
 
 </div>
 

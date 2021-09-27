@@ -16,7 +16,7 @@ Merchant Dashboard
                 <p style="font-size: 22px; font-weight: 450;"> Welcome, <span class="text-muted"
                         style="font-size: 16px;"> {{request.user.first_name|title}}
                         {{request.user.last_name|title}}</span> </p>
-                <a class="nav-link active" id="pills-dashboard-tab" data-toggle="pill" href="#v-pills-dashboard"
+                <a class="nav-link active" id="v-pills-dashboard-tab" data-toggle="pill" href="#v-pills-dashboard"
                     role="tab" aria-controls="v-pills-dashboard" aria-selected="true">Dashboard</a>
                 <a class="nav-link" id="v-pills-product-tab" data-toggle="pill" href="#v-pills-product" role="tab"
                     aria-controls="v-pills-product" aria-selected="false">Products</a>
@@ -33,8 +33,8 @@ Merchant Dashboard
         <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9 ml-4 border shadow p-4">
             <div class="tab-content" id="v-pills-tabContent">
                 <!--Merchant Dashboard-->
-                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-                    aria-labelledby="v-pills-home-tab">{% include './Dashboard.html' %}</div>
+                <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel"
+                    aria-labelledby="v-pills-dashboard-tab">{% include './Dashboard.html' %}</div>
                 <!--Add Product-->
                 <div class="tab-pane fade" id="v-pills-product" role="tabpanel" aria-labelledby="v-pills-product-tab">
                     {% include './mProduct.html' %}</div>

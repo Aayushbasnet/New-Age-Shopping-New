@@ -50,54 +50,66 @@
         <div class="mb-0 mt-5">
             <h6 class="">Rating</h6>
             <div class="row w-100 m-0 filter_by_rating">
-                <label for="customer-rating-5" class="p-0 mr-3 mb-1">
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs"></i>
-                    <span style="font-size: 14px; margin-left: 10px"></span>
+                <button style="outline: none; border:none; background:transparent;" value="5"
+                    onclick="updateRating(this)">
+                    <label for="customer-rating-5" class="p-0 mr-3 mb-1">
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs"></i>
+                        <span style="font-size: 14px; margin-left: 10px"></span>
+
+                    </label>
+                </button>
+                <br />
+                <button style="outline: none; border:none; background:transparent;" value="4"
+                    onclick="updateRating(this)">
+                    <label for="customer-rating-4" class="p-0 mb-1">
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
+                        <span style="font-size: 14px; margin-left: 10px">And Up</span>
+                </button>
                 </label>
                 <br />
-
-                <label for="customer-rating-4" class="p-0 mb-1">
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
-                    <span style="font-size: 14px; margin-left: 10px">And Up</span>
-                </label>
+                <button style="outline: none; border:none; background:transparent;" value="3"
+                    onclick="updateRating(this)">
+                    <label for="customer-rating-3" class="p-0 mb-1">
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
+                        <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
+                        <span style="font-size: 14px; margin-left: 10px">And Up</span>
+                    </label>
+                </button>
                 <br />
-
-                <label for="customer-rating-3" class="p-0 mb-1">
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
-                    <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
-                    <span style="font-size: 14px; margin-left: 10px">And Up</span>
-                </label>
+                <button style="outline: none; border:none; background:transparent;" value="2"
+                    onclick="updateRating(this)">
+                    <label for="customer-rating-2" class="p-0 mb-1">
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
+                        <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
+                        <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
+                        <span style="font-size: 14px; margin-left: 10px">And Up</span>
+                    </label>
+                </button>
                 <br />
-
-                <label for="customer-rating-2" class="p-0 mb-1">
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
-                    <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
-                    <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
-                    <span style="font-size: 14px; margin-left: 10px">And Up</span>
-                </label>
-                <br />
-
-                <label for="customer-rating-1" class="p-0 mb-1">
-                    <i class="fas fa-star fa-xs"></i>
-                    <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
-                    <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
-                    <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
-                    <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
-                    <span style="font-size: 14px; margin-left: 10px">And Up</span>
-                </label>
+                <button style="outline: none; border:none; background:transparent;" value="1"
+                    onclick="updateRating(this)">
+                    <label for="customer-rating-1" class="p-0 mb-1">
+                        <i class="fas fa-star fa-xs"></i>
+                        <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
+                        <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
+                        <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
+                        <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
+                        <span style="font-size: 14px; margin-left: 10px">And Up</span>
+                    </label>
+                </button>
             </div>
         </div>
     </div>
@@ -142,7 +154,7 @@
                     Rs. {{product_items.discount_calculator}}
                     <div class="discount_price price_before_discount mt-1 ">
                         <s>Rs. {{product_items.product_price}}</s> <span
-                            style:"color:#757575;">-{{product_items.product_discount.product_discount_percentage}}%</span>
+                            style="color:#757575;">-{{product_items.product_discount.product_discount_percentage}}%</span>
                     </div>
                 </div>
                 {% else %}
@@ -152,11 +164,30 @@
                 {% endif %}
                 <div class="product_rating_country_location">
                     <div class="product_rating">
-                        <i class="fas fa-star fa-xs"></i>
-                        <i class="fas fa-star fa-xs"></i>
-                        <i class="fas fa-star fa-xs"></i>
-                        <i class="fas fa-star-half-alt fa-xs" style="color:#faca51"></i>
-                        <i class="fas fa-star fa-xs" style="color:#e9e9e9;"></i>
+                        {% if product_items.average_product_rating.rating_avg %}
+                        <div class="review-rating pull-right" style="font-size: 12px;">
+                            <i style=" color:#FFB656;"
+                                class="fa fa-star{% if product_items.average_product_rating.rating_avg < 1 %}-o empty{% endif %}"></i>
+                            <i style=" color:#FFB656;"
+                                class="fa fa-star{% if product_items.average_product_rating.rating_avg < 2 %}-o empty{% endif %}"></i>
+                            <i style=" color:#FFB656;"
+                                class="fa fa-star{% if product_items.average_product_rating.rating_avg < 3 %}-o empty{% endif %}"></i>
+                            <i style=" color:#FFB656;"
+                                class="fa fa-star{% if product_items.average_product_rating.rating_avg < 4 %}-o empty{% endif %}"></i>
+                            <i style=" color:#FFB656;"
+                                class="fa fa-star{% if product_items.average_product_rating.rating_avg < 5 %}-o empty{% endif %}"></i>
+                            ({{product_items.average_product_rating.rating_avg|floatformat:1}})
+                        </div>
+                        {% else %}
+                        <div class="review-rating pull-right" style="font-size: 12px;">
+                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                            (Not rated)
+                        </div>
+                        {% endif %}
                     </div>
                     <div class="country_location">
                         Nepal
@@ -170,47 +201,63 @@
         {% endif %}
 
     </div>
+
+    <!--Pagination-->
+    <div class="">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+
+                {% for page_number in total_pages %}
+                <li class="page-item"><button class="page-link" onclick="updatePageNumber(this)"
+                        value={{page_number}}>{{page_number}}</button></li>
+
+                {% endfor %}
+
+            </ul>
+        </nav>
+    </div>
 </div>
 <script>
     var min_max_button = document.getElementById("min_max_button")
     var input_minimum = document.getElementById('input_minimum')
     var input_maximum = document.getElementById('input_maximum')
 
+    var filter_options = {
+        'price_min': 0,
+        'price_max': 0,
+        'min_rating': 0,
+        'page': 1
+    }
 
+    function updateURL() {
+        var url = new URL(window.location.origin + window.location.pathname)
+        console.log(filter_options)
+        if (filter_options.price_max) url.searchParams.append('price_max', filter_options.price_max)
+        if (filter_options.price_min) url.searchParams.append('price_min', filter_options.price_min)
+        if (filter_options.min_rating) url.searchParams.append('min_rating', filter_options.min_rating)
+        if (filter_options.page) url.searchParams.append('page', filter_options.page)
+
+        window.location = url
+    }
     min_max_button.onclick = function (event) {
         input_max_value = input_maximum.value
         input_min_value = input_minimum.value
-        console.log(input_max_value)
-        var query_string = ""
-        var added = false
-        if (input_max_value == null && input_min_value == null){
-            console.log("I am not here")
-            query_string = ""
-            window.location.href = query_string
-        }
-        else {
-            console.log("i am here")
-            if (input_max_value) {
-                query_string += 'price_max=' + input_max_value;
-                added = true;
-            }
-            if (input_min_value) {
-                if (added) query_string += "&";
-                query_string += 'price_min=' + input_min_value
-            }
 
-            var url = new URL(window.location)
-            var params_length = (Array.from(url.searchParams).length)
-            var has_query = params_length > 0 ? true : false
-            if (has_query) {
-                query_string = "&" + query_string
-            } else {
-                query_string = "?" + query_string
-            }
-            if (added) {
-                window.location.href += query_string
-            }
-        }
+        if (input_max_value) filter_options['price_max'] = input_max_value
+        if (input_min_value) filter_options['price_min'] = input_min_value
+
+        updateURL()
+    }
+
+    function updateRating(btn) {
+        filter_options['min_rating'] = btn.value
+        updateURL()
+    }
+
+    function updatePageNumber(btn) {
+        console.log(btn.value)
+        filter_options['page'] = btn.value
+        updateURL()
     }
 </script>
 {% endblock content %}

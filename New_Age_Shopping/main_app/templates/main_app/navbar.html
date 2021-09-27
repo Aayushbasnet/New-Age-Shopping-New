@@ -12,7 +12,7 @@
     <div class="first_navbar_right_contents">
         <a href="/account/merchant_signup/"> Sell on New Age Shopping</a>
         <a href="{% url 'merchant_list' %}"> Our Sellers</a>
-        <a href="#"> Track my order</a>
+        <a href="{% url 'myprofile:my_order' %}"> Track my order</a>
     </div>
 </nav>
 
@@ -39,11 +39,11 @@
                 <div class="contentout">
                     <i class="user_account_icon"></i>
                     
-                    {% if request.user %}
+                    {% if request.user.is_authenticated %}
                         <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; "> Namaste, {{request.user}}</span>
                     
                     {% else %}
-                        <span> Namaste, Sign in </span>
+                        <span> Namaste, Sign in here </span>
                     {% endif %}
                     <div>
                         <h6>My Account</h6>
@@ -53,7 +53,7 @@
             <!--For Customer is logged in-->
             {% if request.user.is_customer%}
             <div class="dropdown-menu  user_account__in_dropdown_list" aria-labelledby="user_account_in">
-                <a class="dropdown-item" href="#">My Account</a>
+                <a class="dropdown-item" href="{% url 'myprofile:myprofile' %} ">My Account</a>
                 <!-- <a class="dropdown-item" href="#">My Order</a>
                 <a class="dropdown-item" href="#">Wishlist</a> -->
                 <a class="dropdown-item" href="{% url 'account:logout_page' %} ">Log out</a>
@@ -73,11 +73,26 @@
 
     <!--User Add to cart details-->
     <div class="my_cart">
+        
+        {% if request.user.is_authenticated %}
         <div class="dropdown">
             <a href="{% url 'cart_page' %}" class="add_to_cart" type="button" id="user_mycart">
                 <i class="fas fa-shopping-cart"  count={{add_to_cart_bubbles}}></i> <span> My cart </span>
             </a>
         </div>
+        {% else %}
+        {% comment %} <div class="guest_wishlist ml-5">
+                <a href=""><i class="fas fa-heart" style="font-size: 25px; color: Red;"> </i> <span style="font-size: 14px; text-decoration: none; color: #aaa;"> Wishlist </span></a>  
+        </div> {% endcomment %}
+        <div class="dropdown">
+            <a href="{% url 'nav_wishlist' %}" class="add_to_cart" type="button" id="user_mycart">
+                <i class="fas fas fa-heart"   count={{add_to_cart_bubbles}}></i> <span> wishlist </span>
+            </a>
+        </div>
+        {% endif %}
+            
+            
+        
     </div>
 
 </nav>
