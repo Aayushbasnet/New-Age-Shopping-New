@@ -39,7 +39,6 @@ class CheckoutForm(forms.Form):
         widget=forms.RadioSelect, choices=PAYMENT_CHOICES)
 
 
-
 # Comment forms
 class CommentForm(forms.ModelForm):
     class Meta:

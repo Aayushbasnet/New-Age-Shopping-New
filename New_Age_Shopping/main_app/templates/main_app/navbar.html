@@ -17,7 +17,7 @@
 </nav>
 
 <!--Middle navbar-->
-<nav class="nav middle_navbar border-bottom border-red">
+<nav class="nav middle_navbar border-bottom border-red sticky-top">
     <div class="brand_logo">
         <a class="navbar-brand" href="{% url 'home_page' %}">New Age Shopping</a>
     </div>
@@ -39,7 +39,7 @@
                 <div class="contentout">
                     <i class="user_account_icon"></i>
                     
-                    {% if request.user.is_authenticated %}
+                    {% if request.user.is_customer %}
                         <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; "> Namaste, {{request.user}}</span>
                     
                     {% else %}
@@ -74,7 +74,7 @@
     <!--User Add to cart details-->
     <div class="my_cart">
         
-        {% if request.user.is_authenticated %}
+        {% if request.user.is_customer or request.user.is_superuser %}
         <div class="dropdown">
             <a href="{% url 'cart_page' %}" class="add_to_cart" type="button" id="user_mycart">
                 <i class="fas fa-shopping-cart"  count={{add_to_cart_bubbles}}></i> <span> My cart </span>

@@ -1,12 +1,12 @@
 {% extends 'main_app/base.html' %}
 {% load static %}
 
-
+{% load crispy_forms_filters %}
 
 {% block content %}
 <!--details section-->
 <div class="container-fluid mt-5 bg-white" id="detail_container">
-    <div class="row border border-dark mt-2">
+    <div class="row border-bottom mt-2">
         <div class="col-xs-6 m-2 mt-2 text-center" id="main_product_section">
                 <div class="col-sm-12" style="height:600px; width:600px">
                     <img src="{{singleProduct.product_image_src.url}}" class='main-image container-layout' alt=""
@@ -113,15 +113,22 @@
 
 
 
-            <div class="mt-5" class="product_buttom_addToCart_buyNow">
-                <!-- <a class="alert alert-primary buy_now_button" href="{% url 'checkout' %}"
-                    style="text-decoration: none;">Buy Now</a> -->
-                <form action="/cart/" method="post" class="d-inline">
-                    {% csrf_token %}
-                    <input hidden type="number" name="detail_item_id" value="{{singleProduct.id}}" id="detail_item_id">
-                    <button class="alert alert-secondary add_to_cart_button" type="submit"
-                        style="text-decoration: none;"><i class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
-                </form>
+            <div class="mt-5" class="product_buttom_addToCart_buyNow">                    
+                {% if request.user.is_authenticated %}
+                    <form action="/cart/" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input hidden type="number" name="detail_item_id" value="{{singleProduct.id}}" id="detail_item_id">
+                        <button class="alert alert-secondary add_to_cart_button" type="submit"
+                            style="text-decoration: none;"><i class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
+                    </form>
+
+                {% else %}
+                    <form action="{% url 'wishlist' singleProduct.pk %} " method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input hidden type="number" name="detail_item_id" value="{{singleProduct.pk}}" id="detail_item_id">
+                        <button class="alert alert-secondary add_to_cart_button"><i class="far fa-heart mr-2"></i>Add to wishlist</button>
+                    </form>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -200,10 +207,8 @@
                             <form class="review-form" action=" {% url 'add_comment' singleProduct.pk %} " method="POST">
                                 {% csrf_token %}
                                 <div class="form_group_section">
-                                    <input type="text" class="form_control_section" id="input_subject"
-                                        placeholder="subject" name="subject">
-                                    <!-- {{forms.email}} -->
-                                    <label for="input_subject" class="form_label_section">Subject</label>
+                                    {{forms.subject | as_crispy_field }}
+                                    {% comment %} <label for="input_subject" class="form_label_section">Subject</label> {% endcomment %}
                                 </div>
 
                                 <div class="form-group mt-2 ">
@@ -250,8 +255,60 @@
 
 <!--recommendation section-->
 <div id="you_may_like" class="d-block mt-5">
-    <h3 class="text-center"> People who viewed this item also viewed </h3>
-    <hr style="heigth: 5px">
-    {% include 'main_app/product_card.html' %}
+    <p class="ml-5 pl-2" style="font-size: 18px; font-weight: 500;"> People who viewed this item also viewed </p>
+<div class="container-fluid" >
+  <div class="row pl-5 pr-5">
+  {% for data in recommend_product %}
+    <div class=" mt-2 mb-2" style="width: 250px;">
+      <div class="card " style="border:none ; padding: 10px;">
+        <a href="{% url 'detail_page' data.pk %}"><img src="{{data.product_image_src.url}}" class="card-img-top shadow" alt="{{data.product_name}}" ></a>
+        {% if data.product_discount.product_discount_active %}
+        <div class="position-absolute top-0 right-0 discount-card">{{data.product_discount.product_discount_percentage}}% off
+        </div>
+        {% endif %}
+        <div class="card-body shadow bg-white text-dark overflow-hidden p-2" style= "height: 112px;">
+          <h6 class="mb-auto" class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow:ellipsis">{{data.product_name| title}}</h6>
+          <p style="font-size:0.6rem; margin-bottom:3px;" class="card-text text-muted">{{data.product_category.brand_name | title}}</p>
+          {% if data.average_product_rating.rating_avg %}
+            
+             <div class="review-rating" style="font-size:12px;">
+                <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 1 %}-o empty{% endif %}"></i>
+                <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 2 %}-o empty{% endif %}"></i>
+                <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 3 %}-o empty{% endif %}"></i>
+                <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 4 %}-o empty{% endif %}"></i>
+                <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 5 %}-o empty{% endif %}"></i>
+                ({{data.average_product_rating.rating_avg|floatformat:1}})
+            </div>
+            {% else %}
+            <div class="review-rating" style="font-size:12px;">
+                <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
+                <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
+                <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
+                <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
+                <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
+            </div>
+            {% endif %}
+          <div class="d-md-flex justify-content-between mt-sm-1 d-sm-block">
+            <div class="d-block ">
+              {% if data.product_discount.product_discount_active%}
+              <p class="mb-0 mt-0 price-tag">
+                Rs.{{data.product_price}}<br> <del class="mt-0 mb-0 text-muted"
+                  style="font-size: .7rem;">&nbsp{{data.discount_calculator}}&nbsp</del></p>
+              {% else %}
+              <p class="mb-0 mt-0 price-tag">
+                Rs.{{data.product_price}}</p>
+              {% endif %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
 </div>
+</div>
+
+
+
 {% endblock content %}

@@ -3,7 +3,7 @@ $('.prdouctSlider').slick({
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: 6,
     slidesToScroll: 2,
     prevArrow: '<span class="prev_arrow" style="position: absolute; font-size: 25px; bottom: 50%; z-index:1; left: -32px; display: inline-block;"><i class="fas fa-chevron-circle-left"></i></span>',
     nextArrow: '<span class="next_arrow" style="position: absolute; font-size: 25px; bottom: 50%; z-index:1; right: -32px; display: inline-block;"><i class="fas fa-chevron-circle-right"></i></span>',

@@ -5,6 +5,7 @@ from main_app.models import Product, ProductDiscount, ProductInventory, Level1Pr
 from django.http import HttpResponseRedirect
 from account.models import User
 from django.contrib.auth import logout
+from main_app.models import OrderItem
 
 
 def merchantDashboard(request):
@@ -21,15 +22,14 @@ def merchantDashboard(request):
         if add_product.is_valid() and product_discount.is_valid() and product_inventory.is_valid():
             print("valid")
             add_product.save(commit = False)
-        #     print("I am saved")
 
             #add_product
             product_name = add_product.cleaned_data.get('product_name')
-            # print(product_name)
+
             product_desc = add_product.cleaned_data.get('product_description')
-            # print(product_desc)
+
             product_price = add_product.cleaned_data.get('product_price')
-            # print(product_price)
+
             product_availability = add_product.cleaned_data.get('product_availability')
             # print(product_availability)
             product_image = add_product.cleaned_data.get('product_image_src')
@@ -92,7 +92,9 @@ def merchantDashboard(request):
 
     #for low stock
     low_stock = merchants_product.filter(product_quantity__product_inventory_quantity__lte = 5).count() 
-    print(low_stock)
+
+    #my order
+    my_order = OrderItem.objects.filter(product__user = merchant_user, complete = True)
 
     context = {
         'add_product' : add_product,
@@ -101,6 +103,7 @@ def merchantDashboard(request):
         'merchants_product' : merchants_product,
         'merchant_user' : merchant_user,
         'low_stock' : low_stock,
+        'my_order' : my_order,
     }
 
     return render(request, 'merchant_app/mHomepage.html', context)

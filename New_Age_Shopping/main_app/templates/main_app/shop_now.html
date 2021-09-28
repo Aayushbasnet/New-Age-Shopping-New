@@ -4,21 +4,11 @@
 {% block content %}
 <div class="row w-100 p-3">
     <!--Filter Section-->
-    <div class="col-md-3  col-sm-3 col-3 mt-3 mb-3">
+    <div class="col-md-3 col-sm-3 col-3 mt-3 mb-3 pl-4 border-right">
         <!--Category Name-->
         <h6 style="font-size:14px; font-family:Roboto-Regular; margin-top: 5px;">Related Categories</h6>
-        <p style="font-size:13px; font-weight:20px; color:#f57224; font-family:Roboto-Medium;">{Category Name}</p>
+        <p style="font-size:13px; font-weight:20px; color:#f57224; font-family:Roboto-Medium;">{ {{search_key | title}} }</p>
         <hr style="margin-top:25px;">
-
-        <!--Search-->
-        <!-- <div class="row w-100 mt-4" style="height:70px;">
-            <div class="searchbar p-0 mt-1">
-                <input type="text" id="input_searchbar" class="searchbar_control" placeholder="Search here...">
-                <label for="input_searchbar" class="searchbar_label">Search here</label>
-                <button type="submit" class="searchbar_button text-center"><i class="fas fa-search ml-2"></i></button>
-            </div>
-        </div>
-        <hr style="margin-top:10px;"> -->
 
         <!--Filter by min max-->
         <form>
@@ -120,11 +110,11 @@
         {% if products %}
         <div class="col-12 mb-4 d-flex justify-content-between">
             <p>{{products.count}} items found for {{search_key}}</p>
-            <div class="dropdown pr-4 mr-5">
+            <div class="dropdown sort_by_btn pr-4 mr-5">
                 <button class="sort_by" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                     id="sort_by_options">
                     <div>
-                        <h6>My Account</h6>
+                        <h6>Sort By</h6>
                     </div>
                 </button>
 
@@ -162,36 +152,37 @@
                     Rs. {{product_items.product_price}}
                 </div>
                 {% endif %}
-                <div class="product_rating_country_location">
+                <div class="product_rating_country_location ">
                     <div class="product_rating">
                         {% if product_items.average_product_rating.rating_avg %}
-                        <div class="review-rating pull-right" style="font-size: 12px;">
-                            <i style=" color:#FFB656;"
-                                class="fa fa-star{% if product_items.average_product_rating.rating_avg < 1 %}-o empty{% endif %}"></i>
-                            <i style=" color:#FFB656;"
-                                class="fa fa-star{% if product_items.average_product_rating.rating_avg < 2 %}-o empty{% endif %}"></i>
-                            <i style=" color:#FFB656;"
-                                class="fa fa-star{% if product_items.average_product_rating.rating_avg < 3 %}-o empty{% endif %}"></i>
-                            <i style=" color:#FFB656;"
-                                class="fa fa-star{% if product_items.average_product_rating.rating_avg < 4 %}-o empty{% endif %}"></i>
-                            <i style=" color:#FFB656;"
-                                class="fa fa-star{% if product_items.average_product_rating.rating_avg < 5 %}-o empty{% endif %}"></i>
-                            ({{product_items.average_product_rating.rating_avg|floatformat:1}})
-                        </div>
+                            <div class="review-rating pull-right" style="font-size: 12px;">
+                                <i style=" color:#FFB656;"
+                                    class="fa fa-star{% if product_items.average_product_rating.rating_avg < 1 %}-o empty{% endif %}"></i>
+                                <i style=" color:#FFB656;"
+                                    class="fa fa-star{% if product_items.average_product_rating.rating_avg < 2 %}-o empty{% endif %}"></i>
+                                <i style=" color:#FFB656;"
+                                    class="fa fa-star{% if product_items.average_product_rating.rating_avg < 3 %}-o empty{% endif %}"></i>
+                                <i style=" color:#FFB656;"
+                                    class="fa fa-star{% if product_items.average_product_rating.rating_avg < 4 %}-o empty{% endif %}"></i>
+                                <i style=" color:#FFB656;"
+                                    class="fa fa-star{% if product_items.average_product_rating.rating_avg < 5 %}-o empty{% endif %}"></i>
+                                ({{product_items.average_product_rating.rating_avg|floatformat:1}}) <span class="text-muted" style=" position:absolute; right:8px; font-size: 10px;"> Nepal </span> 
+                            </div>
                         {% else %}
-                        <div class="review-rating pull-right" style="font-size: 12px;">
-                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
-                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
-                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
-                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
-                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
-                            (Not rated)
-                        </div>
+                            <div class="review-rating pull-right" style="font-size: 12px;">
+                                <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                                <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                                <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                                <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                                <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                                <span class="text-muted" style=" position:absolute; right:8px; font-size: 10px;"> Nepal </span> 
+                            </div>
+                            
                         {% endif %}
                     </div>
-                    <div class="country_location">
+                    {% comment %} <div class="country_location">
                         Nepal
-                    </div>
+                    </div> {% endcomment %}
                 </div>
             </div>
             {% endfor %}
@@ -203,7 +194,7 @@
     </div>
 
     <!--Pagination-->
-    <div class="">
+    <div class="container text-center">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
 

@@ -35,13 +35,13 @@
     transition: all 0.4s ease-in;
 }
 
-#detail_product_average_rating .fas {
+/* #detail_product_average_rating .fas {
     color: #faca51;
 }
 
 #detail_product_average_rating .far {
     color: #faca51;
-}
+} */
 
 .table-responsive {
     font-family: Trebuchet MS;

@@ -154,6 +154,7 @@
 .product_rating_country_location{
     display: flex;
     direction: row;
+    position: relative;
 }
 
 .product_rating_country_location .country_location{
@@ -165,11 +166,12 @@
 }
 
 .product_rating_country_location .product_rating{
+    width: auto;
     padding-left: 8px;
 }
 .product_rating_country_location .product_rating > i{
-    font-size: 10px;
-    text-align: start;
+    font-size: 12px;
+    /* text-align: start; */
 }
 .product_rating_country_location .product_rating:hover{
     cursor: context-menu;
@@ -190,8 +192,17 @@
     line-height: 1.2;
 }
 
-.dropdown  button{
-    background-color: #f57224;
-    border : none;
+.sort_by_btn  button{
+    background-color: transparent;
+    border : 1px solid #aaaa;
+    padding: 4px 15px 0 15px;
+    outline: none;
+    letter-spacing: 2px;
+}
 
+.sort_by_btn  button:hover{
+    background-color: #1a9cb7;
+    color: aliceblue;
+    transform: scale(1.05);
+    transition: 0.3s ease-in-out;
 }

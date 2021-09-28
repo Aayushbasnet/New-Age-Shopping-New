@@ -8,13 +8,12 @@
             {% if data.product_discount.product_discount_active %}
             <p>{{data.product_discount.product_discount_percentage}}% off</p>
             {% endif %}
-            <button name="add_to_my_wishlist"><i class="far fa-heart"></i></button>
             <div class="product_image">
               <a href="{% url 'detail_page' data.pk %}"><img src={{data.product_image_src.url}} alt="{{data.pk}}"></a>
             </div>
             <div class="product_bottom">
               <a href="{% url 'detail_page' data.pk %}">
-                <p> {{data.product_name}}</p>
+                <p style=" padding:2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> {{data.product_name}}</p>
               </a>
               {% comment %} <p></p> {% endcomment %}
               <div class="product_bottom_star">
@@ -59,7 +58,7 @@
                   <form action="/wishlist/{{data.pk}}/ " method="post" class="d-inline">
                   {% csrf_token %}
                     <input hidden type="number" name="detail_item_id" value="{{data.id}}" id="detail_item_id">
-                    <button name="add_to_cart"><i class="fas fa-cart-plus mr-2"></i>Add to wishlist</button>
+                    <button name="add_to_cart" style="background-color: red;"><i class="far fa-heart mr-2"></i>Wish </button>
                   </form>
                 {% endif %}
                   

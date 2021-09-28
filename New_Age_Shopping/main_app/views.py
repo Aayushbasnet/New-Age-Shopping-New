@@ -14,19 +14,25 @@ from django.core.paginator import Paginator
 
 
 def homepage(request):
-    first_slide_homepage_product_data = Product.objects.all().order_by('?')[:7]
-    featured_slider_product = FeaturedSliderProduct.objects.all()
+    try:
+        first_slide_homepage_product_data = Product.objects.all().order_by('?').distinct()[:10]
+        trending_product = Product.objects.all().order_by('?')
+        our_product = Product.objects.all().order_by('?').distinct()[:10]
+        featured_slider_product = FeaturedSliderProduct.objects.all()
+    except ObjectDoesNotExist:
+        raise ObjectDoesNotExist
 
     context = {
         "first_slide_homepage_product_data":   first_slide_homepage_product_data,
         "featured_slider_product":   featured_slider_product,
+        'trending_product' : trending_product,
+        'our_product' : our_product,
     }
 
     return render(request, 'main_app/homepage.html', context)
 
 
 def shop_now(request):
-    print("running yes")
     products = Product.objects.all()
     context = {
         'products': products,
@@ -35,15 +41,16 @@ def shop_now(request):
 
 
 def category_shopping(request, slug, pk=1):
-    print("inside category shopping")
+
     query_exists = True if len(request.GET) > 0 else False
-    print(request.get_full_path())
+
     search_key = request.GET.get('search_key')
     sort_key = request.GET.get('sort')
     price_min_key = request.GET.get('price_min')
     price_max_key = request.GET.get('price_max')
     min_rating = request.GET.get('min_rating')
     page = request.GET.get('page')
+
     if slug != 'search' or search_key is None:
         products = Product.objects.filter(Q(product_category__category_name_level2__category_level2__icontains=slug) | Q(
             product_category__brand_name__icontains=slug))
@@ -67,20 +74,20 @@ def category_shopping(request, slug, pk=1):
             products = products.order_by('product_price')
         elif sort_key == "price_desc":
             products = products.order_by('-product_price')
+
     if price_min_key:
         products = products.filter(product_price__gte=price_min_key)
+
     if price_max_key:
         products = products.filter(product_price__lte=price_max_key)
+
     search_key = search_key if search_key else slug if search_key or slug else ''
+
     if min_rating:
-        
-
         products = products.annotate(rating_avg = Avg('product_comment__rate'))
-        
         products = products.filter(rating_avg__gte = min_rating)
-    
 
-    paginator = Paginator(products, 4)
+    paginator = Paginator(products, 8)
 
     page = page if page else 1
 
@@ -103,14 +110,17 @@ def category_shopping(request, slug, pk=1):
 def detail(request, pk):
     singleProduct = Product.objects.get(id=pk)
     comments = Comment.objects.filter(product__id=pk, status=True)
-    # print(id)
+    recommend_product = Product.objects.all().order_by('?').distinct()[:5]
+    forms = CommentForm()
     context = {
         "singleProduct":   singleProduct,
         "comments":   comments,
+        'recommend_product' :recommend_product,
+        'forms' : forms
     }
     return render(request, 'main_app/detail.html', context)
 
-
+@login_required
 def cart(request):
     if request.method == "POST":
         detail_item_id = request.POST.get("detail_item_id")
@@ -154,9 +164,14 @@ def cart(request):
         'usd_total': usd_total,
     }
 
-    return render(request, 'main_app/cart.html', context)
+    if request.user.is_customer or request.user.is_superuser:
+        return render(request, 'main_app/cart.html', context)
 
+    else:
+        messages.warning(request, "Permission denied! Login through your customer account.")
+        return redirect('/')
 
+@login_required
 def remove_cart(request):
     if request.method == "POST":
         remove_item_id = request.POST.get("remove_cart_id")
@@ -164,7 +179,11 @@ def remove_cart(request):
         product.delete()
         messages.warning(request, "Item deleted from cart")
         return redirect('/cart/')
-    return render(request, 'main_app/cart.html')
+    if request.user.is_customer or request.user.is_superuser:
+        return render(request, 'main_app/cart.html')
+    else:
+        messages.warning(request, "Permission denied! Login through your customer account.")
+        return redirect('/')
 
 # navbar wishlist without pk
 
@@ -209,17 +228,24 @@ def wishlist(request, pk):
     context = {
         'products': products,
     }
-    return render(request, 'main_app/wishlist.html', context)
+    if request.user.is_customer:
+        messages.warning(request, "Permission denied! You must log out.")
+        return redirect('/')
+    else:
+        return render(request, 'main_app/wishlist.html', context)
+
 
 
 def remove_wishlist(request, pk):
-    cart = request.session.get("product_cart")
-    print("---------------Items", cart)
-    cart.pop(str(pk))
-    print(cart)
-    request.session["product_cart"] = cart
-    return redirect('/wishlist/')
-
+    try:
+        cart = request.session.get("product_cart")
+        print("---------------Items", cart)
+        cart.pop(str(pk))
+        print(cart)
+        request.session["product_cart"] = cart
+        return redirect('/wishlist/')
+    except:
+        return render(request, 'main_app/404.html')
 
 def wishlist_to_cart(request):
     return redirect('/account/login/')
@@ -311,7 +337,11 @@ def checkout(request):
     context = {
         'forms': forms,
     }
-    return render(request, 'main_app/checkout.html', context)
+    if request.user.is_customer or request.user.is_superuser:
+        return render(request, 'main_app/checkout.html', context)
+    else:
+        messages.warning(request, "Permission denied! Login through your customer account.")
+        return redirect('/')
 
 
 @login_required
@@ -324,7 +354,11 @@ def payment_view(request):
         'item_total': item_total,
     }
     print(ordered_items)
-    return render(request, 'main_app/payment_view.html', context)
+    if request.user.is_customer or request.user.is_superuser:
+        return render(request, 'main_app/payment_view.html', context)
+    else:
+        messages.warning(request, "Permission denied! Login through your customer account.")
+        return redirect('/')
 
 
 def addComment(request, pk):
@@ -348,9 +382,9 @@ def addComment(request, pk):
             messages.success(request, "Thank you for your review")
             return HttpResponseRedirect(url)
         else:
-            print("not valid")
+            pass
     else:
-        print("POST not valid")
+        pass
 
     return HttpResponseRedirect(url)
 
@@ -380,15 +414,13 @@ def totalMerchant(request):
     }
     return render(request, 'main_app/merchant_list.html', context)
 
-
+@login_required
 def postPayment(request):
     if request.method == "POST":
         print("Inside json post")
         data = json.loads(request.body)
         transcation_id = data['transcation_id']
         amount = data['amount']
-        print('---------------ID', transcation_id)
-        print('----------AMount', amount)
 
         payment = Payment.objects.create(
             stripe_charge_id=transcation_id, user=request.user, amount=amount)

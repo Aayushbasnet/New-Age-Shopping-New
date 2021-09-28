@@ -146,11 +146,13 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'merchant/static/'),
     os.path.join(BASE_DIR, 'main_app/static/'),
+    os.path.join(BASE_DIR, 'myprofile/static/'),
+
 ]
 
 MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_REDIRECT_URL = '/'
-# LOGOUT_REDIRECT_URL = 'account:login_page'
+LOGOUT_REDIRECT_URL = 'account:login_page'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

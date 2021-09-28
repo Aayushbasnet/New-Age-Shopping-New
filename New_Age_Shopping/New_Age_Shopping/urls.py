@@ -10,9 +10,6 @@ urlpatterns = [
     path('account/', include('django.contrib.auth.urls')),
     path('myprofile/', include('myprofile.urls', namespace="myprofile")),
     path('merchant/', include('merchant_app.urls', namespace = 'merchant_app')),
-
-
-
 ]
 
 if settings.DEBUG:

@@ -264,9 +264,16 @@ class Comment(models.Model):
         ('True', 'True'),
         ('False', 'False'),
     )
+
+    SUBJECT_CHOICES = (
+    ('Best', 'Best'),
+    ('Average', 'Average'),
+    ('Poor','Poor')
+    )
+    
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_query_name='product_comment')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    subject = models.CharField(max_length=25, blank=True)
+    subject = models.CharField(max_length=25, choices=SUBJECT_CHOICES, default = 'Best', blank=True)
     comment = models.CharField(max_length=250, blank=True)
     rate = models.IntegerField(default=1)
     ip = models.CharField(max_length=20, blank=True)
@@ -277,6 +284,8 @@ class Comment(models.Model):
     def __str__(self):
         return self.subject
 
+    class Meta:
+        ordering = ("-create_at",)
  
 
 class ProductAlternativeImages(models.Model):
