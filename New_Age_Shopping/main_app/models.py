@@ -65,7 +65,6 @@ class ProductCategory(ProductBaseClass):
     category_name_level2            =   models.ForeignKey(Level2ProductCategory, on_delete=models.CASCADE)
     brand_name                      =   models.CharField(max_length=100)
     product_category_description    =   models.CharField(max_length=250, blank=True, null=True)
-
     slug    =   models.SlugField(max_length=300,blank=True,null=True)
 
     def save(self, *args, **kwargs):
@@ -84,7 +83,7 @@ class ProductCategory(ProductBaseClass):
 
 class ProductInventory(ProductBaseClass):
     product_inventory_name      =   models.CharField(max_length=180, blank=True, null=True)
-    product_inventory_quantity  =   models.IntegerField()
+    product_inventory_quantity  =   models.IntegerField(default=1)
 
     slug    =   models.SlugField(max_length=300,blank=True,null=True)
 
@@ -158,10 +157,11 @@ class Product(ProductBaseClass):
 
         #return the whole path and file
         return os.path.join(upload_to, filename)
-    user                        =   models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    user                        =   models.ForeignKey(User, on_delete=models.CASCADE)
     product_name                =   models.CharField(max_length=500)
-    product_description         =   models.CharField(max_length=1000)
-    product_price               =   models.DecimalField(max_digits=20, decimal_places=2)
+    product_short_description   =   models.TextField()
+    product_description         =   models.TextField()
+    product_price               =   models.DecimalField(max_digits=8, decimal_places=2)
     product_availability        =   models.BooleanField(default=True)
     product_discount            =   models.ForeignKey(ProductDiscount, on_delete=models.CASCADE, blank=True, null=True, related_query_name='discount')
     product_quantity            =   models.ForeignKey(ProductInventory, on_delete= models.CASCADE, related_query_name= 'quantity')
@@ -188,7 +188,6 @@ class Product(ProductBaseClass):
     @property
     def average_product_rating(self):
         reviews = Comment.objects.filter(product = self).aggregate(rating_avg =Avg("rate"))
-        print(reviews)
         return reviews
         
 
@@ -291,7 +290,7 @@ class Comment(models.Model):
 class ProductAlternativeImages(models.Model):
     # to change name of product image
     def image_rename(self, filename):
-        upload_to              =   "Alternative_images/" +self.product.product_name
+        upload_to              =   "Alternative_images/"+ str(self.product.product_category)+"/"+self.product.product_name
         # file_extension       =   filename.split(".")[-1]
         product_name           =   self.product.product_name
         png_file_extension     =   "png"
@@ -306,11 +305,25 @@ class ProductAlternativeImages(models.Model):
         #return the whole path and file
         return os.path.join(upload_to, filename)
 
-    alternative_images = models.ImageField("Product Image", upload_to= image_rename)
+    alternative_image = models.ImageField("Product Image", upload_to= image_rename)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.product.product_name)+ " alternative-images"
+
+    class Meta:
+        verbose_name_plural = 'Alternative Image'
+
+class ContactUs(models.Model):
+    full_name = models.CharField(max_length=50)
+    email = models.EmailField()
+    phone_number = PhoneNumberField(region='NP')
+    messages = models.TextField()
+    seen = models.BooleanField(default=False)
+    messaged_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.full_name)+ str(self.phone_number)
 
 class Payment(models.Model):
     stripe_charge_id = models.CharField(max_length=50)
@@ -320,3 +333,6 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    class Meta:
+        ordering = ["-timestamp"]

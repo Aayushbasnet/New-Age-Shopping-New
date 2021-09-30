@@ -1,15 +1,35 @@
 {% extends 'main_app/base.html' %}
 {% block content %}
 {% load crispy_forms_filters %}
+
 <div class="container mt-2 p-3">
+
     <div class="row shadow" style="width: 450px; height: auto; margin: auto; padding: 5px; border: 1px solid #aaa;">
         <div class="col-md-12 col-sm-12 p-3 border-bottom">
-                <h4>Login here</h4>
+        {% if messages %}
+            <div class="mt-3 col-12 text-center">
+                <ul class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <h4>Login here</h4>
+                
         </div>
         <div class="col-md-12 col-sm-12 p-3 ">
             <form action="" method="POST">
                 {% csrf_token %}
                 {{form | crispy}}
+                <div class="mt-1 mb-3">
+                    <input type="checkbox" onclick="myFunction()"> Show Password
+                </div>
                 <button type="submit" class="btn btn-primary" style="width: 105px; border-radius: 2px;">Log in</button>
                 <a href="{% url 'account:password_reset' %}" style="float: right; margin-top: 8px;">Forgot Your Password?</a>
                 <div class="mt-3">
@@ -20,4 +40,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    function myFunction() {
+        var x = document.getElementById("id_password");
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+      }
+</script>
 {% endblock content %}

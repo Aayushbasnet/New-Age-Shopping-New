@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment
+from .models import Comment,ContactUs
 from phonenumber_field.formfields import PhoneNumberField
 
 PAYMENT_CHOICES = (
@@ -44,3 +44,14 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['subject', 'comment', 'rate']
+
+#contact us forms
+class ContactUsForm(forms.ModelForm):
+    class Meta:
+        model = ContactUs
+        fields = ['full_name', 'phone_number', 'email', 'messages']
+        widget= {
+            'phone_number' : forms.TextInput(attrs={
+                'value': '+977-',
+            })
+        }

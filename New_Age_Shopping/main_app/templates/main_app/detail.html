@@ -5,24 +5,25 @@
 
 {% block content %}
 <!--details section-->
-<div class="container-fluid mt-5 bg-white" id="detail_container">
+<div class="container-fluid mt-5 bg-white" id="detail_container" style="height:auto;">
     <div class="row border-bottom mt-2">
         <div class="col-xs-6 m-2 mt-2 text-center" id="main_product_section">
-                <div class="col-sm-12" style="height:600px; width:600px">
+                <div class="col-sm-12" style="height:600px; width:600px;">
                     <img src="{{singleProduct.product_image_src.url}}" class='main-image container-layout' alt=""
                         style="height:100%; width:100%;">
                 </div>
-    
-                <div class="row mr-1 mt-1" style="height:100px">
-                    <div class="col-sm-3" style="height:100%; width:100%;">
-                        <img src="{{singleProduct.product_image_src.url}}" class='image-change-js container-layout' alt=""
-                        style="height:100%; width:100%;">
+
+                <!--Product alternative Image-->
+                <div class="row ml-3 mt-2 myclass" style="height:125px; ">
+                    <div class="col-sm-12 col-3" style="height:125px;">
+                        <img class='border shadow img-fluid container-layout image-change-js'
+                            src="{{singleProduct.product_image_src.url}}"style="height:123px; width:100%;" alt="">
                     </div>
                     {% for data in singleProduct.productalternativeimages_set.all %}
-                    <div class="col-sm-3 p-1" style="height:100%; width:100%;">
-                        <img class='img-fluid container-layout image-change-js'
-                            src="{{data.alternative_images.url}}"style="height:100%; width:100%;" alt="">
-                    </div>
+                        <div class="col-sm-12 col-3" style="height:125px;">
+                            <img class='border shadow img-fluid container-layout image-change-js'
+                                src="{{data.alternative_image.url}}"style="height:123px; width:100%;" alt="">
+                        </div>
                     {% endfor %}
                 </div>
         </div>
@@ -88,27 +89,8 @@
             </div>
 
             <!--product details-->
-            <p class="pt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
-                error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
-                officia quis dolore quos sapiente tempore alias.</p>
-            <div class="table-responsive">
-                <table class="table table-sm table-borderless mb-0">
-                    <tbody>
-                        <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Model</strong></th>
-                            <td>One Piece 5407X</td>
-                        </tr>
-                        <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Color</strong></th>
-                            <td>Pink</td>
-                        </tr>
-                        <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Delivery</strong></th>
-                            <td>Nepal,Kathmandu</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <p class="pt-2">{{singleProduct.product_short_description | safe}}</p>
+
             <hr style="height: 5px;">
 
 
@@ -154,7 +136,7 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="pills-details" role="tabpanel" aria-labelledby="pills-detail-tab">
                     <p>
-                        something here
+                       {{singleProduct.product_description | safe}}
                     </p>
                 </div>
                 <!--Review tab-->
@@ -256,59 +238,57 @@
 <!--recommendation section-->
 <div id="you_may_like" class="d-block mt-5">
     <p class="ml-5 pl-2" style="font-size: 18px; font-weight: 500;"> People who viewed this item also viewed </p>
-<div class="container-fluid" >
-  <div class="row pl-5 pr-5">
-  {% for data in recommend_product %}
-    <div class=" mt-2 mb-2" style="width: 250px;">
-      <div class="card " style="border:none ; padding: 10px;">
-        <a href="{% url 'detail_page' data.pk %}"><img src="{{data.product_image_src.url}}" class="card-img-top shadow" alt="{{data.product_name}}" ></a>
-        {% if data.product_discount.product_discount_active %}
-        <div class="position-absolute top-0 right-0 discount-card">{{data.product_discount.product_discount_percentage}}% off
-        </div>
-        {% endif %}
-        <div class="card-body shadow bg-white text-dark overflow-hidden p-2" style= "height: 112px;">
-          <h6 class="mb-auto" class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow:ellipsis">{{data.product_name| title}}</h6>
-          <p style="font-size:0.6rem; margin-bottom:3px;" class="card-text text-muted">{{data.product_category.brand_name | title}}</p>
-          {% if data.average_product_rating.rating_avg %}
-            
-             <div class="review-rating" style="font-size:12px;">
-                <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 1 %}-o empty{% endif %}"></i>
-                <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 2 %}-o empty{% endif %}"></i>
-                <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 3 %}-o empty{% endif %}"></i>
-                <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 4 %}-o empty{% endif %}"></i>
-                <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 5 %}-o empty{% endif %}"></i>
-                ({{data.average_product_rating.rating_avg|floatformat:1}})
-            </div>
-            {% else %}
-            <div class="review-rating" style="font-size:12px;">
-                <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
-                <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
-                <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
-                <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
-                <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
-            </div>
-            {% endif %}
-          <div class="d-md-flex justify-content-between mt-sm-1 d-sm-block">
-            <div class="d-block ">
-              {% if data.product_discount.product_discount_active%}
-              <p class="mb-0 mt-0 price-tag">
-                Rs.{{data.product_price}}<br> <del class="mt-0 mb-0 text-muted"
-                  style="font-size: .7rem;">&nbsp{{data.discount_calculator}}&nbsp</del></p>
-              {% else %}
-              <p class="mb-0 mt-0 price-tag">
-                Rs.{{data.product_price}}</p>
-              {% endif %}
-            </div>
+    <div class="container-fluid" >
+        <div class="row pl-5 pr-5">
+        {% for data in recommend_product %}
+            <div class=" mt-2 mb-2" style="width: 250px;">
+            <div class="card " style="border:none ; padding: 10px;">
+                <a href="{% url 'detail_page' data.pk %}"><img src="{{data.product_image_src.url}}" class="card-img-top shadow" alt="{{data.product_name}}" ></a>
+                {% if data.product_discount.product_discount_active %}
+                <div class="position-absolute top-0 right-0 discount-card">{{data.product_discount.product_discount_percentage}}% off
+                </div>
+                {% endif %}
+                <div class="card-body shadow bg-white text-dark overflow-hidden p-2" style= "height: 112px;">
+                <h6 class="mb-auto" class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow:ellipsis">{{data.product_name| title}}</h6>
+                <p style="font-size:0.6rem; margin-bottom:3px;" class="card-text text-muted">{{data.product_category.brand_name | title}}</p>
+                {% if data.average_product_rating.rating_avg %}
+                    
+                    <div class="review-rating" style="font-size:12px;">
+                        <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 1 %}-o empty{% endif %}"></i>
+                        <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 2 %}-o empty{% endif %}"></i>
+                        <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 3 %}-o empty{% endif %}"></i>
+                        <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 4 %}-o empty{% endif %}"></i>
+                        <i style="color:#FFB656;" class="fa fa-star{% if date.get_average_rating.rating_avg < 5 %}-o empty{% endif %}"></i>
+                        ({{data.average_product_rating.rating_avg|floatformat:1}})
+                    </div>
+                    {% else %}
+                    <div class="review-rating" style="font-size:12px;">
+                        <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
+                        <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
+                        <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
+                        <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
+                        <i style="color:#FFB656;" class="fa fa-star-o empty"></i>
+                    </div>
+                    {% endif %}
+                <div class="d-md-flex justify-content-between mt-sm-1 d-sm-block">
+                    <div class="d-block ">
+                    {% if data.product_discount.product_discount_active%}
+                    <p class="mb-0 mt-0 price-tag">
+                        Rs.{{data.product_price}}<br> <del class="mt-0 mb-0 text-muted"
+                        style="font-size: .7rem;">&nbsp{{data.discount_calculator}}&nbsp</del></p>
+                    {% else %}
+                    <p class="mb-0 mt-0 price-tag">
+                        Rs.{{data.product_price}}</p>
+                    {% endif %}
+                    </div>
 
-          </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        {% endfor %}
         </div>
-      </div>
     </div>
-  {% endfor %}
-  </div>
 </div>
-</div>
-
-
 
 {% endblock content %}

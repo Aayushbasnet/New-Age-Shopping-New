@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'main_app.apps.MainAppConfig',  
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,12 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account.apps.AccountConfig',
     'myprofile.apps.MyprofileConfig',
-    # 'accounts.apps.AccountsConfig',
     'merchant_app.apps.MerchantAppConfig',
     'django_countries',
     'phonenumber_field', 
     'crispy_forms',
     'widget_tweaks',
+    'django_summernote',
+    
 
 ]
 
@@ -151,6 +153,7 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT = BASE_DIR / 'media'
+X_FRAME_OPTIONS = 'SAMEORIGIN'  
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = 'account:login_page'

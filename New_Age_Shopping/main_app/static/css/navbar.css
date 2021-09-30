@@ -1,6 +1,7 @@
 .first_navbar{
     margin-bottom: 12px;
     display: block;
+    position: relative;
     /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
 }
 
@@ -60,6 +61,7 @@
     padding: 5px 5px 8px;
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    background-color: white;
 
 }
 
@@ -243,7 +245,7 @@
     content: attr(count);
     overflow: visible;
     font-size: 0.8rem;
-    font-weight: ;
+    /* font-weight: ; */
     background: linear-gradient(#ff1a10, #ff0000, #e60000);
     text-align: center;
     padding-top: 5px;
@@ -256,7 +258,7 @@
     color: white;
     /* transform: scale(0.8); */
     transition: all o.6s ease-in-out;
-    z-index: 10;
+    z-index: 100;
     animation: mycart_notification_without_hover 1s ease-out infinite alternate;
 }
 
@@ -289,6 +291,9 @@
     font-size: 18px;
     font-weight: 600;
     position: relative;
+    /* top: 100px; */
+    /* z-index: -1; */
+    /* background-color: white;  */
 }
 
 .third_navbar .category_section{
@@ -358,7 +363,7 @@
     width: 80%;
     text-align: center;
     padding: 4px;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 .text_movement_section::after{

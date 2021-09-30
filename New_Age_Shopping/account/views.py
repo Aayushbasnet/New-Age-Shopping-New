@@ -20,21 +20,19 @@ def loginPage(request):
     if request.method =="POST":
         form = LoginUserForm(request.POST or None)
         if form.is_valid():
-            print(" I am valid")
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user_auth = authenticate(username= username, password= password)
-
             if user_auth is not None:
                 login(request, user_auth)
                 if request.user.is_authenticated and request.user.is_customer:
                     return redirect('/')
                 elif request.user.is_authenticated and request.user.is_merchant:
                     return redirect('/merchant/')
-
+            else:
+                messages.warning(request, "Username or password invalid ")
         else:
-            print(" i am not valid")
-            # messages.warning(request, "Username or password invalid ")
+            messages.warning(request, "Can't Validate")
     else:
         pass
         # messages.warning(request, "There is no item in the cart")

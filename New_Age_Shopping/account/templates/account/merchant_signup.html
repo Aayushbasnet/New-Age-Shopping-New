@@ -3,20 +3,23 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-<div class="container">
-    <h4> Merchant </h4>
-    <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+<div class="container mt-5">
+    <div class="row shadow" style="width: 550px; height: auto; margin: auto; padding: 5px; border: 1px solid #aaa;">
+        <div class="col-md-12 col-sm-12 p-3 border-bottom">
+            <h4> Merchant </h4>
+            <form novalidate action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
 
-        {{forms | crispy}}
+                {{forms | crispy}}
 
-
-        <button type="submit" class="btn btn-primary" style="width: 105px; border-radius: 2px;">Sign up</button>
+                <button type="submit" class="btn btn-primary" style="width: 105px; border-radius: 2px;">Sign up</button>
                 <div class="mt-3">
                     <span>Already Seller?</span>
                     <a href="{% url 'account:login_page' %}" style="cursor:pointer;">Login</a>
                 </div>
-    </form>
+            </form>
+        </div>
+    </div>
 </div>
     
 

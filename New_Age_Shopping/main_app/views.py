@@ -4,7 +4,7 @@ from django.template import loader
 from django.contrib import messages
 from django.http.response import JsonResponse
 import json
-from .forms import CheckoutForm, CommentForm
+from .forms import CheckoutForm, CommentForm, ContactUsForm
 from django.core.exceptions import ObjectDoesNotExist
 from .utils import for_items_total
 from django.db.models import Q
@@ -66,7 +66,6 @@ def category_shopping(request, slug, pk=1):
         products = Product.objects.all()
 
     if slug == "merchant":
-        print("I am here")
         products = Product.objects.filter(user_id=pk)
 
     if sort_key is not None:
@@ -139,22 +138,18 @@ def cart(request):
             data.save()
             messages.success(request, "Item added to cart")
 
-        # session products
-
+    # session products
     cart_items = OrderItem.objects.filter(user=request.user, complete=False)
     order_items = Order.objects.filter(user=request.user,  complete=False)
     grand_total = 0
     for items in cart_items:
         grand_total = grand_total + float(items.get_total)
-        print(items.get_total)
-        print(items)
 
     items_total = 0
     for items in cart_items:
         items_total = items_total + 1
 
     usd_total = grand_total * 0.0085
-    print(usd_total)
 
     context = {
         "cart_items": cart_items,
@@ -186,8 +181,6 @@ def remove_cart(request):
         return redirect('/')
 
 # navbar wishlist without pk
-
-
 def nav_wishlist(request):
     products = None
     cart = request.session.get("product_cart")
@@ -212,23 +205,20 @@ def wishlist(request, pk):
     if cart is None:
         cart = {}
         request.session["product_cart"] = cart
-        print("Session created")
 
-    print("Already in session creared")
     cart[pk] = pk
-    print(cart)
+
     request.session["product_cart"] = cart
     i = []
     for p_count in cart:
         i.append(cart[p_count])
 
-    print(i)
     products = Product.objects.filter(pk__in=i)
 
     context = {
         'products': products,
     }
-    if request.user.is_customer:
+    if request.user.is_authenticated and request.user.is_merchant:
         messages.warning(request, "Permission denied! You must log out.")
         return redirect('/')
     else:
@@ -239,9 +229,7 @@ def wishlist(request, pk):
 def remove_wishlist(request, pk):
     try:
         cart = request.session.get("product_cart")
-        print("---------------Items", cart)
         cart.pop(str(pk))
-        print(cart)
         request.session["product_cart"] = cart
         return redirect('/wishlist/')
     except:
@@ -251,15 +239,10 @@ def wishlist_to_cart(request):
     return redirect('/account/login/')
 
 
-# def update_item(request):
-#     return render(request, 'main_app/cart.html')
-
 def update_item(request):
     data = json.loads(request.body)
     productId = data['productId']
     action = data['action']
-    print('Action:', action)
-    print('Product:', productId)
 
     customer = request.user
     product = get_object_or_404(Product, id=productId)
@@ -282,7 +265,34 @@ def update_item(request):
 
 
 def contact_us(request):
-    return render(request, 'main_app/contact_us.html')
+    forms = ContactUsForm()
+    if request.method == "POST":
+        print("Inside post of contact us")
+        forms = ContactUsForm(request.POST or None)
+        
+        if forms.is_valid():
+            forms.save()
+            messages.success(request, "Message submitted")
+            # full_name = forms.cleaned_data.get("full_name")
+            # phone_number = forms.cleaned_data.get("phone_number")
+            # email = forms.cleaned_data.get("email")
+            # messages = forms.cleaned_data.get("messages")
+
+            # contact_us = ContactUs.objects.create(
+            #     full_name = full_name,
+            #     email = email,
+            #     phone_number = phone_number,
+            #     messages = messages
+            # )
+            # contact_us.save()
+        else:
+            messages.success(request, "Message not submitted")
+
+
+    context = {
+        'forms' : forms
+    }
+    return render(request, 'main_app/contact_us.html', context)
 
 
 def about_us(request):
@@ -308,7 +318,6 @@ def checkout(request):
                         "shipping_address")
                     shipping_zip = forms.cleaned_data.get("shipping_zip")
                     payment_option = forms.cleaned_data.get("payment_option")
-                    print(forms.cleaned_data)
 
                     shipping_address = ShippingAddress.objects.create(
                         user=request.user,
@@ -324,12 +333,10 @@ def checkout(request):
                     shipping_address.save()
                     return redirect('/payment_view/')
                 else:
-                    print("form not valid")
+                    pass
             else:
-                print("There is no items in cart")
                 messages.warning(request, "There is no item in the cart")
         except ObjectDoesNotExist:
-            print("No items")
             messages.error(request, "No items found in the cart")
     else:
         forms = CheckoutForm()
@@ -353,7 +360,7 @@ def payment_view(request):
         'grand_total': grand_total,
         'item_total': item_total,
     }
-    print(ordered_items)
+
     if request.user.is_customer or request.user.is_superuser:
         return render(request, 'main_app/payment_view.html', context)
     else:
@@ -363,9 +370,6 @@ def payment_view(request):
 
 def addComment(request, pk):
     url = request.META.get('HTTP_REFERER')+"#pills-review"  # get last url
-    print(url)
-    print("I am inside")
-    # return HttpResponse(url)
     if request.method == "POST":
         print("post")
         form = CommentForm(request.POST)
@@ -395,7 +399,6 @@ def totalMerchant(request):
     product_list = []
 
     mer_count = merchant.count()
-    print(mer_count)
 
     for mer in merchant:
         merchant_product = Product.objects.filter(
@@ -403,10 +406,7 @@ def totalMerchant(request):
         merchant_product_category = merchant_product.values_list(
             'product_category__brand_name')
         product_list = [merchant_product_category]
-        print("-------------", product_list[0])
         i.append(product_list)
-
-    print("-------------", i[0][0])
 
     context = {
         'merchant_list': merchant,
@@ -417,25 +417,42 @@ def totalMerchant(request):
 @login_required
 def postPayment(request):
     if request.method == "POST":
-        print("Inside json post")
         data = json.loads(request.body)
         transcation_id = data['transcation_id']
         amount = data['amount']
 
-        payment = Payment.objects.create(
-            stripe_charge_id=transcation_id, user=request.user, amount=amount)
+        payment = Payment.objects.create(stripe_charge_id=transcation_id, user=request.user, amount=amount)
         payment.save()
+        
+        order_transcation = Order.objects.create(user = request.user, complete =True, transcation_id = request.user.id)
+        order_transcation.save()
 
     ordered_items = OrderItem.objects.filter(user=request.user, complete=False)
+
     get_shipping_address = ShippingAddress.objects.filter(user=request.user)
+
     if get_shipping_address.exists():
         get_shipping_address = get_shipping_address[0]
     else:
-        return redirect("/checkout")
+        return redirect("/checkout/")
+    payment_update = Payment.objects.filter(user=request.user)
+
+    if payment_update.exists():
+        payment_update = payment_update[0]
+
+    else:
+        return redirect("/payment_view/")
+
+    order_transcation =Order.objects.filter(user =request.user)
+    if order_transcation.exists():
+        order_transcation = order_transcation[0]
+        
     if ordered_items.exists():
         ordered_items.update(shipping_address=get_shipping_address)
+        ordered_items.update(payment=payment_update)
+        ordered_items.update(order=order_transcation)
         ordered_items.update(complete=True)
-        ordered_items.update(payment=request.users)
+        
         for items in ordered_items:
             items.save()
             print("saved")

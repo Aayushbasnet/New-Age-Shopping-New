@@ -3,13 +3,19 @@
 {% load widget_tweaks %}
 
 {% block content %}
+<style>
+    .errors{
+        color: red;
+    }
+
+</style>
 <div class="container mt-2 p-3">
     <div class="row shadow" style="width: 550px; height: auto; margin: auto; padding: 5px; border: 1px solid #aaa;">
         <div class="col-md-12 col-sm-12 p-3 border-bottom">
             <h4>Customer Signup</h4>
         </div>
         <div class="col-md-12 col-sm-12 p-3">
-            <form method='POST' action="">
+            <form novalidate method='POST' action="">
                 {% csrf_token %}
                 
                 <div class="form-group">
@@ -70,8 +76,8 @@
                         <label for="password">Password</label>
                         <!-- <input type="password" class="form-control" id="password" placeholder="Password"> -->
                         {% render_field forms.password1 class+="form-control added-style" placeholder=forms.password1.label %}
-                        <i class="far fa-eye-slash"></i>
-                        <i class="far fa-eye"></i>
+                        <i onclick="password()" id="close_eye1" class="far fa-eye-slash"></i>
+                        <i onclick="password()"class="far fa-eye" id="open_eye1" style="display:none;"></i>
                     </div>
                     <span class="errors">{{forms.password1.errors|striptags}}</span>
 
@@ -80,8 +86,8 @@
                             <label for="confirmpassword">Confirm Password</label>
                             <!-- <input type="password" class="form-control" id="confirmpassword" placeholder="Password"> -->
                             {% render_field forms.password2 class+="form-control added-style" placeholder=forms.password2.label %}
-                            <i class="far fa-eye-slash"></i>
-                            <i class="far fa-eye"></i>
+                            <i onclick="confirm_password()" id="close_eye2" class="far fa-eye-slash"></i>
+                            <i onclick="confirm_password()" id="open_eye2" style="display:none;" class="far fa-eye"></i>
                         </div>
                         <span class="errors">{{forms.password2.errors|striptags}}</span>
                     </div>
@@ -95,4 +101,40 @@
         </div>
     </div>
 </div>
+
+<script>
+function password() {
+  var x = document.getElementById("id_password1");
+  var open_eye = document.getElementById("open_eye1")
+  var close_eye = document.getElementById("close_eye1")
+  if (x.type === "password") {
+    x.type = "text";
+    close_eye.style.display = "none";
+    open_eye.style.display = "inline-block";
+    console.log("close eye")
+  } else {
+    x.type = "password";
+    close_eye.style.display = "inline-block";
+    open_eye.style.display = "none";
+    console.log("Open eye")
+  }
+}
+
+function confirm_password() {
+  var x = document.getElementById("id_password2");
+  var open_eye = document.getElementById("open_eye2")
+  var close_eye = document.getElementById("close_eye2")
+  if (x.type === "password") {
+    x.type = "text";
+    close_eye.style.display = "none";
+    open_eye.style.display = "inline-block";
+    console.log("close eye")
+  } else {
+    x.type = "password";
+    close_eye.style.display = "inline-block";
+    open_eye.style.display = "none";
+    console.log("Open eye")
+  }
+}
+</script>
 {% endblock content %}

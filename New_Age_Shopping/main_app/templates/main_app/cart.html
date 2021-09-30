@@ -59,10 +59,9 @@
 										class="fas fa-trash-alt mr-2"></i> Remove
 									item </button>
 							</form>
-							<a href="" type="button"
+							<a href="{% url 'detail_page' cart_item.product.pk %}" type="button"
 								class="card-link-secondary small text-uppercase d-inline text-dark"
-								style="text-decoration: none; color: grey;"><i class="fas fa-heart mr-2"></i> Move to
-								wish list </a>
+								style="text-decoration: none; color: grey;"><i class="far fa-eye mr-1"></i> View product </a>
 
 						</div>
 						<!--Product increase and decrease, product update-->

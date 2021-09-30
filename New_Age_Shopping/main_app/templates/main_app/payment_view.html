@@ -40,9 +40,9 @@
 <div class="container mt-4 border">
     <div class="col-12">
         <h3 class="text-center p-3 text-muted">Ordered Items</h3>
-        <table class="table">
+        <table class="table table-hover">
             <thead>
-                <tr>
+                <tr class="table-info">
                     <th scope="col">#</th>
                     <th scope="col">Item name</th>
                     <th scope="col">Quantity</th>
@@ -65,8 +65,8 @@
                         <h5 style="text-decoration: underline;">TOTAL:
                         </h5>
                     </td>
-                    <td style="font-weight: bold;"> ${{usd_total}}</td>
-                    <td style="font-weight: bold;"> Rs.{{grand_total}}</td>
+                    <td style="font-weight: bold;"></td>
+                    <td style="font-weight: bold;"> Rs.{{grand_total}}  <div class="text-muted" style="font-weight: 200; ">For paypal: ${%widthratio grand_total 10000 85%}</div></td>
                     
                 </tr>
             </tbody>
@@ -84,7 +84,7 @@
         <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
 
         <script>
-            var total_amount = '{{grand_total}}'
+            var total_amount = '{%widthratio grand_total 10000 85%}'
             console.log("Here")
             //usd_total = total_amount*0.0085
             console.log(total_amount*0.0085)

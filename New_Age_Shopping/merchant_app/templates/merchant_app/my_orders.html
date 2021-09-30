@@ -25,8 +25,7 @@
             <td>{{orders.quantity }}</td>
             <td>{{orders.product.product_quantity.product_inventory_quantity }}</td>
             <td>{{orders.user.first_name | title}} {{orders.user.last_name | title}}</td>
-            <td>{{orders.added_date}}</td>
-            
+            <td>{{orders.order.date_ordered}}</td>
         </tr>
         {% endfor %}
     </tbody>
