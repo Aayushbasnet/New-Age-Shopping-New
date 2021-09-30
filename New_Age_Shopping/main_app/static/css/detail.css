@@ -321,14 +321,13 @@
 }
 
 .availability{
-    position: absolute;
+    /* position: absolute; */
     background-color: #f57224;
     width: 120px;
     height: 35px;
     text-align: center;
+    float: right;
     padding-top: 5px;
-    right: 0;
-    top: 0;
     color: #ffffff;
     border: none;
     font-size: 16px;
