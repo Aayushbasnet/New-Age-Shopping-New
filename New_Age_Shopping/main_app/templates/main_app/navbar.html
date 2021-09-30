@@ -1,7 +1,7 @@
 {% load static %}
 
 <!--top navbar-->
-<nav class="nav first_navbar border-bottom border-red pl-5">
+<nav class="nav first_navbar  border-bottom border-red pl-5 ">
     <div class="first_navbar_left_contents">
         <a href="{% url 'about_us' %}">About Us </a>
         <a href="{% url 'contact_us' %}">Contact Us </a>
@@ -16,10 +16,52 @@
     </div>
 </nav>
 
+<nav class="border-bottom text-center mt-0 p-0" >
+    <a class="navbar-brand" style="text-decoration:none; color:gray;" href="{% url 'home_page' %}"><img src= "{% static 'images/logo/New Age Shopping logo.png' %}" alt="logo" height="80px"> <span style="font-family: 'Lora', serif; font-weight:650;"> New Age Shopping </span></a>
+</nav>
+
 <!--Middle navbar-->
-<nav class="nav middle_navbar border-bottom border-red sticky-top">
+<nav class="nav  middle_navbar border-bottom border-red sticky-top">
     <div class="brand_logo">
-        <a class="navbar-brand" href="{% url 'home_page' %}">New Age Shopping</a>
+        {% comment %} <a class="navbar-brand" href="{% url 'home_page' %}">New Age Shopping</a> {% endcomment %}
+        <div class="category_section ml-5">
+        <div class="dropdown">
+            <button class="category_navbar_button" type="button" id="category_list" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Categories <i class="fas fa-angle-down ml-2"></i>
+            </button>
+            <!--level 1 -->
+            <div class="dropdown-menu category_dropdown_level1" aria-labelledby="category_list">
+                {% for level1 in level1_objects%}
+                <div class="dropright">
+                    <a href="" class="dropdown-item " data-toggle="dropright" aria-haspopup="true" aria-expanded="false"
+                        id="category_level1">{{level1.category_level1}} <i class="fas fa-angle-right"
+                            style="position: absolute; right: 5px;"></i></a>
+                    <!--Level 2-->
+                    <div class="dropdown-menu category_dropdown_level2" aria-labelledby="category_level1">
+                        {% for level2 in level1.level2_item %}
+                        <div class="dropright">
+                            <a class="dropdown-item" href="{% url 'shop_now' level2 %}"
+                                id="category_level2">{{level2.category_level2}} <i class="fas fa-angle-right"
+                                    style="position: absolute; right: 5px;"></i></a>
+                            <!--Brand name-->
+                            <div class="dropdown-menu category_dropdown_brand" aria-labelledby="category_level1">
+                                {% for level3 in level2.level3_item %}
+                                <a class="dropdown-item" href="{% url 'shop_now' level3 %}">{{level3.brand_name}}</a>
+                                {% endfor %}
+                            </div>
+                            <!--end of brand name-->
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!--end of level 2-->
+                </div>
+                {% endfor %}
+            </div>
+            <!--End of level 1-->
+        </div>
+    </div>  
+        
     </div>
 
     <!--Main Searchbar-->
@@ -98,7 +140,7 @@
 </nav>
 
 <!--third_navbar  navbar-->
-<nav class="nav third_navbar sticky-top">
+{% comment %} <nav class="nav third_navbar sticky-top">
     <div class="category_section">
         <div class="dropdown">
             <button class="category_navbar_button" type="button" id="category_list" data-toggle="dropdown"
@@ -136,8 +178,4 @@
             <!--End of level 1-->
         </div>
     </div>
-
-    <div class="text_movement_section">
-        <span>Thank you for visiting us</span>
-    </div>
-</nav>
+</nav> {% endcomment %}

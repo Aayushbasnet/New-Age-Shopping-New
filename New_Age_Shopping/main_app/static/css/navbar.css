@@ -1,5 +1,5 @@
 .first_navbar{
-    margin-bottom: 12px;
+    margin-bottom: none;
     display: block;
     position: relative;
     /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
@@ -59,9 +59,10 @@
 .middle_navbar{
     display: block;
     padding: 5px 5px 8px;
-    position: relative;
+    position: sticky;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     background-color: white;
+    top: 0;
 
 }
 
@@ -118,6 +119,7 @@
     display: inline-block;
     position: absolute;
     margin-left: 200px;
+    
 }
 
 .middle_navbar .my_account .dropdown > button{
@@ -283,32 +285,28 @@
     100% {transform: scale(1.6);}
   }
 
-.third_navbar{
-    display: block;
+/* .third_navbar{
+    display: inline;
     padding: 5px 5px 5px 5px;
     margin: 2px 0;
     font-family: Roberto;
     font-size: 18px;
     font-weight: 600;
-    position: relative;
-    /* top: 100px; */
-    /* z-index: -1; */
-    /* background-color: white;  */
-}
+} */
 
-.third_navbar .category_section{
+.middle_navbar .category_section{
     display: inline-block;
     margin-left: 3%;
     padding: 4px;
     /* border: 1px solid red; */
 }
 
-.third_navbar .category_section .dropdown {
+.middle_navbar .category_section .dropdown {
     display: block;
     text-align: center;
 }
 
-.third_navbar .category_section .dropdown > button{
+.middle_navbar .category_section .dropdown > button{
     /* position: absolute; */
     border: 1px solid #aaa;
     letter-spacing: 1px;
