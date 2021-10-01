@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-md-3 col-sm-12 border shadow pt-2 p-2 mt-2 ml-2 mr-2 bg-white" style="height: 270px;">
             <!-- {% include "myprofile/sidebar.html" %} -->
-            <p>Hello, User</p>
+            <p>Hello, {{user_profile.username | title}}</p>
             <ul>
                 <li> <a href="{% url 'myprofile:myprofile' %}" style="text-decoration:none; color: black;"><h5 style=" padding: 2px;"> My Profile </h5></a></li>
             </ul>

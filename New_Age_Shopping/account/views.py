@@ -80,7 +80,7 @@ def signupPage(request):
             print(merchant_obj)
 
             merchant_obj.save()
-            # messages.success(request, "Successfully registered your account !!!")
+            messages.success(request, "Successfully registered your account !!!")
             return redirect("/account/login/")
     else:
         forms = UserForm()
@@ -101,25 +101,23 @@ def merchantSignupPage(request):
 
     # if not request.user.is_authenticated:
     if request.method == "POST":
-        print("here!!!!!!")
         forms = MerchantForm(request.POST, request.FILES)
-        print(forms)
+
         if forms.is_valid():
-            print("2nda herwe!!!!!!!!!!!!!!!")
             forms.save(commit=False)
             username = forms.cleaned_data.get('username')
             first_name = forms.cleaned_data.get('first_name')
             last_name = forms.cleaned_data.get('last_name')
             email = forms.cleaned_data.get('email')
             password_first = forms.cleaned_data.get('password1')
-            print(password_first)
+            shop_name = forms.cleaned_data.get('shop_name')
             password_con = forms.cleaned_data.get('password2')
-            print(password_con)
             phone_number = forms.cleaned_data.get('phone_number')
             gender = forms.cleaned_data.get('gender')
             address = forms.cleaned_data.get('address')
             pan_number = forms.cleaned_data.get('pan_number')
             document_img = forms.cleaned_data.get('document')
+            print(document_img)
 
             merchant_obj = User.objects.create(
                 username = username,
@@ -127,7 +125,7 @@ def merchantSignupPage(request):
                 last_name = last_name,
                 email = email,
                 password = make_password(password_first),
-                # password2 = password_con,
+                shop_name = shop_name,
                 phone_number = phone_number,
                 gender = gender,
                 address = address,
@@ -138,11 +136,14 @@ def merchantSignupPage(request):
             )
 
             merchant_obj.save()
-            print(merchant_obj)
-            # messages.success(request, "Successfully registered your account !!!")
+            messages.success(request, "Successfully registered your account !!!")
             return redirect("/account/login/")
+        else:
+            messages.warning(request, "Account not registered !!!")
+            # return redirect("/account/merchant_signup/")
+
     else:
-        forms = MerchantForm()
+        pass
     # else:
     #     return redirect('/login/')
 

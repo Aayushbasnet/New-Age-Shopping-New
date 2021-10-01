@@ -3,7 +3,7 @@ $('.myclass').slick({
   dots: false,
   infinite: false,
   speed: 500,
-  slidesToShow: 3,
+  slidesToShow: 4,
   slidesToScroll: 2,
   prevArrow: '<span class="prev_arrow" style="position: absolute; font-size: 15px; bottom: 40%; z-index:1; left: -17px; display: inline-block;"><i class="fas fa-chevron-circle-left"></i></span>',
   nextArrow: '<span class="next_arrow" style="position: absolute; font-size: 15px; bottom: 40%; z-index:1; right: -17px; display: inline-block;"><i class="fas fa-chevron-circle-right"></i></span>',

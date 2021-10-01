@@ -4,7 +4,7 @@
 {% block content %}
 <div class="row w-100 p-3">
     <!--Filter Section-->
-    <div class="col-md-3 col-sm-3 col-3 mt-3 mb-3 pl-4 border-right">
+    <div class="col-md-3 col-sm-3 col-3 mt-3 mb-3 pl-4 border-right ">
         <!--Category Name-->
         <h6 style="font-size:14px; font-family:Roboto-Regular; margin-top: 5px;">Related Categories</h6>
         <p style="font-size:13px; font-weight:20px; color:#f57224; font-family:Roboto-Medium;">{ {{search_key | title}} }</p>
@@ -188,7 +188,24 @@
             {% endfor %}
         </div>
         {% else %}
-        No items
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 mt-4">
+                    <h5>No items </h5>
+                    <div class="text-center">
+                        <div class="c1nVRb" data-spm-anchor-id="a2a0e.searchlist.list.i0.701a6c6171jj4f">
+                                <h4> Search No Result </h4>
+                        </div>
+                        <div >
+                            We're sorry. We cannot find any matches for your search term.
+                        </div>
+                        <div class="text-center mt-5">
+                            <i style="font-size:5rem;" class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         {% endif %}
 
     </div>
@@ -201,7 +218,6 @@
                 {% for page_number in total_pages %}
                 <li class="page-item"><button class="page-link" onclick="updatePageNumber(this)"
                         value={{page_number}}>{{page_number}}</button></li>
-
                 {% endfor %}
 
             </ul>

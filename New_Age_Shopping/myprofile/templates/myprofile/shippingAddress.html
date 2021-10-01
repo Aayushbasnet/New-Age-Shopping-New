@@ -9,7 +9,7 @@
     <div class="container-fluid mt-5">
         <div class="row" style="min-height:30rem">
             <div class="col-md-3 col-sm-12 border shadow pt-2 p-2 mt-2 ml-2 mr-2 bg-white" style="height: 270px;">
-             <p>Hello, User</p>
+             <p>Hello, {{user_profile.username | title}}</p>
                 <ul>
                     <li> <a href="{% url 'myprofile:myprofile' %}"><h5 class="text-muted"> My Profile </h5></a></li>
                 </ul>

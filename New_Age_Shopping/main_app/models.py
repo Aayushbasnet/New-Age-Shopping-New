@@ -25,6 +25,9 @@ class Level1ProductCategory(ProductBaseClass):
     def __str__(self):
         return str(self.category_level1)
 
+    class Meta:
+        verbose_name_plural = 'Level 1 Categories'
+
     def save(self, *args, **kwargs):
         self.category_name_level1 = self.category_level1.upper()
         return super().save(*args, **kwargs)
@@ -50,6 +53,9 @@ class Level2ProductCategory(ProductBaseClass):
     
     def __str__(self):
         return str(self.category_level2)
+    
+    class Meta:
+        verbose_name_plural = 'Level 2 Categories'
 
     def save(self, *args, **kwargs):
         self.category_name_level2 = self.category_level2.upper()
@@ -69,8 +75,6 @@ class ProductCategory(ProductBaseClass):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.brand_name)
-        if self.brand_name  is not None:
-            self.brand_name = self.brand_name.upper()
         return super().save(*args, **kwargs)
 
     def __str__(self):
@@ -197,7 +201,7 @@ class Product(ProductBaseClass):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete= models.SET_NULL, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete= models.CASCADE)
     date_ordered    =   models.DateTimeField(auto_now_add=True)
     transcation_id  =   models.CharField(max_length=100 , null=True)
     complete    =   models.BooleanField(default=False)
@@ -206,7 +210,7 @@ class Order(models.Model):
         return str(self.id)
 
 class OrderItem(models.Model):
-    user = models.ForeignKey(User, on_delete= models.SET_NULL, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete= models.CASCADE)
     product = models.ForeignKey(Product, on_delete= models.SET_NULL, blank=True, null=True)
     order = models.ForeignKey(Order, on_delete= models.SET_NULL, blank=True, null=True)
     quantity =  models.IntegerField(default=1, blank=True, null=True)
@@ -238,15 +242,15 @@ class OrderItem(models.Model):
 
 class ShippingAddress(models.Model):
 
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    first_name = models.CharField(max_length= 20, blank=True, null=True)
-    last_name = models.CharField(max_length= 20, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length= 20)
+    last_name = models.CharField(max_length= 20)
     email = models.EmailField()
     phone_number = PhoneNumberField(blank=True, null=True, region='NP')
-    shipping_district = models.CharField(max_length=200, blank=True, null=True)
-    shipping_address = models.CharField(max_length=200, blank=True, null=True)
+    shipping_district = models.CharField(max_length=200)
+    shipping_address = models.CharField(max_length=200)
     shipping_zip = models.CharField(max_length=200, blank=True, null=True)
-    payment_option = models.CharField(max_length=200, blank=True, null=True)
+    payment_option = models.CharField(max_length=200)
     checkout_date = models.DateTimeField(auto_now_add=True)
 
 
@@ -325,9 +329,12 @@ class ContactUs(models.Model):
     def __str__(self):
         return str(self.full_name)+ str(self.phone_number)
 
+    class Meta:
+        verbose_name_plural = 'Contact Us'
+
 class Payment(models.Model):
     stripe_charge_id = models.CharField(max_length=50)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.FloatField()
     timestamp = models.DateTimeField(auto_now_add=True)
 

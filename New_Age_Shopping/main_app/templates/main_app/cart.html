@@ -32,8 +32,8 @@
 					<div class="d-flex justify-content-between" style="width: auto;">
 						<div>
 							<h5>{{cart_item.product.product_name}}</h5>
-							<p class="mb-2 text-muted text-uppercase small">Color: blue</p>
-							<p class="mb-2 text-muted text-uppercase small">Size: M</p>
+							{% comment %} <p class="mb-2 text-muted text-uppercase small">Color: blue</p>
+							<p class="mb-2 text-muted text-uppercase small">Size: M</p> {% endcomment %}
 							<p class="mb-4 text-muted small"> <span class=" text-uppercase text-muted small ">PRICE :
 								</span>
 								{% if cart_item.product.product_discount.product_discount_active%}
@@ -68,13 +68,13 @@
 						<div class="" style="width: 240px; position: absolute; right: 20px; height: 150px;">
 							<div class="def-number-input number-input mt-4">
 								<button data-product="{{cart_item.product.id}}" class="minus update-cart bg-white"
-									data-action="remove"
+									data-action="remove" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
 									style="border:none; outline:none; width:2rem; text-align: center;"> <i
 										class="fas fa-minus fa-xs"></i></button>
 								<input class="quantity fw-normal" min="0" name="quantity" value="{{cart_item.quantity}}"
 									type="number" style="width: 60px;">
 								<button data-product="{{cart_item.product.id}}" class="plus update-cart bg-white"
-									data-action="add"
+									data-action="add" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
 									style="border:none; outline:none; width:2rem; text-align: center;"><i
 										class="fas fa-plus fa-xs"></i>
 								</button>
@@ -191,6 +191,7 @@
 		expected_date.textContent = date
 		console.log(date);
 	});
+	
 </script>
 
 {% endblock content %}

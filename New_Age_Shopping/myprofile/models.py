@@ -20,6 +20,9 @@ class ShippingAddress(models.Model):
     def __str__(self):
         return f'({self.full_name})-{self.area}'
 
+    class Meta:
+        verbose_name_plural = 'Shipping Addresses'
+
 class MyProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     shipping_address = models.ForeignKey(ShippingAddress, on_delete=models.CASCADE)
@@ -27,3 +30,6 @@ class MyProfile(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+    class Meta:
+        verbose_name_plural = 'Customer Profile'

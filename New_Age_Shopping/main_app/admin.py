@@ -13,7 +13,7 @@ admin.site.register(Product, ProductAdmin)
 @admin.register(ProductCategory)
 class ProductCategoryAdmin(admin.ModelAdmin):
     exclude =('slug',)
-    list_display    =   ['id', 'category_name_level2', 'product_category_description']
+    list_display    =   ['id', 'category_name_level2', 'brand_name', 'product_category_description']
 
 @admin.register(ProductInventory)
 class ProductInventoryAdmin(admin.ModelAdmin):

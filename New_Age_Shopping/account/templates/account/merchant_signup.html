@@ -1,11 +1,41 @@
+
+
+
+
+
+
+
+
 {% extends 'main_app/base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% load crispy_forms_filters %}
 
 {% block content %}
+<style>
+    .errors{
+        color: red;
+    }
+
+</style>
+
 <div class="container mt-5">
     <div class="row shadow" style="width: 550px; height: auto; margin: auto; padding: 5px; border: 1px solid #aaa;">
         <div class="col-md-12 col-sm-12 p-3 border-bottom">
+        {% if messages %}
+            <div class="mt-3 col-12 text-center">
+                <ul class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
             <h4> Merchant </h4>
             <form novalidate action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -23,4 +53,4 @@
 </div>
     
 
-{% endblock content %}
+{% endblock content %} 

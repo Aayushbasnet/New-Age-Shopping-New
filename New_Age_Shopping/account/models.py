@@ -27,11 +27,12 @@ class User(AbstractUser):
         ("Other", 'Other')
     ]
     phone_number = PhoneNumberField(region="NP")
+    shop_name = models.CharField(max_length = 150)
     address = models.CharField(max_length=200)
     gender = models.CharField(max_length=6, choices=gender)
     is_customer = models.BooleanField(default=False)
     is_merchant = models.BooleanField(default=False)
-    pan_number = models.BigIntegerField("Merchant Pan Number", unique=True, blank=True, null=True)
+    pan_number = models.BigIntegerField("Merchant Pan Number", unique=True, null=True)
     document = models.ImageField("Merchant Document Image", upload_to= "Documents")
 
     def __str__(self):

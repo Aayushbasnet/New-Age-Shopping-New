@@ -53,10 +53,10 @@ def updateProfile(request):
 
 @login_required
 def shippingAddress1(request):
-    # user_profile = User.objects.get(id = request.user.pk, is_customer = True)
+    user_profile = User.objects.get(id = request.user.pk, is_customer = True)
     # address = MyProfile.objects.filter(user = user_profile)
     context = {
-        # 'address' : address,s
+        'user_profile' : user_profile,
     }
     if request.user.is_customer:
         return render(request, "myprofile/shippingaddress.html",context)
@@ -96,6 +96,7 @@ def myReview(request):
     my_comment = Comment.objects.filter(user = user_profile)
     print(my_comment)
     context={
+        'user_profile' : user_profile,
         'my_comment' : my_comment,
     }
     if request.user.is_customer or request.user.is_superuser:

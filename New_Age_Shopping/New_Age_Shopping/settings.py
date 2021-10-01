@@ -98,7 +98,7 @@ DATABASES = {
 
     'default':{
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'new_Age_Shopping_Database',
+        'NAME': 'New_Age_Shopping_Database',
         'USER': 'postgres',
         'PASSWORD': 'Aayush@007',
         'HOST': '127.0.0.1',
