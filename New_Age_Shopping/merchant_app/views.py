@@ -32,6 +32,8 @@ def merchantDashboard(request):
                 #add_product
                 product_name = add_product.cleaned_data.get('product_name')
 
+                product_short_desc = add_product.cleaned_data.get('product_short_description')
+
                 product_desc = add_product.cleaned_data.get('product_description')
 
                 product_price = add_product.cleaned_data.get('product_price')
@@ -73,6 +75,7 @@ def merchantDashboard(request):
                 product_obj = Product.objects.create(
                     user = request.user,
                     product_name = product_name,
+                    product_short_description = product_short_desc,
                     product_description = product_desc,
                     product_price = product_price,
                     product_availability = product_availability,

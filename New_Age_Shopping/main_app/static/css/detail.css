@@ -454,13 +454,12 @@
 
  .hide_comment{
     overflow: hidden;
-    height: 350px;
+    height: 318px;
 }
 
 .text-center .see_more_btn{
     margin-top: 5px;
     padding: 5px;
-
     outline: none;
     background-color:  white;
     border: none;

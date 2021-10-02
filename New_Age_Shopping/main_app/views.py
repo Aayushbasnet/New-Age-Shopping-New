@@ -86,7 +86,7 @@ def category_shopping(request, slug, pk=1):
         products = products.annotate(rating_avg = Avg('product_comment__rate'))
         products = products.filter(rating_avg__gte = min_rating)
 
-    paginator = Paginator(products, 8)
+    paginator = Paginator(products, 35)
 
     page = page if page else 1
 
@@ -273,18 +273,6 @@ def contact_us(request):
         if forms.is_valid():
             forms.save()
             messages.success(request, "Message submitted")
-            # full_name = forms.cleaned_data.get("full_name")
-            # phone_number = forms.cleaned_data.get("phone_number")
-            # email = forms.cleaned_data.get("email")
-            # messages = forms.cleaned_data.get("messages")
-
-            # contact_us = ContactUs.objects.create(
-            #     full_name = full_name,
-            #     email = email,
-            #     phone_number = phone_number,
-            #     messages = messages
-            # )
-            # contact_us.save()
         else:
             messages.success(request, "Message not submitted")
 
@@ -365,7 +353,7 @@ def payment_view(request):
         return render(request, 'main_app/payment_view.html', context)
     else:
         messages.warning(request, "Permission denied! Login through your customer account.")
-        return redirect('/')
+        return render('account:login_page')
 
 
 def addComment(request, pk):

@@ -8,9 +8,9 @@
 <div class="container-fluid mt-5 bg-white" id="detail_container" style="height:auto;">
     <div class="row border-bottom mt-2">
         <div class="col-xs-6 m-2 mt-2 text-center" id="main_product_section">
-                <div class="col-sm-12" style="height:600px; width:600px;">
-                    <img src="{{singleProduct.product_image_src.url}}" class='main-image container-layout' alt=""
-                        style="height:100%; width:100%;">
+                <div class="col-sm-12 " style="height:600px; width:800px;">
+                    <img src="{{singleProduct.product_image_src.url}}" class='shadow  border main-image container-layout' alt=""
+                        style=" padding: 0; height:100%; width:100%;">
                 </div>
 
                 <!--Product alternative Image-->
@@ -18,19 +18,19 @@
                 {% if singleProduct.productalternativeimages_set.all.count == 0  %}
                     <div class="row ml-3 mt-2" style="height:125px; width: 160px; ">
                         <div class="col-sm-12 col-3" style="height:125px;">
-                            <img class='border shadow img-fluid container-layout image-change-js'
+                            <img class='p-2 border shadow img-fluid container-layout image-change-js'
                                 src="{{singleProduct.product_image_src.url}}"style="height:123px; width:100%;" alt="">
                         </div>
                     </div>
                 {% elif singleProduct.productalternativeimages_set.all.count > 0 and singleProduct.productalternativeimages_set.all.count < 4 %}
                     <div class="row ml-3 mt-2" style="height:125px;">
                         <div class="col-sm-3 col-3 p-0" style="height:125px; ">
-                            <img class='border shadow img-fluid container-layout image-change-js'
+                            <img class=' p-2 border shadow img-fluid container-layout image-change-js'
                                 src="{{singleProduct.product_image_src.url}}"style="height:123px; width:100%;" alt="">
                         </div>
                         {% for data in singleProduct.productalternativeimages_set.all %}
                             <div class="col-sm-3 col-3 pl-1 p-0 " style="height:125px; width: 150px;">
-                                <img class='border shadow img-fluid container-layout image-change-js'
+                                <img class='p-2 border shadow img-fluid container-layout image-change-js'
                                     src="{{data.alternative_image.url}}"style="height:123px; width:100%;" alt="">
                             </div>
                         {% endfor %}
@@ -38,19 +38,17 @@
                 {% else %}
                     <div class="row ml-3 mt-2 myclass" style="height:125px; ">
                         <div class="col-sm-12 col-3 p-0 pr-1" style="height:125px;">
-                            <img class='border shadow img-fluid container-layout image-change-js'
+                            <img class='p-2  border shadow img-fluid container-layout image-change-js'
                                 src="{{singleProduct.product_image_src.url}}"style="height:123px; width:100%;" alt="">
                         </div>
                         {% for data in singleProduct.productalternativeimages_set.all %}
                             <div class="col-sm-12 col-3 p-0 pl-1" style="height:125px;">
-                                <img class='border shadow img-fluid container-layout image-change-js'
+                                <img class='p-2 border shadow img-fluid container-layout image-change-js'
                                     src="{{data.alternative_image.url}}"style="height:123px; width:100%;" alt="">
                             </div>
                         {% endfor %}
                     </div>
-                {% endif %}
-                    
-                
+                {% endif %} 
         </div>
         <div class="col-md-6 mt-2" id="main_product_content_section">
             <!--product name-->
@@ -114,7 +112,9 @@
             </div>
 
             <!--product details-->
-            <p class="pt-2">{{singleProduct.product_short_description | safe}}</p>
+            <div>
+                {{singleProduct.product_short_description | safe}}
+            </div>
 
             <hr style="height: 5px;">
 
@@ -169,6 +169,7 @@
                     <div class="row">
                     <!--Display comment-->
                         <div class="col-md-6">
+                        {% if comments.count > 3  %}
                             <div class="product-reviews hide_comment">
                                 {% for rs in comments %}
                                 <div class="single-review border-bottom">
@@ -194,9 +195,40 @@
                                 </div>
                                 {% endfor %}
                             </div>
+                               
                             <div class="text-center">
-                                <button class="see_more_btn"> See more >></button>
+                                <button class="see_more_btn border" style="text-decoration: none;"> See more >></button>
                             </div>
+                        {% elif comments.count > 0 and comments.count < 4 %}
+                            <div class="product-reviews" style="height: auto;   ">
+                                {% for rs in comments %}
+                                <div class="single-review border-bottom">
+                                    <div class="review-heading  d-flex justify-content-between">
+                                        <div class="profile_name"><a href="#"><i class="fa fa-user-o"></i>
+                                                {{rs.user.first_name}}</a> </div>
+                                        <div class="text-muted" style="font-size:14px; color: #aaa">
+                                            <b>{{rs.subject}}</b> </div>
+                                        <div class="text-muted" style="font-size:14px;"><i class="fa fa-clock-o"></i>
+                                            {{rs.create_at}}</div>
+
+                                        <div class="review-rating pull-right" style="font-size: 12px;">
+                                            <i class="fa fa-star{% if rs.rate < 1 %}-o empty{% endif %}"></i>
+                                            <i class="fa fa-star{% if rs.rate < 2 %}-o empty{% endif %}"></i>
+                                            <i class="fa fa-star{% if rs.rate < 3 %}-o empty{% endif %}"></i>
+                                            <i class="fa fa-star{% if rs.rate < 4 %}-o empty{% endif %}"></i>
+                                            <i class="fa fa-star{% if rs.rate < 5 %}-o empty{% endif %}"></i>
+                                        </div>
+                                    </div>
+                                    <div class="review-body pl-3">
+                                        <p>{{rs.comment}}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p> No comments yet </p> 
+                        
+                        {% endif %}
                         </div>
                         
                         <!--Comment and review-->

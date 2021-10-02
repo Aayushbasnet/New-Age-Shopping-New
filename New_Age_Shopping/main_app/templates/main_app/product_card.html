@@ -48,7 +48,7 @@
                   </span></p>
                 {% endif %}
                 
-                {% if request.user.is_customer %}
+                {% if request.user.is_customer or request.user.is_superuser %}
                   <form action="/cart/" method="post" class="d-inline">
                   {% csrf_token %}
                     <input hidden type="number" name="detail_item_id" value="{{data.id}}" id="detail_item_id">
