@@ -1,6 +1,7 @@
 from django.db import models
 from account.models import User
 from phonenumber_field.modelfields import PhoneNumberField
+from main_app.models import OrderItem
 
 # Create your models here.
 SHIPPING_ADDRESS = (
@@ -33,3 +34,13 @@ class MyProfile(models.Model):
 
     class Meta:
         verbose_name_plural = 'Customer Profile'
+
+class ReviewSeller(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rate = models.IntegerField()
+    is_rated = models.BooleanField(default=False)
+    order_items = models.ForeignKey(OrderItem, on_delete=models.CASCADE, null=True)
+    rated_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.user) + str(self.rate) 

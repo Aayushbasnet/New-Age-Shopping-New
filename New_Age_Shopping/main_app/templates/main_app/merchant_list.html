@@ -23,15 +23,13 @@
       <h4 class="text-center mb-5 ">Our Sellers : {{merchant_list.count}}</h4>
       <div class="row  m-2">
           <div class="col-md-12">
-          
-          
               <table class="table table-hover">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Shop Name</th>
                     <th scope="col">Merchant Name</th>
-                    <th scope="col">Product Selling</th>
+                    <th scope="col">Average Rating</th>
                     <th scope="col">Shop</th>
                   </tr>
                 </thead>
@@ -39,9 +37,9 @@
                 {% for merchant_list in merchant_list %}
                   <tr>
                     <th scope="row">{{forloop.counter}}</th>
-                    <td>Mark</td>
+                    <td>{{merchant_list.shop_name}}</td>
                     <td>{{merchant_list.first_name}} {{merchant_list.last_name}}</td>
-                    <td>{{product_list}}</td>
+                    <td>{{merchant_list.reviewseller_set.rate}}</td>
                     <td><a href="/merchant_shop_now/merchant/{{merchant_list.pk}}/">Shop here</a></td>
                   </tr>
                   {% endfor %}

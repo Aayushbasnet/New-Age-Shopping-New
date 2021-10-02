@@ -17,7 +17,7 @@ def homepage(request):
     try:
         first_slide_homepage_product_data = Product.objects.all().order_by('?').distinct()[:10]
         trending_product = Product.objects.all().order_by('?')
-        our_product = Product.objects.all().order_by('?').distinct()[:10]
+        our_product = Product.objects.all().order_by('?').distinct()[:22]
         featured_slider_product = FeaturedSliderProduct.objects.all()
     except ObjectDoesNotExist:
         raise ObjectDoesNotExist
@@ -119,66 +119,81 @@ def detail(request, pk):
     }
     return render(request, 'main_app/detail.html', context)
 
-@login_required
+# @login_required
 def cart(request):
-    if request.method == "POST":
-        detail_item_id = request.POST.get("detail_item_id")
-        product = get_object_or_404(Product, pk=detail_item_id)
-        data = OrderItem.objects.filter(
-            user=request.user, product=product, complete=False)
+    if request.user.is_authenticated:
+        if request.user.is_customer or request.user.is_superuser:
+            if request.method == "POST":
+                detail_item_id = request.POST.get("detail_item_id")
+                product = get_object_or_404(Product, pk=detail_item_id)
+                data = OrderItem.objects.filter(
+                    user=request.user, product=product, complete=False)
 
-        if data.exists():
-            first_data = data[0]
-            # first_data.quantity += 1
-            # first_data.save()
-            messages.success(request, "Item added to cart")
+                if data.exists():
+                    first_data = data[0]
+                    # first_data.quantity += 1
+                    # first_data.save()
+                    messages.success(request, "Item added to cart")
+                else:
+                    data = OrderItem.objects.create(
+                        user=request.user, product=product, complete=False)
+                    data.save()
+                    messages.success(request, "Item added to cart")
+
+            # session products
+            cart_items = OrderItem.objects.filter(user=request.user, complete=False)
+            order_items = Order.objects.filter(user=request.user,  complete=False)
+            grand_total = 0
+            for items in cart_items:
+                grand_total = grand_total + float(items.get_total)
+
+            items_total = 0
+            for items in cart_items:
+                items_total = items_total + 1
+
+            usd_total = grand_total * 0.0085
+
+            context = {
+                "cart_items": cart_items,
+                "order_items": order_items,
+                "grand_total": grand_total,
+                "items_total": items_total,
+                'usd_total': usd_total,
+            }
+            
+            return render(request, 'main_app/cart.html', context)
+
         else:
-            data = OrderItem.objects.create(
-                user=request.user, product=product, complete=False)
-            data.save()
-            messages.success(request, "Item added to cart")
-
-    # session products
-    cart_items = OrderItem.objects.filter(user=request.user, complete=False)
-    order_items = Order.objects.filter(user=request.user,  complete=False)
-    grand_total = 0
-    for items in cart_items:
-        grand_total = grand_total + float(items.get_total)
-
-    items_total = 0
-    for items in cart_items:
-        items_total = items_total + 1
-
-    usd_total = grand_total * 0.0085
-
-    context = {
-        "cart_items": cart_items,
-        "order_items": order_items,
-        "grand_total": grand_total,
-        "items_total": items_total,
-        'usd_total': usd_total,
-    }
-
-    if request.user.is_customer or request.user.is_superuser:
-        return render(request, 'main_app/cart.html', context)
+            messages.warning(request, "Permission denied! Login through your customer account.")
+            return redirect('/')
 
     else:
-        messages.warning(request, "Permission denied! Login through your customer account.")
-        return redirect('/')
+        messages.warning(request, "Permission denied! Login with your customer account.")
+        return redirect('/account/login/')
 
-@login_required
+# @login_required
 def remove_cart(request):
-    if request.method == "POST":
-        remove_item_id = request.POST.get("remove_cart_id")
-        product = get_object_or_404(OrderItem, pk=remove_item_id)
-        product.delete()
-        messages.warning(request, "Item deleted from cart")
-        return redirect('/cart/')
-    if request.user.is_customer or request.user.is_superuser:
-        return render(request, 'main_app/cart.html')
+    if request.user.is_authenticated:
+        if request.user.is_customer or request.user.is_superuser:
+            if request.method == "POST":
+                remove_item_id = request.POST.get("remove_cart_id")
+                product = get_object_or_404(OrderItem, pk=remove_item_id)
+                product.delete()
+                messages.warning(request, "Item deleted from cart")
+                return redirect('/cart/')
+                # return render(request, 'main_app/cart.html')
+            else:
+                messages.warning(request, "Item not removed!")
+                return redirect('/cart/')
+        
+        else:
+            messages.warning(request, "Permission denied! Login through your customer account.")
+            return redirect('/')
+
     else:
-        messages.warning(request, "Permission denied! Login through your customer account.")
-        return redirect('/')
+        messages.warning(request, "Permission denied! Login with your customer account.")
+        return redirect('/account/login/')
+
 
 # navbar wishlist without pk
 def nav_wishlist(request):
@@ -196,34 +211,58 @@ def nav_wishlist(request):
     }
     return render(request, 'main_app/wishlist.html', context)
 
+
+
 # session
-
-
 def wishlist(request, pk):
-    cart = request.session.get("product_cart", None)
-    products = None
-    if cart is None:
-        cart = {}
-        request.session["product_cart"] = cart
+    if request.user.is_authenticated:
+        if request.user.is_customer:
+            messages.warning(request, "Permission denied! You must log out....")
+            return redirect('/')
+        elif request.user.is_merchant:
+            messages.success(request, "Item added.")
+            cart = request.session.get("product_cart", None)
+            products = None
+            if cart is None:
+                cart = {}
+                request.session["product_cart"] = cart
 
-    cart[pk] = pk
+            cart[pk] = pk
 
-    request.session["product_cart"] = cart
-    i = []
-    for p_count in cart:
-        i.append(cart[p_count])
+            request.session["product_cart"] = cart
+            i = []
+            for p_count in cart:
+                i.append(cart[p_count])
 
-    products = Product.objects.filter(pk__in=i)
+            products = Product.objects.filter(pk__in=i)
 
-    context = {
-        'products': products,
-    }
-    if request.user.is_authenticated and request.user.is_merchant:
-        messages.warning(request, "Permission denied! You must log out.")
-        return redirect('/')
+            context = {
+                'products': products,
+            }
+            return render(request, 'main_app/wishlist.html', context)
+        else:
+            messages.warning(request, "Permission denied! You must log out.")
+            return redirect('/')
     else:
-        return render(request, 'main_app/wishlist.html', context)
+        cart = request.session.get("product_cart", None)
+        products = None
+        if cart is None:
+            cart = {}
+            request.session["product_cart"] = cart
 
+        cart[pk] = pk
+
+        request.session["product_cart"] = cart
+        i = []
+        for p_count in cart:
+            i.append(cart[p_count])
+
+        products = Product.objects.filter(pk__in=i)
+
+        context = {
+            'products': products,
+        }
+        return render(request, 'main_app/wishlist.html', context)
 
 
 def remove_wishlist(request, pk):
@@ -235,8 +274,10 @@ def remove_wishlist(request, pk):
     except:
         return render(request, 'main_app/404.html')
 
-def wishlist_to_cart(request):
-    return redirect('/account/login/')
+
+
+# def wishlist_to_cart(request):
+#     return redirect('/account/login/')
 
 
 def update_item(request):
@@ -287,73 +328,85 @@ def about_us(request):
     return render(request, 'main_app/about_us.html')
 
 
-@login_required
+# @login_required
 def checkout(request):
-    forms = CheckoutForm()
-    if request.method == "POST":
-        forms = CheckoutForm(request.POST or None)
-        try:
-            order = OrderItem.objects.filter(user=request.user, complete=False)
-            if order.exists():
-                if forms.is_valid():
-                    first_name = forms.cleaned_data.get("first_name")
-                    last_name = forms.cleaned_data.get("last_name")
-                    email = forms.cleaned_data.get("email")
-                    phone_number = forms.cleaned_data.get("phone_number")
-                    shipping_district = forms.cleaned_data.get(
-                        "shipping_district")
-                    shipping_address = forms.cleaned_data.get(
-                        "shipping_address")
-                    shipping_zip = forms.cleaned_data.get("shipping_zip")
-                    payment_option = forms.cleaned_data.get("payment_option")
+    if request.user.is_authenticated:
+        if request.user.is_customer or request.user.is_superuser:
+            forms = CheckoutForm()
+            if request.method == "POST":
+                forms = CheckoutForm(request.POST or None)
+                try:
+                    order = OrderItem.objects.filter(user=request.user, complete=False)
+                    if order.exists():
+                        if forms.is_valid():
+                            first_name = forms.cleaned_data.get("first_name")
+                            last_name = forms.cleaned_data.get("last_name")
+                            email = forms.cleaned_data.get("email")
+                            phone_number = forms.cleaned_data.get("phone_number")
+                            shipping_district = forms.cleaned_data.get(
+                                "shipping_district")
+                            shipping_address = forms.cleaned_data.get(
+                                "shipping_address")
+                            shipping_zip = forms.cleaned_data.get("shipping_zip")
+                            payment_option = forms.cleaned_data.get("payment_option")
 
-                    shipping_address = ShippingAddress.objects.create(
-                        user=request.user,
-                        first_name=first_name,
-                        last_name=last_name,
-                        email=email,
-                        phone_number=phone_number,
-                        shipping_district=shipping_district,
-                        shipping_address=shipping_address,
-                        shipping_zip=shipping_zip,
-                        payment_option=payment_option,
-                    )
-                    shipping_address.save()
-                    return redirect('/payment_view/')
-                else:
-                    pass
+                            shipping_address = ShippingAddress.objects.create(
+                                user=request.user,
+                                first_name=first_name,
+                                last_name=last_name,
+                                email=email,
+                                phone_number=phone_number,
+                                shipping_district=shipping_district,
+                                shipping_address=shipping_address,
+                                shipping_zip=shipping_zip,
+                                payment_option=payment_option,
+                            )
+                            shipping_address.save()
+                            return redirect('/payment_view/')
+                        else:
+                            messages.warning(request, "Fill the form correctly!")
+                    else:
+                        messages.warning(request, "There is no item in the cart")
+                except ObjectDoesNotExist:
+                    messages.error(request, "No items found in the cart")
             else:
-                messages.warning(request, "There is no item in the cart")
-        except ObjectDoesNotExist:
-            messages.error(request, "No items found in the cart")
-    else:
-        forms = CheckoutForm()
+                # forms = CheckoutForm()
+                messages.warning(request, "Fill the form correctly!")
 
-    context = {
-        'forms': forms,
-    }
-    if request.user.is_customer or request.user.is_superuser:
-        return render(request, 'main_app/checkout.html', context)
+            context = {
+                'forms': forms,
+            }
+            
+            return render(request, 'main_app/checkout.html', context)
+        else:
+            messages.warning(request, "Permission denied! Login through your customer account.")
+            return redirect('/')
+    
     else:
         messages.warning(request, "Permission denied! Login through your customer account.")
-        return redirect('/')
+        return redirect('/account/login/')
 
 
-@login_required
+# @login_required
 def payment_view(request):
-    grand_total, item_total = for_items_total(request)
-    ordered_items = OrderItem.objects.filter(user=request.user, complete=False)
-    context = {
-        'ordered_items': ordered_items,
-        'grand_total': grand_total,
-        'item_total': item_total,
-    }
+    if request.user.is_authenticated:
+        if request.user.is_customer or request.user.is_superuser:
+            grand_total, item_total = for_items_total(request)
+            ordered_items = OrderItem.objects.filter(user=request.user, complete=False)
+            context = {
+                'ordered_items': ordered_items,
+                'grand_total': grand_total,
+                'item_total': item_total,
+            }
+            return render(request, 'main_app/payment_view.html', context)
 
-    if request.user.is_customer or request.user.is_superuser:
-        return render(request, 'main_app/payment_view.html', context)
+        else:
+            messages.warning(request, "Permission denied! Login through your customer account.")
+            return redirect('/')
+
     else:
         messages.warning(request, "Permission denied! Login through your customer account.")
-        return render('account:login_page')
+        return redirect('/account/login/')
 
 
 def addComment(request, pk):
@@ -383,70 +436,69 @@ def addComment(request, pk):
 
 def totalMerchant(request):
     merchant = User.objects.filter(is_merchant=True)
-    i = []
-    product_list = []
-
-    mer_count = merchant.count()
-
-    for mer in merchant:
-        merchant_product = Product.objects.filter(
-            user=mer)
-        merchant_product_category = merchant_product.values_list(
-            'product_category__brand_name')
-        product_list = [merchant_product_category]
-        i.append(product_list)
+    total_rating =0
 
     context = {
         'merchant_list': merchant,
-        'product_list': product_list,
+        # 'product_list': product_list,
     }
     return render(request, 'main_app/merchant_list.html', context)
 
-@login_required
+# @login_required
 def postPayment(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        transcation_id = data['transcation_id']
-        amount = data['amount']
+    if request.user.is_authenticated:
+        if request.user.is_customer or request.user.is_superuser:
+            if request.method == "POST":
+                data = json.loads(request.body)
+                transcation_id = data['transcation_id']
+                amount = data['amount']
 
-        payment = Payment.objects.create(stripe_charge_id=transcation_id, user=request.user, amount=amount)
-        payment.save()
+                payment = Payment.objects.create(stripe_charge_id=transcation_id, user=request.user, amount=amount)
+                payment.save()
+                
+                order_transcation = Order.objects.create(user = request.user, complete =True, transcation_id = request.user.id)
+                order_transcation.save()
+
+            ordered_items = OrderItem.objects.filter(user=request.user, complete=False)
+
+            get_shipping_address = ShippingAddress.objects.filter(user=request.user)
+
+            if get_shipping_address.exists():
+                get_shipping_address = get_shipping_address[0]
+            else:
+                return redirect("/checkout/")
+            payment_update = Payment.objects.filter(user=request.user)
+
+            if payment_update.exists():
+                payment_update = payment_update[0]
+
+            else:
+                return redirect("/payment_view/")
+
+            order_transcation =Order.objects.filter(user =request.user)
+            if order_transcation.exists():
+                order_transcation = order_transcation[0]
+                
+            if ordered_items.exists():
+                ordered_items.update(shipping_address=get_shipping_address)
+                ordered_items.update(payment=payment_update)
+                ordered_items.update(order=order_transcation)
+                ordered_items.update(complete=True)
+                
+                for items in ordered_items:
+                    items.save()
+                return redirect('/')
+
+            context = {
+                'ordered_items': ordered_items,
+            }
+            return redirect('/payment_view/')
         
-        order_transcation = Order.objects.create(user = request.user, complete =True, transcation_id = request.user.id)
-        order_transcation.save()
-
-    ordered_items = OrderItem.objects.filter(user=request.user, complete=False)
-
-    get_shipping_address = ShippingAddress.objects.filter(user=request.user)
-
-    if get_shipping_address.exists():
-        get_shipping_address = get_shipping_address[0]
+        else:
+            messages.warning(request, "Permission denied! Login through your customer account.")
+            return redirect('/')
+    
     else:
-        return redirect("/checkout/")
-    payment_update = Payment.objects.filter(user=request.user)
+        messages.warning(request, "Permission denied! Login through your customer account.")
+        return redirect('/account/login/')
 
-    if payment_update.exists():
-        payment_update = payment_update[0]
-
-    else:
-        return redirect("/payment_view/")
-
-    order_transcation =Order.objects.filter(user =request.user)
-    if order_transcation.exists():
-        order_transcation = order_transcation[0]
-        
-    if ordered_items.exists():
-        ordered_items.update(shipping_address=get_shipping_address)
-        ordered_items.update(payment=payment_update)
-        ordered_items.update(order=order_transcation)
-        ordered_items.update(complete=True)
-        
-        for items in ordered_items:
-            items.save()
-            print("saved")
-        return redirect('/')
-
-    context = {
-        'ordered_items': ordered_items,
-    }
-    return redirect('/payment_view/')

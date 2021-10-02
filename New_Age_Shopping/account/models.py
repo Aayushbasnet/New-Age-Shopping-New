@@ -4,23 +4,10 @@ from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 from uuid import uuid4
 from random import randint
+from django.db.models import Avg
 
 
 class User(AbstractUser):
-    # def image_rename(self, filename):
-    #     upload_to = self.usernaem + "/"
-    #     # file_extension       =   filename.split(".")[-1]
-    #     product_name = self.user
-    #     png_file_extension = "png"
-
-    #     # get filename
-    #     if product_name:
-    #         print(self.id)
-    #         filename = '{}{}.{}'.format(
-    #             product_name, str(uuid4().hex), png_file_extension)
-    #     else:
-    #         filename = '{}.{}'.format(uuid4().hex, png_file_extension)
-
     gender = [
         ("Male", 'Male'),
         ("Female", 'Female'),
@@ -37,3 +24,5 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+

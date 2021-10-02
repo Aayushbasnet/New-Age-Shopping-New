@@ -8,6 +8,7 @@ from django.contrib.auth import logout
 from main_app.models import OrderItem
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Sum
 
 @login_required
 def merchantDashboard(request):
@@ -113,6 +114,9 @@ def merchantDashboard(request):
 
         #my order
         my_order = OrderItem.objects.filter(product__user = merchant_user, complete = True)
+        total_sales = 0
+        for items in my_order:
+            total_sales = total_sales + float(items.get_total)
 
         context = {
             'add_product' : add_product,
@@ -122,6 +126,7 @@ def merchantDashboard(request):
             'merchant_user' : merchant_user,
             'low_stock' : low_stock,
             'my_order' : my_order,
+            'total_sales' : total_sales,
         }
 
         return render(request, 'merchant_app/mHomepage.html', context)
