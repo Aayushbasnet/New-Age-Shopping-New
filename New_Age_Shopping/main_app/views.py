@@ -6,11 +6,12 @@ from django.http.response import JsonResponse
 import json
 from .forms import CheckoutForm, CommentForm, ContactUsForm
 from django.core.exceptions import ObjectDoesNotExist
-from .utils import for_items_total
+from .utils import for_items_total, esewa_id
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator
+
 
 
 def homepage(request):
@@ -393,10 +394,12 @@ def payment_view(request):
         if request.user.is_customer or request.user.is_superuser:
             grand_total, item_total = for_items_total(request)
             ordered_items = OrderItem.objects.filter(user=request.user, complete=False)
+            code = esewa_id()
             context = {
                 'ordered_items': ordered_items,
                 'grand_total': grand_total,
                 'item_total': item_total,
+                'code' : esewa_id,
             }
             return render(request, 'main_app/payment_view.html', context)
 
@@ -502,3 +505,51 @@ def postPayment(request):
         messages.warning(request, "Permission denied! Login through your customer account.")
         return redirect('/account/login/')
 
+def esewaSuccessful(request):
+    oid = request.GET.get('oid')
+    amount = request.GET.get('amt')
+    refid = request.GET.get('refId')
+    
+
+    payment = Payment.objects.create(
+        stripe_charge_id = oid,
+        user = request.user,
+        amount = amount
+    )
+
+    payment.save()
+
+    order_transcation = Order.objects.create(user = request.user, complete =True, transcation_id = request.user.id)
+    order_transcation.save()
+
+    ordered_items = OrderItem.objects.filter(user=request.user, complete=False)
+
+    get_shipping_address = ShippingAddress.objects.filter(user=request.user)
+
+    if get_shipping_address.exists():
+        get_shipping_address = get_shipping_address[0]
+    else:
+        return redirect("/checkout/")
+
+    payment_update = Payment.objects.filter(user=request.user)
+    if payment_update.exists():
+        payment_update = payment_update[0]
+    else:
+        return redirect("/payment_view/")
+
+    order_transcation = Order.objects.filter(user =request.user)
+    if order_transcation.exists():
+        order_transcation = order_transcation[0]
+        
+    if ordered_items.exists():
+        ordered_items.update(shipping_address=get_shipping_address)
+        ordered_items.update(payment=payment_update)
+        ordered_items.update(order=order_transcation)
+        ordered_items.update(complete=True)
+        
+        for items in ordered_items:
+            items.save()
+        messages.warning(request, "Your order is placed")
+        return redirect('/')
+    messages.warning(request, "Your order is placed")
+    return render(request, "main_app/esewa_successful.html")

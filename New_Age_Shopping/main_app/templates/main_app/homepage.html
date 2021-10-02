@@ -102,7 +102,7 @@
             {% comment %} <div class="d-flex"> {% endcomment %}
             {% if request.user.is_customer or request.user.is_superuser %}
               <div class="">
-                <form action="" method="post" class="d-inline-block">
+                <form action="/cart/" method="post" class="d-inline-block">
                         {% csrf_token %}
                         <input id="product_id" type="text" name="detail_item_id" value="{{data.id}}" hidden>
                         <button type="submit" style="border-radius:2px; font-size:0.9rem"

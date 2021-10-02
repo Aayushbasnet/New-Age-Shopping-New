@@ -128,14 +128,23 @@
 							<span><strong>Rs. {{grand_total}}</strong></span>
 						</li>
 					</ul>
-					<a href="{% url 'checkout' %}">
-						<button type="button" class="btn btn-primary btn-block">Goto Checkout</button>
-					</a>
-					<div class="mt-3">
+					
+					{% if cart_items.count < 1 %}
+						<div class="mt-3">
 						<a href="{% url 'shop_now' 'all' %}">
 							<button type="button" class="btn btn-primary btn-block">Continue shopping</button>
 						</a>
 					</div>
+					{% else %}
+						<a href="{% url 'checkout' %}">
+							<button type="button" class="btn btn-primary btn-block">Goto Checkout</button>
+						</a>
+						<div class="mt-3">
+							<a href="{% url 'shop_now' 'all' %}">
+								<button type="button" class="btn btn-primary btn-block">Continue shopping</button>
+							</a>
+						</div>				
+					{% endif %}
 				</div>
 			</div>
 		</div>

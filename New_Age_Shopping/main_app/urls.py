@@ -20,7 +20,7 @@ urlpatterns = [
     path('merchant_list/', views.totalMerchant, name="merchant_list"),
     path("post_payment/", views.postPayment, name="post_payment"),
     path("remove_wishlist/<int:pk>/", views.remove_wishlist, name="remove_wishlist"),
-    # path("wishlist_to_cart")
+    path("esewa_successful/", views.esewaSuccessful, name="esewa_successful")
     # path('merchant_shopping_page/<int:pk>', views.merchantShopPage, name="merchant_shopping_page")
 ]
 
