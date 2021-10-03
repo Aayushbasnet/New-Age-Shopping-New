@@ -136,12 +136,10 @@ def reviewSeller(request):
     if request.user.is_authenticated:
         if request.user.is_customer or request.user.is_superuser:
             customer_user = User.objects.get(id = request.user.pk, is_customer = True)
-            order_items = OrderItem.objects.filter(user = customer_user, received = True)
-            rate = ReviewSeller.objects.filter( is_rated = True)
-            print("data--------",rate)
+            ordered_items = OrderItem.objects.filter(user = customer_user, received = True)
+            order_items = ordered_items.exclude(reviewseller__is_rated = True)
             context = {
                 'order_items' : order_items,
-                'rate' : rate,
             }
             return render(request, 'myprofile/review_seller.html', context)
         else:
@@ -168,6 +166,7 @@ def reviewSellerSuccess(request, pk):
                     is_rated = True,
                 )
                 review_seller_obj.save()
+                messages.warning(request, "Thank you for your review")
                 return redirect('/myprofile/review_seller/')
             else:
                 messages.warning(request, "Rating failed")

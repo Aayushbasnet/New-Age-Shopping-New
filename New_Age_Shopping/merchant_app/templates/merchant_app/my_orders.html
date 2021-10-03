@@ -21,7 +21,7 @@
         <tr>
             <th scope="row">{{forloop.counter}}</th>
             <td>{{orders.product.product_name | title}}</td>
-            <td><a href=" {% url 'detail_page' orders.product.id%}"><img width="150px" height="150px" src="{{orders.product.product_image_src.url}}" alt="{orders.product.product_name}}"></a></td>
+            <td><a href=" {% url 'detail_page' orders.product.id%}"><img width="150px" height="150px" src="{{orders.product.product_image_src.url}}" loading="lazy" alt="{orders.product.product_name}}"></a></td>
             <td>{{orders.quantity }}</td>
             <td>{{orders.product.product_quantity.product_inventory_quantity }}</td>
             <td>{{orders.user.first_name | title}} {{orders.user.last_name | title}}</td>

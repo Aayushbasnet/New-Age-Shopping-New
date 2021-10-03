@@ -9,7 +9,7 @@
             <p>{{data.product_discount.product_discount_percentage}}% off</p>
             {% endif %}
             <div class="product_image">
-              <a href="{% url 'detail_page' data.pk %}"><img src={{data.product_image_src.url}} alt="{{data.pk}}"></a>
+              <a href="{% url 'detail_page' data.pk %}"><img src={{data.product_image_src.url}} loading="lazy" alt="{{data.pk}}"></a>
             </div>
             <div class="product_bottom">
               <a href="{% url 'detail_page' data.pk %}">

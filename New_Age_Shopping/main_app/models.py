@@ -252,6 +252,7 @@ class ShippingAddress(models.Model):
     shipping_zip = models.CharField(max_length=200, blank=True, null=True)
     payment_option = models.CharField(max_length=200)
     checkout_date = models.DateTimeField(auto_now_add=True)
+    payment_update = models.DateTimeField(auto_now=True)
 
 
     def __str__(self):
@@ -259,7 +260,7 @@ class ShippingAddress(models.Model):
 
     class Meta:
         verbose_name_plural = 'Shipping Addresses'
-        ordering = ("-shipping_address",)
+        ordering = ("-payment_update",)
 
 class Comment(models.Model):
     STATUS = (

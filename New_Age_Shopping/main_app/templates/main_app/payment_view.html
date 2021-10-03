@@ -4,6 +4,14 @@
 {% block title %}Payment{% endblock  %}
 
 {% block content %}
+<style>
+    .esewa_btn >input:hover{
+        background-color: #B6EA7D;
+        transform: scale(1.01);
+        transition: 0.2s ease-in-out;
+    }
+</style>
+
 <script>
     function PaymentFunction(transcation_id){
         console.log("i ma inside the PaymentFunction")
@@ -30,8 +38,6 @@
     }
 
 </script>
-
-
 
 <!--Item totals-->
 <div class="container mt-4 border">
@@ -73,8 +79,29 @@
 
 <!--Payment integrations-->
 
+<!--Esewa integration-->
+<div class="container mt-4 text-center" >
+    <h3 class="mt-3 mb-5 text-muted">Make your payment with</h3>
+    <div class="col-12">
+        <form action="https://uat.esewa.com.np/epay/main" method="POST">
+            <input value="{{grand_total}}" name="tAmt" type="hidden">
+            <input value="{{grand_total}}" name="amt" type="hidden">
+            <input value="0" name="txAmt" type="hidden">
+            <input value="0" name="psc" type="hidden">
+            <input value="0" name="pdc" type="hidden">
+            <input value="EPAYTEST" name="scd" type="hidden">
+            <input value="{{code}}" name="pid" type="hidden">
+            <input value="http://127.0.0.1:8000/esewa_successful/?q=su" type="hidden" name="su">
+            <input value="http://merchant.com.np/page/esewa_payment_failed?q=fu" type="hidden" name="fu">
+            <div class="esewa_btn">
+                <input value="Paynow" src="{% static 'images/esewa_logo/esewa long.png' %}" type="image" style="border:none; background-color: green; padding:3px; width: 250px; height: 90px;">
+            </div>
+        </form>
+    </div>
+</div>
+
 <!--Paypal integration-->
-<div class="container mt-4 text-center">
+{% comment %} <div class="container mt-4 text-center">
     <h3 class="mt-3 mb-5">Make your payment here</h3>
     <!-- Set up a container element for the button -->
     <div id="paypal-button-container">
@@ -126,22 +153,8 @@
         </script>
 
     </div>
-</div>
+</div> {% endcomment %}
 
-<!--Esewa integration-->
-<div class="container mt-5 border border-dark">
-    <form action="https://uat.esewa.com.np/epay/main" method="POST">
-        <input value="{{grand_total}}" name="tAmt" type="hidden">
-        <input value="{{grand_total}}" name="amt" type="hidden">
-        <input value="0" name="txAmt" type="hidden">
-        <input value="0" name="psc" type="hidden">
-        <input value="0" name="pdc" type="hidden">
-        <input value="EPAYTEST" name="scd" type="hidden">
-        <input value="{{code}}" name="pid" type="hidden">
-        <input value="http://127.0.0.1:8000/esewa_successful/?q=su" type="hidden" name="su">
-        <input value="http://merchant.com.np/page/esewa_payment_failed?q=fu" type="hidden" name="fu">
-        <input value="Submit" type="submit">
-    </form>
-</div>
+
 
 {% endblock content %}

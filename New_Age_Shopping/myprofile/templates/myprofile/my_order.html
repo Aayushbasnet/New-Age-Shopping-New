@@ -54,12 +54,14 @@
                 {% for orders in order_items %}
                     <tr style="font-size: 14px;">
                         <th scope="row">{{forloop.counter}}</th>
-                        <td><a style="color: black; font-size: 16px;" href="{% url 'detail_page' orders.product.id%}">{{orders.product.product_name}}</td>
+                        <td><a style="color: black; font-size: 16px; text-decoration:none;" href="{% url 'detail_page' orders.product.id%}"> <img src="{{orders.product.product_image_src.url}}" loading="lazy" alt="{{orders.product.product_name}}" width="80px" height="80px"><br>{{orders.product.product_name}}</td>
                         <td>{{orders.order.date_ordered}}</td>
                         <td>{{orders.quantity}}</td>
                         <td>{{orders.get_total}}</td>
-                        
-                        {% if orders.being_delivered %}
+
+                        {% if orders.received and orders.being_delivered%}
+                            <td>Received</td>
+                        {% elif orders.being_delivered %}
                             <td>On your way</td>
                         {% elif orders.received%}
                             <td>Received</td>

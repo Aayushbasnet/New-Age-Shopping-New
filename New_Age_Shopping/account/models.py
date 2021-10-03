@@ -25,4 +25,12 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
+    @property
+    def average_merchant_rating(self):
+        from myprofile.models import ReviewSeller
+        merchant_user = ReviewSeller.objects.filter(user = self)
+        average_rating = merchant_user.aggregate(Avg("rate"))
+        print("average merchant rating",average_rating)
+        return average_rating
+
 

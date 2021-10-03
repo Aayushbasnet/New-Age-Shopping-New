@@ -1,0 +1,130 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block title %}Payment{% endblock  %}
+
+{% block content %}
+<script>
+    function PaymentFunction(transcation_id){
+        console.log("i ma inside the PaymentFunction")
+        
+        url = '/post_payment/'
+
+        fetch(url, {
+            method: "POST",
+            headers:{
+                'Content-Type': 'application/json',
+                'X-CSRFToken':csrftoken,
+
+        },
+        body:JSON.stringify({'transcation_id':transcation_id,'amount' :  '{{grand_total}}'})
+        })
+
+        .then((response) =>{
+                return response.json()
+        })
+
+        .then((data) =>{
+                location.reload()
+            })
+    }
+
+</script>
+
+<!--Item totals-->
+<div class="container mt-4 border">
+    <div class="col-12">
+        <h3 class="text-center p-3 text-muted">Ordered Items</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-info">
+                    <th scope="col">#</th>
+                    <th scope="col">Item name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order_item in ordered_items %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{order_item.product.product_name}}</td>
+                    <td>{{order_item.quantity}}</td>
+                    <td>Rs. {{order_item.get_total}}</td>
+                </tr>
+                <tr>
+                    {% endfor %}
+                <tr>
+                    <th scope="row"></th>
+                    <td>
+                        <h5 style="text-decoration: underline;">TOTAL:
+                        </h5>
+                    </td>
+                    <td style="font-weight: bold;"></td>
+                    <td style="font-weight: bold;"> Rs.{{grand_total}}  <div class="text-muted" style="font-weight: 200; ">For paypal: ${%widthratio grand_total 10000 85%}</div></td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--Payment integrations-->
+
+<!--Paypal integration-->
+<div class="container mt-4 text-center">
+    <!-- Set up a container element for the button -->
+    <div id="paypal-button-container">
+
+        <!-- Include the PayPal JavaScript SDK -->
+        <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+
+        <script>
+            var total_amount = '{%widthratio grand_total 10000 85%}'
+            console.log("Here")
+            //usd_total = total_amount*0.0085
+            console.log(total_amount*0.0085)
+            // Render the PayPal button into #paypal-button-container
+            paypal.Buttons({
+
+                // Set up the transaction
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: total_amount
+                            }
+                        }]
+                    });
+                },
+
+                // Finalize the transaction
+                onApprove: function(data, actions) {
+                    console.log(data)
+                    return actions.order.capture().then(function(orderData) {
+                        // Successful capture! For demo purposes:
+                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                        var transaction = orderData.purchase_units[0].payments.captures[0];
+                        var transcation_id = transaction.id;
+                        console.log(transcation_id)
+                        PaymentFunction(transcation_id)
+                        //console.log(customer_transcation_id)
+                        alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+
+                        // Replace the above to show a success message within this page, e.g.
+                        // const element = document.getElementById('paypal-button-container');
+                        // element.innerHTML = '';
+                        // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                        // Or go to another URL:  actions.redirect('thank_you.html');
+                    });
+                }
+            }).render('#paypal-button-container');
+
+        </script>
+
+    </div>
+</div>
+
+
+
+{% endblock content %}

@@ -1,7 +1,6 @@
 {% extends 'main_app/base.html' %}
 {% load static %}
 
-
 {% block inline-css %}
   <style>
   .table a{
@@ -18,7 +17,6 @@
 {% endblock inline-css %}
 
 {% block content %}
-
     <div class="container border shadow mt-5 pt-4">
       <h4 class="text-center mb-5 ">Our Sellers : {{merchant_list.count}}</h4>
       <div class="row  m-2">
@@ -39,8 +37,33 @@
                     <th scope="row">{{forloop.counter}}</th>
                     <td>{{merchant_list.shop_name}}</td>
                     <td>{{merchant_list.first_name}} {{merchant_list.last_name}}</td>
-                    <td>{{merchant_list.reviewseller_set.rate}}</td>
-                    <td><a href="/merchant_shop_now/merchant/{{merchant_list.pk}}/">Shop here</a></td>
+                    <td>
+                    {% if merchant_list.average_merchant_rating.rate__avg is None %}
+                        <div class="review-rating pull-right" style="font-size: 12px;">
+                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                            <i style=" color:#FFB656;" class="fa fa-star-o empty"></i>
+                        </div>
+                    {% else %}
+                    <div class="review-rating pull-right" style="font-size: 12px;">
+                      <i style=" color:#FFB656;"
+                          class="fa fa-star{% if merchant_list.average_merchant_rating.rate__avg < 1 %}-o empty{% endif %}"></i>
+                      <i style=" color:#FFB656;"
+                          class="fa fa-star{% if merchant_list.average_merchant_rating.rate__avg < 2 %}-o empty{% endif %}"></i>
+                      <i style=" color:#FFB656;"
+                          class="fa fa-star{% if merchant_list.average_merchant_rating.rate__avg < 3 %}-o empty{% endif %}"></i>
+                      <i style=" color:#FFB656;"
+                          class="fa fa-star{% if merchant_list.average_merchant_rating.rate__avg < 4 %}-o empty{% endif %}"></i>
+                      <i style=" color:#FFB656;"
+                          class="fa fa-star{% if merchant_list.average_merchant_rating.rate__avg < 5 %}-o empty{% endif %}"></i>
+                      ( {{merchant_list.average_merchant_rating.rate__avg|floatformat:1}} )
+                  </div>
+                    {% endif %}
+                    </td>
+                    
+                    <td><a href="/merchant_shop_now/merchant/{{merchant_list.pk}}/">Shop here >></a></td>
                   </tr>
                   {% endfor %}
                 </tbody>

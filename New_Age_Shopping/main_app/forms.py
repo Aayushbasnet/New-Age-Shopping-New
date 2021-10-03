@@ -3,33 +3,34 @@ from .models import Comment,ContactUs
 from phonenumber_field.formfields import PhoneNumberField
 
 PAYMENT_CHOICES = (
-    ('S', 'Stripe'),
-    ('P', 'PayPal')
+    ('Esewa', 'Esewa'),
+    ('Paypal', 'PayPal')
 )
 
 DISTRICT_CHOICES ={
-    ('Pokhara', 'Pokhara'),
-    ('Sunsari', 'Sunsari'),
-    ('Jhapa', 'Jhapa'),
+    ('Bhaktapur', 'Bhaktapur'),
+    ('Lalitpur', 'Lalitpur'),
     ('Kathmandu', 'Kathmandu'),
+
+    
 }
 class CheckoutForm(forms.Form):
-    first_name = forms.CharField(max_length= 20, required= False, widget=forms.TextInput(attrs=
+    first_name = forms.CharField(max_length= 20, required= True, widget=forms.TextInput(attrs=
         {'class':'form_control_section',  'id':'input_firstname', 'placeholder':'First Name'}))
-    last_name = forms.CharField(max_length= 20, required= False,widget=forms.TextInput(attrs=
+    last_name = forms.CharField(max_length= 20, required= True,widget=forms.TextInput(attrs=
         {'class':'form_control_section',  'id':'input_lastname', 'placeholder':'Last Name'}))
-    phone_number = PhoneNumberField(help_text = "Required: +977-",required=False, widget=forms.TextInput(attrs=
+    phone_number = PhoneNumberField(help_text = "Required: +977-",required=True, widget=forms.TextInput(attrs=
         { 'type': 'number', 'class':'form_control_section','value': '+977-',  'id':'input_phonename', 'placeholder':'Phone Number'}))
-    email = forms.EmailField(required=False, widget=forms.TextInput(attrs=
+    email = forms.EmailField(required=True, widget=forms.TextInput(attrs=
         {'class':'form_control_section',  'id':'input_email', 'placeholder':'someone@email.com'}))
     # shipping_country = CountryField(blank_label='(select country)').formfield(
     #     required=False,
     #     widget=CountrySelectWidget(attrs={
     #         'class': 'custom-select d-block w-100',
     #     }))
-    shipping_district = forms.ChoiceField(required=False, widget= forms.Select(attrs=
+    shipping_district = forms.ChoiceField(required=True, widget= forms.Select(attrs=
         {'class':'form_control_section',  'value':'Regions', 'id':'regions'}), choices= DISTRICT_CHOICES)
-    shipping_address = forms.CharField(required=False, widget=forms.TextInput(attrs=
+    shipping_address = forms.CharField(required=True, widget=forms.TextInput(attrs=
         {'class':'form_control_section',  'id':'input_address', 'placeholder':'Address'}))
     shipping_zip = forms.CharField(required=False, widget=forms.TextInput(attrs=
         {'class':'form_control_section',  'id':'input_address', 'placeholder':'Address'}))

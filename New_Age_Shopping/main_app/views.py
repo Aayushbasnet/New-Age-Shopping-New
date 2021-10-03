@@ -363,7 +363,10 @@ def checkout(request):
                                 payment_option=payment_option,
                             )
                             shipping_address.save()
-                            return redirect('/payment_view/')
+                            if payment_option == 'Esewa':
+                                return redirect('/payment_view/')
+                            else:
+                                return redirect('/paypal_gateway/')
                         else:
                             messages.warning(request, "Fill the form correctly!")
                     else:
@@ -387,9 +390,30 @@ def checkout(request):
         messages.warning(request, "Permission denied! Login through your customer account.")
         return redirect('/account/login/')
 
+def paypal_gateway(request):
+    if request.user.is_authenticated:
+        if request.user.is_customer or request.user.is_superuser:
+            grand_total, item_total = for_items_total(request)
+            ordered_items = OrderItem.objects.filter(user=request.user, complete=False)
+            code = esewa_id()
+            context = {
+                'ordered_items': ordered_items,
+                'grand_total': grand_total,
+                'item_total': item_total,
+                'code' : esewa_id,
+            }
+            return render(request, 'main_app/paypal_payment.html', context)
+
+        else:
+            messages.warning(request, "Permission denied! Login through your customer account.")
+            return redirect('/')
+
+    else:
+        messages.warning(request, "Permission denied! Login through your customer account.")
+        return redirect('/account/login/')
 
 # @login_required
-def payment_view(request):
+def esewa_gateway(request):
     if request.user.is_authenticated:
         if request.user.is_customer or request.user.is_superuser:
             grand_total, item_total = for_items_total(request)
@@ -495,7 +519,8 @@ def postPayment(request):
             context = {
                 'ordered_items': ordered_items,
             }
-            return redirect('/payment_view/')
+            messages.success(request, "your order is placed")
+            return redirect('/')
         
         else:
             messages.warning(request, "Permission denied! Login through your customer account.")

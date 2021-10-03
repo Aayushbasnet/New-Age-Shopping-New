@@ -9,7 +9,7 @@
     <div class="row border-bottom mt-2">
         <div class="col-xs-6 m-2 mt-2 text-center" id="main_product_section">
                 <div class="col-sm-12 " style="height:600px; width:800px;">
-                    <img src="{{singleProduct.product_image_src.url}}" class='shadow  border main-image container-layout' alt=""
+                    <img src="{{singleProduct.product_image_src.url}}" loading="lazy" class='shadow  border main-image container-layout' alt=""
                         style=" padding: 0; height:100%; width:100%;">
                 </div>
 
@@ -19,19 +19,19 @@
                     <div class="row ml-3 mt-2" style="height:125px; width: 160px; ">
                         <div class="col-sm-12 col-3" style="height:125px;">
                             <img class='p-2 border shadow img-fluid container-layout image-change-js'
-                                src="{{singleProduct.product_image_src.url}}"style="height:123px; width:100%;" alt="">
+                                src="{{singleProduct.product_image_src.url}}" loading="lazy" style="height:123px; width:100%;" alt="">
                         </div>
                     </div>
                 {% elif singleProduct.productalternativeimages_set.all.count > 0 and singleProduct.productalternativeimages_set.all.count < 4 %}
                     <div class="row ml-3 mt-2" style="height:125px;">
                         <div class="col-sm-3 col-3 p-0" style="height:125px; ">
                             <img class=' p-2 border shadow img-fluid container-layout image-change-js'
-                                src="{{singleProduct.product_image_src.url}}"style="height:123px; width:100%;" alt="">
+                                src="{{singleProduct.product_image_src.url}}" loading="lazy" style="height:123px; width:100%;" alt="">
                         </div>
                         {% for data in singleProduct.productalternativeimages_set.all %}
                             <div class="col-sm-3 col-3 pl-1 p-0 " style="height:125px; width: 150px;">
                                 <img class='p-2 border shadow img-fluid container-layout image-change-js'
-                                    src="{{data.alternative_image.url}}"style="height:123px; width:100%;" alt="">
+                                    src="{{data.alternative_image.url}}" loading="lazy" style="height:123px; width:100%;" alt="">
                             </div>
                         {% endfor %}
                     </div>
@@ -39,12 +39,12 @@
                     <div class="row ml-3 mt-2 myclass" style="height:125px; ">
                         <div class="col-sm-12 col-3 p-0 pr-1" style="height:125px;">
                             <img class='p-2  border shadow img-fluid container-layout image-change-js'
-                                src="{{singleProduct.product_image_src.url}}"style="height:123px; width:100%;" alt="">
+                                src="{{singleProduct.product_image_src.url}}" loading="lazy" style="height:123px; width:100%;" alt="">
                         </div>
                         {% for data in singleProduct.productalternativeimages_set.all %}
                             <div class="col-sm-12 col-3 p-0 pl-1" style="height:125px;">
                                 <img class='p-2 border shadow img-fluid container-layout image-change-js'
-                                    src="{{data.alternative_image.url}}"style="height:123px; width:100%;" alt="">
+                                    src="{{data.alternative_image.url}}" loading="lazy" style="height:123px; width:100%;" alt="">
                             </div>
                         {% endfor %}
                     </div>
@@ -125,7 +125,7 @@
                     <form action="/cart/" method="post" class="d-inline">
                         {% csrf_token %}
                         <input hidden type="number" name="detail_item_id" value="{{singleProduct.id}}" id="detail_item_id">
-                        <button class="alert alert-secondary add_to_cart_button" type="submit"
+                        <button class="alert alert-info add_to_cart_button" type="submit"
                             style="text-decoration: none;"><i class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
                     </form>
 
@@ -297,7 +297,7 @@
         {% for data in recommend_product %}
             <div class=" mt-2 mb-2" style="width: 250px;">
             <div class="card " style="border:none ; padding: 10px;">
-                <a href="{% url 'detail_page' data.pk %}"><img src="{{data.product_image_src.url}}" class="card-img-top shadow" alt="{{data.product_name}}" ></a>
+                <a href="{% url 'detail_page' data.pk %}"><img src="{{data.product_image_src.url}}" loading="lazy" class="card-img-top shadow" alt="{{data.product_name}}" ></a>
                 {% if data.product_discount.product_discount_active %}
                 <div class="position-absolute top-0 right-0 discount-card">{{data.product_discount.product_discount_percentage}}% off
                 </div>

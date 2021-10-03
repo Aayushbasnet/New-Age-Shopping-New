@@ -131,9 +131,9 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kathmandu'
 
-USE_I18N = True
+USE_I18N = False
 
 USE_L10N = True
 

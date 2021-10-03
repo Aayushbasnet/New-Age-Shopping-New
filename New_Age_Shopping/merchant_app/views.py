@@ -139,7 +139,8 @@ def delete_product(request, id):
     if request.user.is_merchant or request.user.is_superuser:
         delete_merchant_product = Product.objects.get(pk = id)
         delete_merchant_product.delete()
-        return redirect('/merchant/#v-pills-profile/')
+        messages.warning(request, "Item deleted successfully")
+        return redirect('/merchant/#v-pills-product/')
     else:
         messages.warning(request, "Permission denied! You must be merchant")
         return redirect('/') 
@@ -150,19 +151,19 @@ def update_product(request, id):
         update_merchant_product = Product.objects.get(id = id)
 
         product_inventory_getter = ProductInventory.objects.all()
-        print(product_inventory_getter)
+        # print(product_inventory_getter)
         update_mechant_product_inventory = product_inventory_getter.get(quantity__id = id)
-        print(update_mechant_product_inventory)
+        # print(update_mechant_product_inventory)
 
         product_discount_getter = ProductDiscount.objects.all()
         if update_merchant_product.product_discount and update_merchant_product.product_discount.product_discount_active:
             update_merchant_product_discount = product_discount_getter.get(discount__id = id)
             product_discount = ProductDiscountForm(instance=update_merchant_product_discount)
-            print(update_mechant_product_inventory)
+            # print(update_mechant_product_inventory)
         else:
             update_merchant_product_discount = product_discount_getter.get(discount__id = id)
             product_discount = ProductDiscountForm()
-            print(update_mechant_product_inventory)
+            # print(update_mechant_product_inventory)
         
 
         add_product = AddProduct(instance= update_merchant_product)
@@ -174,18 +175,20 @@ def update_product(request, id):
             if update_merchant_product.product_discount and update_merchant_product.product_discount.product_discount_active:
                 update_merchant_product_discount = product_discount_getter.get(discount__id = id)
                 product_discount = ProductDiscountForm(request.POST, instance=update_merchant_product_discount)
-                print(update_mechant_product_inventory)
+                # print(update_mechant_product_inventory)
             else:
                 update_merchant_product_discount = product_discount_getter.get(discount__id = id)
                 product_discount = ProductDiscountForm(request.POST, instance=update_merchant_product_discount)
-                print(update_mechant_product_inventory)
+                # print(update_mechant_product_inventory)
 
             if add_product.is_valid() and product_inventory.is_valid() and product_discount.is_valid():
                 add_product.save()
                 product_inventory.save()
                 product_discount.save() 
+                messages.success(request, "Item updated successfully.")
                 return redirect('/merchant/#v-pills-product')
             else:
+                messages.warning(request, "Could not update item.")
                 print("Not valid")           
 
 
@@ -198,7 +201,7 @@ def update_product(request, id):
 
         return render(request, 'merchant_app/mUpdate_product.html', context)
     else:
-        messages.warning(request, "Permission denied! You must be merchant")
+        messages.warning(request, "Permission denied! You must be merchant.")
         return redirect('/') 
 
 @login_required
@@ -209,10 +212,10 @@ def mProfileUpdate(request):
             update_profile = MerchantProfileForm(request.POST,request.FILES, instance = request.user)
             if update_profile.is_valid():
                 update_profile.save()
-                return redirect('/merchant/')
+                messages.success(request, "Profile updated successfully.")
+                return redirect('/merchant/#v-pills-profile')
             else:
-                print(update_profile)
-                print("Form invalid")
+                messages.warning(request, "Could not update profile.")
         else:
             print("POST Invalid")        
         context ={
@@ -225,4 +228,5 @@ def mProfileUpdate(request):
 
 def mlogout(request):
     logout(request)
+    messages.success(request, "Logged out successfully.")
     return redirect('/account/login/')
