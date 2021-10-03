@@ -61,7 +61,7 @@
   {% for data in our_product %}
     <div class=" mt-2 mb-2" style="width: 250px;">
       <div class="card " style="border:none ; padding: 10px;">
-        <a href="{% url 'detail_page' data.pk %}"><img src="{{data.product_image_src.url}}" class="card-img-top shadow" alt="{{data.product_name}}" ></a>
+        <a href="{% url 'detail_page' data.pk %}"><img src="{{data.product_image_src.url}}" loading="lazy" class="card-img-top shadow" alt="{{data.product_name}}" ></a>
         {% if data.product_discount.product_discount_active %}
         <div class="position-absolute top-0 right-0 discount-card">{{data.product_discount.product_discount_percentage}}% off
         </div>
@@ -91,8 +91,8 @@
                 <div class="d-block ">
                 {% if data.product_discount.product_discount_active%}
                 <p class="mb-0 mt-0 price-tag">
-                    Rs.{{data.product_price}}<br> <del class="mt-0 mb-0 text-muted"
-                    style="font-size: .7rem;">&nbsp{{data.discount_calculator}}&nbsp</del></p>
+                    Rs.{{data.discount_calculator}}<br> <del class="mt-0 mb-0 text-muted"
+                    style="font-size: .7rem;">&nbsp{{data.product_price}}&nbsp</del></p>
                 {% else %}
                 <p class="mb-0 mt-0 price-tag">
                     Rs.{{data.product_price}}</p>
@@ -155,7 +155,7 @@
             <p>{{data.product_discount.product_discount_percentage}}% off</p>
             {% endif %}
             <div class="product_image">
-              <a href="{% url 'detail_page' data.pk %}"><img src={{data.product_image_src.url}} alt="{{data.pk}}"></a>
+              <a href="{% url 'detail_page' data.pk %}"><img src={{data.product_image_src.url}} loading ="lazy" alt="{{data.pk}}"></a>
             </div>
             <div class="product_bottom">
               <a href="{% url 'detail_page' data.pk %}">

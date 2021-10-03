@@ -124,7 +124,7 @@ Merchant Product
         {% for product in merchants_product %}
             <div class="col-xl-3 col-md-3 col-sm-12 mb-md-4 mb-sm-5  shadow pt-3" style="height:400px;">
                 <div class="product_image mb-3">
-                    <img class=" shadow" id="myImg1"  src=" {{product.product_image_src.url}} " alt="{{product.product_name}}">
+                    <img class=" shadow" id="myImg1"  src=" {{product.product_image_src.url}} " loading="lazy" alt="{{product.product_name}}">
                 </div>
                 <div class="product_name mb-3 ">
                     <p style="font-size: 16px; font-weight: 500;"> {{product.product_name}}</p>

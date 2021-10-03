@@ -3,8 +3,8 @@ from .models import Comment,ContactUs
 from phonenumber_field.formfields import PhoneNumberField
 
 PAYMENT_CHOICES = (
-    ('S', 'Stripe'),
-    ('P', 'PayPal')
+    ('Esewa', 'Esewa'),
+    ('Paypal', 'PayPal')
 )
 
 DISTRICT_CHOICES ={

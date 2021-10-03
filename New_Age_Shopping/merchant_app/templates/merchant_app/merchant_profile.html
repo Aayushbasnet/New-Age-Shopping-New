@@ -159,16 +159,16 @@ Merchant Profile
                         <td>Documnets</td>
                         <td>
                             <div class="doc_image d-inline" id="doc_image">
-                                <img class="border" id="myImg" src="{{merchant_user.document.url}}"
+                                <img class="border" id="myImg" src="{{merchant_user.document.url}}" loading="lazy" 
                                     style="width: 200px; height: 200px; margin-right: 10px;" alt="PAN document: {{merchant_user.pan_number}}" loading="lazy">
-                                <img class="border" id="myImg" src="{% static 'images/products/image2.png' %}"
+                                <img class="border" id="myImg" src="{% static 'images/products/image2.png' %}" loading="lazy" 
                                     style="width: 200px; height: 200px;" alt="img" loading="lazy">
-                                <img class="border" id="myImg" src="{% static 'images/products/image3.jpeg' %}"
+                                <img class="border" id="myImg" src="{% static 'images/products/image3.jpeg' %}" loading="lazy" 
                                     style="width: 200px; height: 200px;" alt="img" loading="lazy">
 
                                 <div id="myModal" class="modal">
                                     <span class="close">&times;</span>
-                                    <img id="modal-img" class="modal-content" src="">
+                                    <img id="modal-img" class="modal-content" src="" loading="lazy" >
                                     <div id="caption"></div>
                                 </div>
                             </div>

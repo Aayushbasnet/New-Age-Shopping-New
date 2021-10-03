@@ -17,7 +17,7 @@
     <div {% if forloop.counter == 1 %} class="carousel-item active" {% else %} class="carousel-item" {% endif %} data-interval="100000">
 
       {% if featured_data.featured_product_active %}
-      <img src={{featured_data.featured_product_image.url}} height='500px' class="d-block w-100" alt="image1">
+      <img src={{featured_data.featured_product_image.url}} loading="lazy" height='500px' class="d-block w-100" alt="{{featured_data.featured_product_name}}">
       <div class="carousel-caption d-none d-md-block featured_product_details">
         <h3 style=>{{featured_data.featured_product_name}}</h3>
         <p>{{featured_data.featured_product_description}}</p>
