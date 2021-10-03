@@ -463,8 +463,6 @@ def addComment(request, pk):
 
 def totalMerchant(request):
     merchant = User.objects.filter(is_merchant=True)
-    total_rating =0
-
     context = {
         'merchant_list': merchant,
         # 'product_list': product_list,
