@@ -2,19 +2,37 @@
 {% load static %}
 
 {% block content %}
+<style>
+	/* Chrome, Safari, Edge, Opera */
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+	}
+
+	/* Firefox */
+	input[type=number] {
+	-moz-appearance: textfield;
+	}
+</style>
 <div class="container mt-5 bg-white">
 
-	{% if messages %}
-	<div class="messages mt-3 col-12 text-center">
-		<ul>
-			{% for message in messages %}
-			<li {% if message.tags %} class=" alert-{{ message.tags }}" {% endif %}>
-				{{ message }}
-			</li>
-			{% endfor %}
-		</ul>
-	</div>
-	{% endif %}
+<div class="container">
+    {% if messages %}
+        <div class="mt-3 col-12 text-center">
+            <ul class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
 
 	<div class="row mt-0  mt-1" id="cart_row">
 		<div class="col-sm-9 mt-2" id="item_in_cart_section">
@@ -54,6 +72,7 @@
 								</p>
 								<form action="/remove_cart/" class="d-inline" method="post">
 									{% csrf_token %}
+
 									<input hidden type="number" name="remove_cart_id" value="{{cart_item.id}}"
 										id="remove_cart_id">
 									<button type="submit"
@@ -70,17 +89,29 @@
 							<!--Product increase and decrease, product update-->
 							<div class="mt-5" style="width: 240px; position: absolute; right: 20px; height: 150px;">
 								<div class="def-number-input number-input mt-4">
-									<button data-product="{{cart_item.product.id}}" class="minus update-cart bg-white"
-										data-action="remove" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-										style="border:none; outline:none; width:2rem; text-align: center;"> <i
-											class="fas fa-minus fa-xs"></i></button>
-									<input class="quantity fw-normal text-center border-0" min="0" name="quantity" value="{{cart_item.quantity}}"
-										type="text" style="width: 60px; outline:none;">
-									<button data-product="{{cart_item.product.id}}" class="plus update-cart bg-white"
-										data-action="add" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-										style="border:none; outline:none; width:2rem; text-align: center;"><i
-											class="fas fa-plus fa-xs"></i>
-									</button>
+									{% if cart_item.quantity == 1 %}
+										<button class="minus disabled_minus update-cart bg-white"
+											style="cursor: no-drop; border:none; outline:none; width:2rem; text-align: center;"> <i
+											class="fas fa-minus fa-xs" style="color: #aaaa; cursor: no-drop;"></i></button>
+									{% else %}
+										<button data-product="{{cart_item.product.id}}" class="minus update-cart bg-white"
+											data-action="remove" style="border:none; outline:none; width:2rem; text-align: center;"> <i
+												class="fas fa-minus fa-xs"></i></button>
+									{% endif %}
+										<input disabled class="quantity fw-normal text-center border-0" name="quantity" value="{{cart_item.quantity}}"
+											type="number" min="1" max="5" style="width: 60px; outline:none;">
+									{% if cart_item.quantity < cart_item.product.product_quantity.product_inventory_quantity %}
+										<button data-product="{{cart_item.product.id}}" class="plus update-cart bg-white"
+											data-action="add" style="border:none; outline:none; width:2rem; text-align: center;"><i
+												class="fas fa-plus fa-xs"></i>
+										</button>
+									{% else %}
+										<button class="plus disabled_plus update-cart bg-white"
+											style="cursor: no-drop; border:none; outline:none; width:2rem; text-align: center;"> <i
+											class="fas fa-plus fa-xs" style="color: #aaaa; cursor: no-drop;"></i>
+										</button>
+									{% endif %}
+									
 								</div>
 
 								<small id="itemNoHelpBlock" class="form-text text-muted ml-4"> (Note, 1

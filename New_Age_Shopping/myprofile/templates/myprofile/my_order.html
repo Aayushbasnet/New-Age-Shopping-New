@@ -3,10 +3,15 @@
 {% block title %}My Profile{% endblock title %}
 
 {% block content %}
-<div class="text-center">
-    <h4 class="mt-2 "> Manage My Account </h4>
+<div class="mt-4">
+    <div class="row">
+        <div class="col-md-3 pt-2 p-2 mt-2 ml-2 mr-2"></div>
+        <div class="col-md-8 pl-4">
+            <h4 style="color: #424242;"> My Orders </h4>
+        </div>
+    </div>
 </div>
-<div class="container-fluid mt-5">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-3 col-sm-12 border shadow pt-2 p-2 mt-2 ml-2 mr-2 bg-white" style="height: 270px;">
             <!-- {% include "myprofile/sidebar.html" %} -->
@@ -23,7 +28,7 @@
             </ul>
             <ul>
                 <li><a href="{% url 'myprofile:my_order' %}" style="text-decoration:none; color: black;">
-                        <h5 style="padding: 2px;">My Order </h5>
+                        <h4 style="padding: 2px;">My Order </h4>
                     </a></li>
             </ul>
             <ul>

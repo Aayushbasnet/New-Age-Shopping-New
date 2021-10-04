@@ -123,13 +123,17 @@
                 <i class="fas fa-shopping-cart"  count={{add_to_cart_bubbles}}></i> <span> My cart </span>
             </a>
         </div>
+        {% elif request.user.is_merchant%}
+            <a href="{% url 'merchant_app:merchantDashboard' %}" class="add_to_cart" style="text-decoration: none; color:black;" type="button" id="">
+                <i class="far fa-chart-bar" style="font-size: 18px;"></i> <span>Dashboard </span>
+            </a>
         {% else %}
         {% comment %} <div class="guest_wishlist ml-5">
                 <a href=""><i class="fas fa-heart" style="font-size: 25px; color: Red;"> </i> <span style="font-size: 14px; text-decoration: none; color: #aaa;"> Wishlist </span></a>  
         </div> {% endcomment %}
         <div class="dropdown">
             <a href="{% url 'nav_wishlist' %}" class="add_to_cart" type="button" id="user_mycart">
-                <i class="fas fas fa-heart"   count={{add_to_cart_bubbles}}></i> <span> wishlist </span>
+                <i class="fas fas fa-heart"></i> <span> wishlist </span>
             </a>
         </div>
         {% endif %}

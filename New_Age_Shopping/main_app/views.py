@@ -375,7 +375,7 @@ def checkout(request):
                     messages.error(request, "No items found in the cart")
             else:
                 # forms = CheckoutForm()
-                messages.warning(request, "Fill the form correctly!")
+                messages.info(request, "Fill the form !")
 
             context = {
                 'forms': forms,
@@ -512,12 +512,13 @@ def postPayment(request):
                 
                 for items in ordered_items:
                     items.save()
+                messages.success(request, "Your order is placed")
                 return redirect('/')
 
             context = {
                 'ordered_items': ordered_items,
             }
-            messages.success(request, "your order is placed")
+            messages.success(request, "Your order is placed")
             return redirect('/')
         
         else:
@@ -572,7 +573,7 @@ def esewaSuccessful(request):
         
         for items in ordered_items:
             items.save()
-        messages.warning(request, "Your order is placed")
+        messages.success(request, "Your order is placed")
         return redirect('/')
     messages.warning(request, "Your order is placed")
     return render(request, "main_app/esewa_successful.html")

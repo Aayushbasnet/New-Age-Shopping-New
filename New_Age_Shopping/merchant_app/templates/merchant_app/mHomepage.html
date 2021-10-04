@@ -1,5 +1,5 @@
 {% extends 'merchant_app/m-base.html' %}
-
+{% load static %}
 
 {% block title %}
 Merchant Dashboard
@@ -7,7 +7,19 @@ Merchant Dashboard
 
 
 {% block content %}
-<h2>Vendor dashboard</h2>
+<div class="container-fluid m-1 p-2">
+    <div class="row bg-light">
+        <div class="col-md-3 pl-4">
+            <a class="navbar-brand" style="text-decoration:none; color:gray;" href="{% url 'home_page' %}"><img src= "{% static 'images/logo/New Age Shopping logo.png' %}" loading="lazy" alt="logo" height="80px">
+                <span style="font-family: 'Lora', serif; font-weight:650;"> New Age Shopping </span>
+            </a>
+        </div>
+        <div class="col-md-9 pl-5 pt-3">
+            <p style= "font-family: 'Spectral', serif; font-size:40px;">MERCHANT DASHBOARD</p>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid p-4">
     <div class="row">
         <!--Left side nav tab-->

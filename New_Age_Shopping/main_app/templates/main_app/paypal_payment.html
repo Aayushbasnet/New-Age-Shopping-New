@@ -4,6 +4,22 @@
 {% block title %}Payment{% endblock  %}
 
 {% block content %}
+<div class="container">
+    {% if messages %}
+        <div class="mt-3 col-12 text-center">
+            <ul class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
 <script>
     function PaymentFunction(transcation_id){
         console.log("i ma inside the PaymentFunction")
@@ -110,7 +126,6 @@
                         PaymentFunction(transcation_id)
                         //console.log(customer_transcation_id)
                         alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
-
                         // Replace the above to show a success message within this page, e.g.
                         // const element = document.getElementById('paypal-button-container');
                         // element.innerHTML = '';
