@@ -11,12 +11,15 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator
+from django.core.mail import BadHeaderError, send_mail
+from smtplib import SMTPException
+from django.utils.timezone import datetime
 
 
 
 def homepage(request):
     try:
-        first_slide_homepage_product_data = Product.objects.all().order_by('?').distinct()[:10]
+        first_slide_homepage_product_data = Product.objects.filter(product_discount__product_discount_active= True).order_by('?').distinct()[:10]
         trending_product = Product.objects.all().order_by('?')
         our_product = Product.objects.all().order_by('?').distinct()[:22]
         featured_slider_product = FeaturedSliderProduct.objects.all()
@@ -46,6 +49,7 @@ def category_shopping(request, slug, pk=1):
     query_exists = True if len(request.GET) > 0 else False
 
     search_key = request.GET.get('search_key')
+    print(search_key)
     sort_key = request.GET.get('sort')
     price_min_key = request.GET.get('price_min')
     price_max_key = request.GET.get('price_max')
@@ -55,6 +59,8 @@ def category_shopping(request, slug, pk=1):
     if slug != 'search' or search_key is None:
         products = Product.objects.filter(Q(product_category__category_name_level2__category_level2__icontains=slug) | Q(
             product_category__brand_name__icontains=slug))
+        
+        print(products)
 
     else:
         products = Product.objects.filter(Q(product_name__icontains=search_key) |
@@ -74,12 +80,16 @@ def category_shopping(request, slug, pk=1):
             products = products.order_by('product_price')
         elif sort_key == "price_desc":
             products = products.order_by('-product_price')
-
+            
+    
     if price_min_key:
         products = products.filter(product_price__gte=price_min_key)
+        print(price_min_key)
 
     if price_max_key:
         products = products.filter(product_price__lte=price_max_key)
+        print(price_max_key)
+
 
     search_key = search_key if search_key else slug if search_key or slug else ''
 
@@ -87,7 +97,7 @@ def category_shopping(request, slug, pk=1):
         products = products.annotate(rating_avg = Avg('product_comment__rate'))
         products = products.filter(rating_avg__gte = min_rating)
 
-    paginator = Paginator(products, 35)
+    paginator = Paginator(products, 60)
 
     page = page if page else 1
 
@@ -109,7 +119,7 @@ def category_shopping(request, slug, pk=1):
 
 def detail(request, pk):
     singleProduct = Product.objects.get(id=pk)
-    comments = Comment.objects.filter(product__id=pk, status=True)
+    comments = Comment.objects.filter(product__id=pk, status= True and 'New')
     recommend_product = Product.objects.all().order_by('?').distinct()[:5]
     forms = CommentForm()
     context = {
@@ -313,8 +323,27 @@ def contact_us(request):
         forms = ContactUsForm(request.POST or None)
         
         if forms.is_valid():
-            forms.save()
-            messages.success(request, "Message submitted")
+            to_mail = forms.cleaned_data.get('email')
+            message = forms.cleaned_data.get('messages')
+            subject = forms.cleaned_data.get('full_name')
+            print('to mail', to_mail)
+            try:
+                send_mail(
+                    subject,
+                    message,
+                    'lotheyc@gmail.com',
+                    [to_mail],
+                    fail_silently=False,
+                )
+                forms.save()
+            except BadHeaderError:              # If mail's Subject is not properly formatted.
+                print('Invalid header found.')
+            except SMTPException as e:          # It will catch other errors related to SMTP.
+                print('There was an error sending an email.'+ e)
+            except:                             # It will catch All other possible errors.
+                messages.info(request, "There is some Problem!!")
+            # forms.save()
+            messages.success(request, "Message submitted. We will respond you soon.")
         else:
             messages.success(request, "Message not submitted")
 
@@ -478,6 +507,25 @@ def postPayment(request):
                 transcation_id = data['transcation_id']
                 amount = data['amount']
 
+                email_data = " Your ordered id: "+ transcation_id + "\n" + " Paid amount: " + amount + "\n" + " Thank Your for purchasing !!!"              
+                subject = request.user.username
+                to_mail = request.user.email
+                try:
+                    send_mail(
+                        subject,
+                        email_data,
+                        'lotheyc@gmail.com',
+                        [to_mail],
+                        fail_silently=False,
+                    )
+
+                except BadHeaderError:              # If mail's Subject is not properly formatted.
+                    print('Invalid header found.')
+                except SMTPException as e:          # It will catch other errors related to SMTP.
+                    print('There was an error sending an email.'+ e)
+                except:                             # It will catch All other possible errors.
+                    messages.info(request, "There is some Problem!!")   
+
                 payment = Payment.objects.create(stripe_charge_id=transcation_id, user=request.user, amount=amount)
                 payment.save()
                 
@@ -508,12 +556,22 @@ def postPayment(request):
                 ordered_items.update(shipping_address=get_shipping_address)
                 ordered_items.update(payment=payment_update)
                 ordered_items.update(order=order_transcation)
-                ordered_items.update(complete=True)
                 
+                #update quantity after purchase
+                for i in ordered_items:
+                    decs = i.product.product_quantity.product_inventory_quantity - i.quantity
+                    p = ProductInventory.objects.get(id = i.product.id)
+                    p.product_inventory_quantity=(decs)
+                    p.save()
+                    print("id: ", p.id, "quantity: ", p.product_inventory_quantity)
+
+                ordered_items.update(complete=True)
+
                 for items in ordered_items:
                     items.save()
+
                 messages.success(request, "Your order is placed")
-                return redirect('/')
+                return redirect('/') 
 
             context = {
                 'ordered_items': ordered_items,
@@ -569,11 +627,39 @@ def esewaSuccessful(request):
         ordered_items.update(shipping_address=get_shipping_address)
         ordered_items.update(payment=payment_update)
         ordered_items.update(order=order_transcation)
+        #update quantity after purchase
+        for i in ordered_items:
+            decs = i.product.product_quantity.product_inventory_quantity - i.quantity
+            p = ProductInventory.objects.get(id = i.product.id)
+            p.product_inventory_quantity=(decs)
+            p.save()
+            print("id: ", p.id, "quantity: ", p.product_inventory_quantity)
+
         ordered_items.update(complete=True)
-        
+                
         for items in ordered_items:
             items.save()
         messages.success(request, "Your order is placed")
+
+        email_data = " Your ordered id: "+ oid + "\n" + " Paid amount: " + amount + "\n" + " Your refered id: " + refid + "Thank You for purchasing!"             
+        subject = request.user.username
+        to_mail = request.user.email
+        try:
+            send_mail(
+                subject,
+                email_data,
+                'lotheyc@gmail.com',
+                [to_mail],
+                fail_silently=False,
+            )
+
+        except BadHeaderError:              # If mail's Subject is not properly formatted.
+            print('Invalid header found.')
+        except SMTPException as e:          # It will catch other errors related to SMTP.
+            print('There was an error sending an email.'+ e)
+        except:                             # It will catch All other possible errors.
+            messages.info(request, "There is some Problem!!")   
+
         return redirect('/')
     messages.warning(request, "Your order is placed")
     return render(request, "main_app/esewa_successful.html")

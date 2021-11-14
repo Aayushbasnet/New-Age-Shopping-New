@@ -11,6 +11,12 @@
         </div>
     </div>
 </div>
+
+<div class="container">
+
+</div>
+
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 col-sm-12 border shadow pt-2 p-2 mt-2 ml-2 mr-2 bg-white" style="height: 270px;">
@@ -19,11 +25,6 @@
             <ul>
                 <li> <a href="{% url 'myprofile:myprofile' %}">
                         <h5 class="text-muted"> My Profile </h5>
-                    </a></li>
-            </ul>
-            <ul>
-                <li> <a href="{% url 'myprofile:shippingaddress' %}">
-                        <h5 class="text-muted"> Shipping Address </h5>
                     </a></li>
             </ul>
             <ul>
@@ -44,7 +45,58 @@
         </div>
         <!--right side-->
         <div class="col-md-8 col-12 bg-white p-4 m-2 ml-3 mb-5 border shadow">
-            <table class="display table table-hover" id="myTable">
+            <table id="example" class="display" style="width:100%">
+                <thead>
+                    <tr class="">
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Product Name</th>
+                        <th>Placed on</th>
+                        <th>Item</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for orders in order_items %}
+                    <tr style="font-size: 14px;">
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>
+                            <a style="color: black; font-size: 16px; text-decoration:none;" href="{% url 'detail_page' orders.product.id %}">
+                                <img src="{{orders.product.product_image_src.url}}" loading="lazy" alt="{{orders.product.product_name}}" width="50px"
+                                    height="50px">
+                            </a>
+                        </td>
+                        <td><br style="font-size: 12px;"> <a style="color: black; text-decoration:none;" href="{% url 'detail_page' orders.product.id %}">{{orders.product.product_name}}</a></td>
+                        <td>{{orders.order.date_ordered}}</td>
+                        <td>{{orders.quantity}}</td>
+                        <td>{{orders.get_total}}</td>
+                        {% if orders.received and orders.being_delivered%}
+                        <td>Received</td>
+                        {% elif orders.being_delivered %}
+                        <td>On your way</td>
+                        {% elif orders.received%}
+                        <td>Received</td>
+                        {% else %}
+                        <td>Processing</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Product Name</th>
+                        <th>Placed on</th>
+                        <th>Item</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </tfoot>
+            </table>
+            {% comment %} <table class="display table table-hover" id="myTable">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -56,35 +108,39 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for orders in order_items %}
+                    {% for orders in order_items %}
                     <tr style="font-size: 14px;">
                         <th scope="row">{{forloop.counter}}</th>
-                        <td><a style="color: black; font-size: 16px; text-decoration:none;" href="{% url 'detail_page' orders.product.id%}"> <img src="{{orders.product.product_image_src.url}}" loading="lazy" alt="{{orders.product.product_name}}" width="80px" height="80px"><br>{{orders.product.product_name}}</td>
+                        <td><a style="color: black; font-size: 16px; text-decoration:none;"
+                                href="{% url 'detail_page' orders.product.id %}"> <img
+                                    src="{{orders.product.product_image_src.url}}" loading="lazy"
+                                    alt="{{orders.product.product_name}}" width="80px"
+                                    height="80px"><br>{{orders.product.product_name}}</td>
                         <td>{{orders.order.date_ordered}}</td>
                         <td>{{orders.quantity}}</td>
                         <td>{{orders.get_total}}</td>
 
                         {% if orders.received and orders.being_delivered%}
-                            <td>Received</td>
+                        <td>Received</td>
                         {% elif orders.being_delivered %}
-                            <td>On your way</td>
+                        <td>On your way</td>
                         {% elif orders.received%}
-                            <td>Received</td>
+                        <td>Received</td>
                         {% else %}
-                            <td>Processing</td>
-                        {% endif %}                          
+                        <td>Processing</td>
+                        {% endif %}
                     </tr>
-                {% endfor %}
+                    {% endfor %}
                 </tbody>
-            </table>
+            </table> {% endcomment %}
         </div>
     </div>
 </div>
 
 <script>
-let table = new DataTable('#myTable', {
-    // options
-});
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
 </script>
 
 {% endblock content %}

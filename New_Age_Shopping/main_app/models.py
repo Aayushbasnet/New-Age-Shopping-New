@@ -224,20 +224,25 @@ class OrderItem(models.Model):
     
     class Meta:
         ordering = ["-added_date"]
+
     @property
     def get_total(self):
-        if self.product.product_discount and self.product.product_discount.product_discount_active:
-            price = self.product.discount_calculator
-            item_total = float(price) * self.quantity
-            return item_total
+        if self.product.product_quantity.product_inventory_quantity > 0:
+            if self.product.product_discount and self.product.product_discount.product_discount_active:
+                price = self.product.discount_calculator
+                item_total = float(price) * self.quantity
+                return item_total
+            else:
+                price = self.product.product_price
+                item_total = price* self.quantity
+                return item_total
         else:
-            price = self.product.product_price
-            item_total = price* self.quantity
+            item_total = 0
             return item_total
 
     
     def __str__(self):
-        return str(self.product.product_name)
+        return str(self.product)
 
 
 class ShippingAddress(models.Model):

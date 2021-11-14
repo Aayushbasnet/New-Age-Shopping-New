@@ -17,7 +17,6 @@
               </a>
               {% comment %} <p></p> {% endcomment %}
               <div class="product_bottom_star">
-              
                 {% if data.average_product_rating.rating_avg %}
                   <div class="review-rating pull-right" style="font-size: 12px;">
                       <i style=" color:#FFB656;" class="fa fa-star{% if data.average_product_rating.rating_avg < 1 %}-o empty{% endif %}"></i>
@@ -61,14 +60,10 @@
                     <button name="add_to_cart" style="background-color: red;"><i class="far fa-heart mr-2"></i>Wish </button>
                   </form>
                 {% endif %}
-                  
-                
               </div>
             </div>
           </div>
           {% comment %} </div> {% endcomment %}
-        {% endfor %}
+          {% endfor %}
+        </div>
       </div>
-
-
-</div>

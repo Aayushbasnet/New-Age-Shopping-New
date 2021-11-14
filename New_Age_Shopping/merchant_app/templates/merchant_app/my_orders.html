@@ -8,7 +8,7 @@
         <tr class="table-info">
             <th scope="col">#</th>
             <th scope="col">Product Name</th>
-            <th scope="col">Image </th>
+            <th scope="col">Status </th>
             <th scope="col">Ordered Quantity</th>
             <th scope="col">Your Quantity</th>
             <th scope="col">Ordered by</th>
@@ -20,8 +20,16 @@
         {% for orders in my_order %}
         <tr>
             <th scope="row">{{forloop.counter}}</th>
-            <td>{{orders.product.product_name | title}}</td>
-            <td><a href=" {% url 'detail_page' orders.product.id%}"><img width="150px" height="150px" src="{{orders.product.product_image_src.url}}" loading="lazy" alt="{orders.product.product_name}}"></a></td>
+            <td><a href=" {% url 'detail_page' orders.product.id%}" style="text-decoration: none; color:black;"><img width="150px" height="150px" src="{{orders.product.product_image_src.url}}" loading="lazy" alt="{orders.product.product_name}}"><br>{{orders.product.product_name | title}}</a></td>
+            {% if orders.received and orders.being_delivered%}
+                <td>Received</td>
+            {% elif orders.being_delivered %}
+                <td>On your way</td>
+            {% elif orders.received%}
+                <td>Received</td>
+            {% else %}
+                <td>Processing</td>
+            {% endif %} 
             <td>{{orders.quantity }}</td>
             <td>{{orders.product.product_quantity.product_inventory_quantity }}</td>
             <td>{{orders.user.first_name | title}} {{orders.user.last_name | title}}</td>

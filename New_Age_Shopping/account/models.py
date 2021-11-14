@@ -13,6 +13,7 @@ class User(AbstractUser):
         ("Female", 'Female'),
         ("Other", 'Other')
     ]
+    email = models.EmailField(unique=True)
     phone_number = PhoneNumberField(region="NP")
     shop_name = models.CharField(max_length = 150)
     address = models.CharField(max_length=200)

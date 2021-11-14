@@ -125,8 +125,13 @@
                     <form action="/cart/" method="post" class="d-inline">
                         {% csrf_token %}
                         <input hidden type="number" name="detail_item_id" value="{{singleProduct.id}}" id="detail_item_id">
+                        {% if singleProduct.product_availability %}
                         <button class="alert alert-info add_to_cart_button" type="submit"
                             style="text-decoration: none;"><i class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
+                        {% else %}
+                            <button disabled class="alert alert-info add_to_cart_button" type="submit"
+                            style="text-decoration: none; cursor:not-allowed;"><i class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
+                        {% endif %}
                     </form>
 
                 {% else %}

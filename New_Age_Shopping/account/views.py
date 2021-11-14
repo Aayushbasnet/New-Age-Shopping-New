@@ -161,6 +161,7 @@ def logoutpage(request):
 class PasswordResetView(PasswordResetView):
     template_name = 'account/password_reset_form.html'
     email_template_name = 'account/password_reset_email.html'
+    from_email = "lotheyc@gmail.com"
     # success_url = reverse_lazy('password_reset_done')
 
 class PasswordResetDoneView(PasswordResetDoneView):

@@ -158,4 +158,14 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = 'account:login_page'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+DEFAULT_FROM_EMAIL = 'lotheyc@gmail.com'
+SERVER_EMAIL = 'lotheyc@gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'lotheyc@gmail.com'
+EMAIL_HOST_PASSWORD = 'wfwscvkmaugufpaq'
+EMAIL_PORT = 587

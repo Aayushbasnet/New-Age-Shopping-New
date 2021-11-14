@@ -70,9 +70,14 @@
 									</span>
 									{% endif %}
 								</p>
+								
+								{% if cart_item.product.product_quantity.product_inventory_quantity == 1 %}
+									<p style="color:#007bff;">Only one item remaining</p>
+								{% endif %}
+									
 								<form action="/remove_cart/" class="d-inline" method="post">
 									{% csrf_token %}
-
+									
 									<input hidden type="number" name="remove_cart_id" value="{{cart_item.id}}"
 										id="remove_cart_id">
 									<button type="submit"
@@ -84,27 +89,42 @@
 								<a href="{% url 'detail_page' cart_item.product.pk %}" type="button"
 									class="card-link-secondary small text-uppercase d-inline text-dark"
 									style="text-decoration: none; color: grey;"><i class="far fa-eye mr-1"></i> View product </a>
+								
+								<p style="margin-top: 15px; font-size: 14px;">Product available: <span class="text-muted" style="font-size: 16px;">{{cart_item.product.product_quantity.product_inventory_quantity}}</span></p>
 
 							</div>
 							<!--Product increase and decrease, product update-->
 							<div class="mt-5" style="width: 240px; position: absolute; right: 20px; height: 150px;">
 								<div class="def-number-input number-input mt-4">
-									{% if cart_item.quantity == 1 %}
+									{% if cart_item.quantity == 1 or cart_item.product.product_quantity.product_inventory_quantity == 1 %}
 										<button class="minus disabled_minus update-cart bg-white"
 											style="cursor: no-drop; border:none; outline:none; width:2rem; text-align: center;"> <i
-											class="fas fa-minus fa-xs" style="color: #aaaa; cursor: no-drop;"></i></button>
+											class="fas fa-minus fa-xs" style="color: #aaaa; cursor: no-drop;"></i></button>					
 									{% else %}
 										<button data-product="{{cart_item.product.id}}" class="minus update-cart bg-white"
 											data-action="remove" style="border:none; outline:none; width:2rem; text-align: center;"> <i
 												class="fas fa-minus fa-xs"></i></button>
 									{% endif %}
+									
+									{% if cart_item.product.product_quantity.product_inventory_quantity == 0 %}
+										<input disabled class="quantity fw-normal text-center border-0" name="quantity" value="0"
+											type="number" min="1" max="5" style="width: 60px; outline:none;">
+									{% else %}
 										<input disabled class="quantity fw-normal text-center border-0" name="quantity" value="{{cart_item.quantity}}"
 											type="number" min="1" max="5" style="width: 60px; outline:none;">
+									{% endif %}
+
 									{% if cart_item.quantity < cart_item.product.product_quantity.product_inventory_quantity %}
 										<button data-product="{{cart_item.product.id}}" class="plus update-cart bg-white"
 											data-action="add" style="border:none; outline:none; width:2rem; text-align: center;"><i
 												class="fas fa-plus fa-xs"></i>
 										</button>
+									{% elif cart_item.product.product_quantity.product_inventory_quantity == 1 %}
+										<button class="plus disabled_plus update-cart bg-white"
+											style="cursor: no-drop; border:none; outline:none; width:2rem; text-align: center;"> <i
+											class="fas fa-plus fa-xs" style="color: #aaaa; cursor: no-drop;"></i>
+										</button>
+										
 									{% else %}
 										<button class="plus disabled_plus update-cart bg-white"
 											style="cursor: no-drop; border:none; outline:none; width:2rem; text-align: center;"> <i

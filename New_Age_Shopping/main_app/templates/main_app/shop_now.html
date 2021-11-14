@@ -17,7 +17,7 @@
             </div>
             <div class="row " style="margin:0; height:50px;">
                 <div class="col-md-3 form_group_section" style="padding-left:0; width:75px; height:50px;">
-                    <input type="number" class="form_control_section" id="input_minimum" placeholder="Minimum"
+                    <input type="number" min="0" class="form_control_section" id="input_minimum" placeholder="Minimum"
                         style="width:70px;" value="{{price_min_key}}">
                     <label for="input_minimum" class="form_label_section">Min</label>
 
@@ -228,22 +228,26 @@
     var input_minimum = document.getElementById('input_minimum')
     var input_maximum = document.getElementById('input_maximum')
 
+    var search_key = new URL(location.href).searchParams.get('search_key')
     var filter_options = {
         'price_min': 0,
         'price_max': 0,
         'min_rating': 0,
-        'page': 1
+        'page': 1,
+        'search_key': search_key ? search_key : ''
     }
 
     function updateURL() {
+        
         var url = new URL(window.location.origin + window.location.pathname)
         console.log(filter_options)
         if (filter_options.price_max) url.searchParams.append('price_max', filter_options.price_max)
         if (filter_options.price_min) url.searchParams.append('price_min', filter_options.price_min)
         if (filter_options.min_rating) url.searchParams.append('min_rating', filter_options.min_rating)
         if (filter_options.page) url.searchParams.append('page', filter_options.page)
+        if (filter_options.search_key) url.searchParams.append('search_key', filter_options.search_key)
 
-        window.location = url
+         window.location = url
     }
     min_max_button.onclick = function (event) {
         input_max_value = input_maximum.value

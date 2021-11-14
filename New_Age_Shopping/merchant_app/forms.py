@@ -31,7 +31,7 @@ class ProductInventoryForm(forms.ModelForm):
 class MerchantProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'phone_number', 'pan_number', 'document')
+        fields = ('first_name', 'last_name', 'email', 'phone_number', 'address', 'pan_number', 'document')
 
     def clean_pan_number(self):
         pan_number = self.cleaned_data['pan_number']

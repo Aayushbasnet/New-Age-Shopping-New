@@ -5,9 +5,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 
 class MerchantForm(UserCreationForm):
+    email = forms.CharField(max_length=100, required = True)
     class Meta:
         model   =   User
         fields = ['username','first_name','last_name','email', 'password1', 'password2', 'shop_name', 'phone_number', 'gender','address', 'pan_number', 'document']
+
 
     def clean_pan_number(self):
         pan_number = self.cleaned_data['pan_number']
@@ -17,6 +19,7 @@ class MerchantForm(UserCreationForm):
         return pan_number
 
 class UserForm(UserCreationForm):
+    email = forms.CharField(max_length=100, required = True)
     class Meta:
         model   =   User
         fields = ['username','first_name','last_name','email', 'password1', 'password2', 'phone_number', 'gender','address']

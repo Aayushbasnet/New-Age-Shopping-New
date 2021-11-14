@@ -94,11 +94,12 @@ def addShippingAddress(request):
 # @login_required
 def myOrder(request):
     if request.user.is_authenticated:
-        if request.user.is_customer or request.user.is_superuser:
+        if request.user.is_customer:
             user_profile = User.objects.get(id = request.user.pk, is_customer = True)
             order_items = OrderItem.objects.filter(user = user_profile, complete = True)
-            
-            print(order_items)
+            for i in order_items:
+                print(i.order.date_ordered)
+                print(i)
             context={
                 'user_profile' : user_profile,
                 'order_items' : order_items,
