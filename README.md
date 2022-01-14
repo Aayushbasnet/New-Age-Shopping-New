@@ -19,6 +19,12 @@
 
 ## Preview
 
-<img src="screenshot/1.png" width="250" height="450"> &nbsp;&nbsp;&nbsp; 
-<img src="screenshot/2.png" width="250" height="450"> &nbsp;&nbsp;&nbsp;
-<img src="screenshot/3.png" width="250" height="450"> <br>
+<img src="Screenshots/Screenshot (552).png" width="100%" height="500"> &nbsp;
+<img src="Screenshots/Screenshot (553).png" width="100%" height="500"> &nbsp;
+<img src="Screenshots/Screenshot (556).png" width="100%" height="500"> &nbsp;
+<img src="Screenshots/Screenshot (557).png" width="100%" height="500"> &nbsp;
+<img src="Screenshots/Screenshot (558).png" width="100%" height="500"> &nbsp;
+<img src="Screenshots/Screenshot (559).png" width="100%" height="500"> &nbsp;
+<img src="Screenshots/Screenshot (560).png" width="100%" height="500"> &nbsp;
+<img src="Screenshots/Screenshot (561).png" width="100%" height="500"> &nbsp;
+
