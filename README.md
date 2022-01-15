@@ -9,7 +9,10 @@
   > 4. JAVASCRIPT<br>
   
 > Frameworks:<br>
-  > - Django
+  > - Django <br>
+  
+> Database: <br>
+  > - PostgreSQL 
 
 ## Features
 * Multi- Vendors
