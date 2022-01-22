@@ -19,6 +19,10 @@
 * Users ratings and comments
 * Seller average ratings
 * Esewa and Payment Integrations
+* Authentication and authorization
+* Accounts reset
+* Cart and checkout
+* Product searching, 
 
 ## Preview
 
